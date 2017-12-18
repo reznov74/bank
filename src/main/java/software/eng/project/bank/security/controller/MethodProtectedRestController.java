@@ -1,4 +1,4 @@
-package com.vitamin.thirdparty.bi.bi.security.controller;
+package software.eng.project.bank.security.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

@@ -1,7 +1,7 @@
 /*
  * Copyright 2017 Vitamin Co. All Rights Reserved.
  */
-package com.vitamin.thirdparty.bi.bi.security.config;
+package software.eng.project.bank.security.config;
 
 import java.io.IOException;
 import javax.servlet.Filter;

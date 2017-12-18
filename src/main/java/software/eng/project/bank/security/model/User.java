@@ -1,4 +1,4 @@
-package com.vitamin.thirdparty.bi.bi.security.model;
+package software.eng.project.bank.security.model;
 
 import java.util.Date;
 import java.util.List;

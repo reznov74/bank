@@ -1,4 +1,4 @@
-package com.vitamin.thirdparty.bi.bi.security.service;
+package software.eng.project.bank.security.service;
 import java.io.Serializable;
 
 /**

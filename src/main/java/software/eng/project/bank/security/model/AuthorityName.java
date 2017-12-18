@@ -1,4 +1,4 @@
-package com.vitamin.thirdparty.bi.bi.security.model;
+package software.eng.project.bank.security.model;
 
 public enum AuthorityName {
     ROLE_USER, ROLE_ADMIN
