@@ -1,4 +1,8 @@
 package software.eng.project.bank.core.model.Role;
 
-public class Stuff {
+import java.util.Date;
+
+public class Stuff extends User{
+   Date startDate;
+
 }

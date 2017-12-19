@@ -1,4 +1,4 @@
 package software.eng.project.bank.core.model.Role;
 
-public class Admin extends User {
+public enum RankType {
 }
