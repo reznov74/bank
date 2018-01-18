@@ -1,4 +1,4 @@
 package software.eng.project.bank.core.model.Account;
 
-public class DraftType {
+public enum DraftType {
 }

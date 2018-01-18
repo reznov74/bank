@@ -4,18 +4,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-@Entity
-@Table(name = "account_flow")
-public class AccountFlow {
+
+@MappedSuperclass
+public abstract class AccountFlow {
+
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "account_id")
-    @Column(name = "source")
+    @JoinColumn(name = "source")
     @NotNull
     Account sourceAccount;
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "account_id")
-    @Column(name = "dist")
+    @JoinColumn(name = "dist")
     @NotNull
     Account distAccount;
     @Column(name = "type")
@@ -24,6 +23,7 @@ public class AccountFlow {
     @Column(name = "date")
     @NotNull
     Date date;
+
 
     public Account getSourceAccount() {
         return sourceAccount;

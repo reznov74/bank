@@ -1,10 +1,12 @@
 package software.eng.project.bank.core.model.Account;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 @Table(name = "checkbook")
 public class CheckBook {
@@ -26,9 +28,9 @@ public class CheckBook {
     @JoinColumn(name = "check_number")
     @Column(name = "checks")
     @NotNull
-    Iterators.Array<Check> checks;
+    List<Check> checks;
 
-    public CheckBook(int checkBookNum, int countOfCheck, Date expireDate, Iterators.Array<Check> checks) {
+    public CheckBook(int checkBookNum, int countOfCheck, Date expireDate, List<Check> checks) {
         this.checkBookNum = checkBookNum;
         this.countOfCheck = countOfCheck;
         this.expireDate = expireDate;
@@ -59,11 +61,11 @@ public class CheckBook {
         this.expireDate = expireDate;
     }
 
-    public Iterators.Array<Check> getChecks() {
+    public List<Check> getChecks() {
         return checks;
     }
 
-    public void setChecks(Iterators.Array<Check> checks) {
+    public void setChecks(List<Check> checks) {
         this.checks = checks;
     }
 }

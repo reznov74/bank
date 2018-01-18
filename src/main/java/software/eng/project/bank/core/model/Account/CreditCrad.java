@@ -29,8 +29,7 @@ public class CreditCrad {
     @NotNull
     Date expireDate;
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "account_id")
-    @Column(name = "account")
+    @JoinColumn(name = "account")
     @NotNull
     Account account;
 

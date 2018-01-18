@@ -6,16 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "return_facility")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class FacilityReturn {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @OneToMany(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "facility_id")
-    @Column(name = "facility")
+    @ManyToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
+    @JoinColumn(name = "facility")
     @NotNull
     Facility facility;
     @Column(name = "amount")

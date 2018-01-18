@@ -16,18 +16,18 @@ public abstract class Request {
     protected Long id;
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "stuff_id")
-    @Column(name = "stuff")
+    @JoinColumn(name = "stuff")
+    //@Column(name = "stuff")
     @NotNull
     Stuff stuff;
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "customer_id")
-    @Column(name = "customer")
+    @JoinColumn(name = "customer")
+    //@Column(name = "customer")
     @NotNull
     Customer customer;
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "branch_id")
-    @Column(name = "branch")
+    @JoinColumn(name = "branch")
+    //@Column(name = "branch")
     @NotNull
     Branch branch;
     @Column(name = "date")

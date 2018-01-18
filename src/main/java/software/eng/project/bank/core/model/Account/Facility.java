@@ -14,8 +14,7 @@ public class Facility {
 
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "facility_type_id")
-    @Column(name = "type")
+    @JoinColumn(name = "type")
     @NotNull
     FaciltyType type;
 

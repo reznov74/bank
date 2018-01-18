@@ -16,7 +16,6 @@ public class CreditCradRequest extends Request{
     boolean fristOrNot;
     @Column(name = "init")
     @NotNull
-    @Enumerated(EnumType.STRING)
     double initCash;
 
     public CreditCardType getType() {

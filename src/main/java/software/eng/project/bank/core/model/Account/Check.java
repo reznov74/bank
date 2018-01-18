@@ -1,10 +1,8 @@
 package software.eng.project.bank.core.model.Account;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -14,6 +12,11 @@ enum CheckStatusType{
 @Entity
 @Table(name = "check")
 public class Check {
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private long id;
+
     @Column(name = "number")
     @NotNull
     int checkNum;
