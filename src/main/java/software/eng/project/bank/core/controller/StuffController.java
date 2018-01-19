@@ -67,6 +67,18 @@ public class StuffController {
         //get user information from jwt
 
     }
+    @RequestMapping(value = "/pass/check",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    void createCheck(HttpServletResponse response)
+    {
+        response.setStatus(200);
+        //get user information from jwt
+
+    }
+
 
 
 }

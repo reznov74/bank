@@ -8,15 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import software.eng.project.bank.core.Exception.UserNotFoundException;
-import software.eng.project.bank.core.domin.request.PayBillRequest;
-import software.eng.project.bank.core.domin.response.PayBillResponse;
-import software.eng.project.bank.core.model.Account.Account;
-import software.eng.project.bank.core.model.Account.AccountFlow;
+import software.eng.project.bank.core.boundry.request.*;
+import software.eng.project.bank.core.boundry.response.*;
+import software.eng.project.bank.core.model.Account.*;
 import software.eng.project.bank.core.model.Request.CheckBookRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import software.eng.project.bank.core.model.Response.ChechBookRequestResponse;
 import software.eng.project.bank.core.service.UserService;
-import software.eng.project.bank.security.JwtTokenUtil;
 import com.google.common.base.Preconditions;
 
 import javax.servlet.http.HttpServletRequest;
@@ -119,206 +117,389 @@ public class CustomerController {
         return res;
     }
 
-    @RequestMapping(value = "/draft",
+    @RequestMapping(value = "/create/draft",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    Draft createDraft(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateDraftRequest createDraftRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        Draft res = null ;
+        try{
+            res=this.userService.createDraft(createDraftRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/report/draft",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<Draft> getDraftReport(HttpServletResponse response,HttpServletRequest request,@RequestBody ReportDraftRequest reportDraftRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<Draft> res = null ;
+        try{
+            res=this.userService.getDraftRequest(reportDraftRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/create/draft/regular",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    RegularDraft createRegularDraft(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateRegularDraftRequest createRegularDraftRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        RegularDraft res = null ;
+        try{
+            res=this.userService.createRegularDraft(createRegularDraftRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/report/regular/draft",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<RegularDraft> reportRegularDraft(HttpServletResponse response,HttpServletRequest request,@RequestBody ReportDraftRequest reportDraftRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<RegularDraft> res = null ;
+        try{
+            res=this.userService.reportRegularDraft(reportDraftRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/report/group/draft",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<GroupDraft> reportGroupDraft(HttpServletResponse response, HttpServletRequest request,@RequestBody ReportDraftRequest reportDraftRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<GroupDraft> res = null ;
+        try{
+            res=this.userService.reportGroupDraft(reportDraftRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/get/request/group/draft",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Account draft(HttpServletResponse response)
+    List<GroupDraft> requestGroupDraft(HttpServletResponse response , HttpServletRequest request)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<GroupDraft> res = null ;
+        try{
+            res=this.userService.getRequestedGroupDraft();
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
-    @RequestMapping(value = "/draft_gozaresh",
+    @RequestMapping(value = "/create/group/draft",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    GroupDraft createGroupDraft(HttpServletResponse response, HttpServletRequest request,@RequestBody CreateGroupDraftRequest createGroupDraftRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        GroupDraft res = null ;
+        try{
+            res=this.userService.createGroupDraft(createGroupDraftRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/accept/group/draft/{draftID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Account draftGozaresh(HttpServletResponse response)
+    AcceptGroupDraftResponse acceptGroupDraft(HttpServletResponse response, HttpServletRequest request, @PathVariable("draftID") long draftID)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        AcceptGroupDraftResponse res = null ;
+        try{
+            res=this.userService.acceptGroupDraft(draftID);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
-    @RequestMapping(value = "/create_regular_draft",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account createREgularDRaft(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-    @RequestMapping(value = "/gozaresh_havale_monaam",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account gozareshHavaleMonazam(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-    @RequestMapping(value = "/gozaresh_havale_gorohi",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account gozareshHavalegorohi(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-    @RequestMapping(value = "/account_info",
+    @RequestMapping(value = "/account/info/{accountID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
 
     public @ResponseBody
-    void AccountINfo(HttpServletResponse response)
+    Account getAccountInfo(HttpServletResponse response, HttpServletRequest request , @PathVariable("accountID") long accoundID)
     {
-        response.setStatus(200);
-        //get user information from jwt
-
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        Account res = null ;
+        try{
+            res=this.userService.getAccountInfo(accoundID);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
-    @RequestMapping(value = "/used_check_info",
+    @RequestMapping(value = "/report/check",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Account usedCheckInfo(HttpServletResponse response)
+    CheckBook reportCheck(HttpServletResponse response,HttpServletRequest request)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        CheckBook res = null ;
+        try{
+            res=this.userService.getReportCheck();
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
-    @RequestMapping(value = "/create_acount",
+    @RequestMapping(value = "/create/account",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    Account createAccount(HttpServletResponse response,  HttpServletRequest request , @RequestBody CreateAccountRequest createAccountRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        Account res = null ;
+        try{
+            res=this.userService.createAccount(createAccountRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+
+    @RequestMapping(value = "/report/profit/{accountID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Account createAccount(HttpServletResponse response)
+    ReportProfitResponse reportProfitAccount(HttpServletResponse response, HttpServletRequest request, @PathVariable("accountID") long accountID)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        ReportProfitResponse res = null ;
+        try{
+            res=this.userService.reportProfitAccount(accountID);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
-
-    @RequestMapping(value = "/moshahede_sood",
+    @RequestMapping(value = "/report/blocked/account",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Account moshahedeSood(HttpServletResponse response)
+    ReportBlockedAccountResponse reportBlockedAccount(HttpServletResponse response, HttpServletRequest request)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        ReportBlockedAccountResponse res = null ;
+        try{
+            res=this.userService.reportBlockedAccount();
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
-    @RequestMapping(value = "/blocked_Account",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account BlockedAccount(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-    @RequestMapping(value = "/checkbook_request",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account checkBookRequest(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-    @RequestMapping(value = "/crad_request",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account cardRequest(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-    @RequestMapping(value = "/facility_request",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account fcilityRequest(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-    @RequestMapping(value = "/gozaresh_facility",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account seeFacility(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-
-    @RequestMapping(value = "/facility_regualr_return",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
-    @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account createRegularReturn(HttpServletResponse response)
-    {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
-    }
-
-
-
-
-
-
-
-
-    /////////////////////
     @RequestMapping(value = "/request/checkbook",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    ChechBookRequestResponse chechbookRequest(@RequestBody CheckBookRequest request, HttpServletResponse response)
+    CreateCheckbookResponse requestCheckbook(HttpServletResponse response, HttpServletRequest request, @RequestBody CreateCheckbookRequest createCheckbookRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        CreateCheckbookResponse res = null ;
+        try{
+            res=this.userService.requestCheckbook(createCheckbookRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/request/card",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    CreateCardResponse requestCard(HttpServletResponse response,HttpServletRequest request, @RequestBody CreateCardRequest createCardRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        CreateCardResponse res = null ;
+        try{
+            res=this.userService.requestCard(createCardRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/request/facility",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    CreateFacilityResponse requestFacility(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateFacilityRequest createFacilityRequest)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        CreateFacilityResponse res = null ;
+        try{
+            res=this.userService.requestFacility(createFacilityRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/report/facility/{accountID}",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<Facility> reportFacility(HttpServletResponse response,HttpServletRequest request,@PathVariable("accountID") long accountID)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<Facility> res = null ;
+        try{
+            res=this.userService.reportFacility(accountID);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/create/return/facility",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    String createReturnFacility(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateReturnFacility createReturnFacility)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        String res = null ;
+        try{
+            res=this.userService.createReturnFacility(createReturnFacility);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
+    @RequestMapping(value = "/create/regular/return/facility",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    String createRegularReturnFacility(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateRegularReturnFacilityRequest createRegularReturnFacilityRequest)
     {
         response.setStatus(200);
+        //get user information from jwt
         return null;
     }
 
-
+    @RequestMapping(value = "/report/return/facility",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<FacilityReturn> createRegularReturnFacility(HttpServletResponse response)
+    {
+        response.setStatus(200);
+        //get user information from jwt
+        return null;
+    }
 }
