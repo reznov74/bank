@@ -2,11 +2,11 @@ package software.eng.project.bank.core.model.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 @Entity
-@Table(name = "draft")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Draft {
+public class Draft implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -2,18 +2,26 @@ package software.eng.project.bank.core.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import software.eng.project.bank.core.Exception.UserNotFoundException;
+import software.eng.project.bank.core.domin.request.PayBillRequest;
+import software.eng.project.bank.core.domin.response.PayBillResponse;
 import software.eng.project.bank.core.model.Account.Account;
+import software.eng.project.bank.core.model.Account.AccountFlow;
 import software.eng.project.bank.core.model.Request.CheckBookRequest;
 import org.springframework.web.bind.annotation.RequestBody;
 import software.eng.project.bank.core.model.Response.ChechBookRequestResponse;
 import software.eng.project.bank.core.service.UserService;
 import software.eng.project.bank.security.JwtTokenUtil;
+import com.google.common.base.Preconditions;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.util.List;
 
 
 @RestController
@@ -25,55 +33,90 @@ public class CustomerController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     @RequestMapping(value = "/home",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    OK getAccounts(HttpServletResponse response)
+    List<Account> getAccounts(HttpServletResponse response,HttpServletRequest request)
     {
-        response.setStatus(200);
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<Account> res = null ;
+        try{
+            res=this.userService.getAccountList();
+            response.setStatus(200);
+        }catch(UserNotFoundException e){
+            e.printStackTrace();
+            response.setStatus(401);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
         //get user information from jwt
-        return new OK(10);
+        return res;
     }
     /////////////////////////////////
 
-    @RequestMapping(value = "/account_flow",
-            method = RequestMethod.GET,
+    @RequestMapping(value = "/account/flow",
+            method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    void getAccountAccountFlow(HttpServletResponse response)
+    List<AccountFlow> getAccountAccountFlow(HttpServletResponse response, HttpServletRequest request)
     {
-        response.setStatus(200);
-        //get user information from jwt
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<AccountFlow> res = null ;
+        try{
+            res=this.userService.getAccountFlow();
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
-    @RequestMapping(value = "/recive_account_flow",
-            method = RequestMethod.GET,
-            produces = {"application/json", "application/xml"})
+    @RequestMapping(value = "/receive/account/flow",
+            method = RequestMethod.POST,
+            produces = {"application/pdf"})
     @ResponseStatus(HttpStatus.OK)
-    public @ResponseBody
-    Account reiveAccountFlow(HttpServletResponse response)
+    public
+    ResponseEntity<InputStreamResource> receiveAccountFlow(HttpServletResponse response ,HttpServletRequest request)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        Object res = null ;
+        try{
+            res=this.userService.getReceiveAccountFlow();
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return (ResponseEntity<InputStreamResource>) res;
     }
 
-    @RequestMapping(value = "/pay_ghabz",
-            method = RequestMethod.GET,
+    @RequestMapping(value = "/pay/bill",
+            method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Account PayGhabz(HttpServletResponse response)
+    PayBillResponse payBill(HttpServletResponse response , HttpServletRequest request , @RequestBody PayBillRequest payBillRequest)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        PayBillResponse res = null ;
+        try{
+            res=this.userService.payBill(payBillRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
     @RequestMapping(value = "/draft",

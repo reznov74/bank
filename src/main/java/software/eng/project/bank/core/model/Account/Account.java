@@ -21,45 +21,36 @@ public class Account {
     private long id;
 
     @Column(name = "number", length = 100)
-    @NotNull
     @Size(min = 1, max = 100)
     private long accountNumber;
     @Column(name = "cash")
-    @NotNull
     double cash= 0.0;
     @Column(name = "expire")
-    @NotNull
     Date expireDate;
     @Column(name = "start")
-    @NotNull
     Date startDate;
 
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type1")
-    @NotNull
     AccountType accountTypeSetting1;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type2")
-    @NotNull
     AccountType accountTypeSetting2;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type3")
-    @NotNull
     AccountType accountTypeSetting3;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type4")
-    @NotNull
     AccountType accountTypeSetting4;
 
 
 
     @OneToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "status")
-    @NotNull
     AccountStatus accountStatus;
 
     @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
