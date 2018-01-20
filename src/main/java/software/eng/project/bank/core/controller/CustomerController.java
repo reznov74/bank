@@ -11,9 +11,8 @@ import software.eng.project.bank.core.Exception.UserNotFoundException;
 import software.eng.project.bank.core.boundry.request.*;
 import software.eng.project.bank.core.boundry.response.*;
 import software.eng.project.bank.core.model.Account.*;
-import software.eng.project.bank.core.model.Request.CheckBookRequest;
 import org.springframework.web.bind.annotation.RequestBody;
-import software.eng.project.bank.core.model.Response.ChechBookRequestResponse;
+import software.eng.project.bank.core.model.Request.Request;
 import software.eng.project.bank.core.service.UserService;
 import com.google.common.base.Preconditions;
 
@@ -439,6 +438,26 @@ public class CustomerController {
         return res;
     }
 
+    @RequestMapping(value = "/report/request",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<Request> reportRequest(HttpServletResponse response, HttpServletRequest request)
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<Request> res = null ;
+        try{
+            res=this.userService.reportRequest();
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+    }
+
     @RequestMapping(value = "/report/facility/{accountID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -486,9 +505,17 @@ public class CustomerController {
     public @ResponseBody
     String createRegularReturnFacility(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateRegularReturnFacilityRequest createRegularReturnFacilityRequest)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        String res = null ;
+        try{
+            res=this.userService.createRegularReturnFacility(createRegularReturnFacilityRequest);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
     @RequestMapping(value = "/report/return/facility",
@@ -496,10 +523,18 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<FacilityReturn> createRegularReturnFacility(HttpServletResponse response)
+    List<FacilityReturn> reportRegularReturnFacility(HttpServletResponse response,HttpServletRequest request)
     {
-        response.setStatus(200);
-        //get user information from jwt
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<FacilityReturn> res = null ;
+        try{
+            res=this.userService.reportRegularReturnFacility();
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 }

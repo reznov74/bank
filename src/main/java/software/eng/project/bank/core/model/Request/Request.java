@@ -2,6 +2,7 @@ package software.eng.project.bank.core.model.Request;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import software.eng.project.bank.core.model.Bank.Branch;
+import software.eng.project.bank.core.model.Response.RequestResponse;
 import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
 
@@ -37,6 +38,11 @@ public abstract class Request {
     @Column(name = "status")
     @NotNull
     RequestStatus status;
+
+    @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
+    @JoinColumn(name = "response")
+    RequestResponse requestResponse;
+
 
     public Request(Stuff stuff, Customer customer, Branch branch, Date requestDate, RequestStatus status) {
         this.stuff = stuff;
@@ -95,5 +101,13 @@ public abstract class Request {
 
     public void setStatus(RequestStatus status) {
         this.status = status;
+    }
+
+    public RequestResponse getRequestResponse() {
+        return requestResponse;
+    }
+
+    public void setRequestResponse(RequestResponse requestResponse) {
+        this.requestResponse = requestResponse;
     }
 }

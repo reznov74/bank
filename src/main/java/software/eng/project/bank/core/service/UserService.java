@@ -8,6 +8,7 @@ import software.eng.project.bank.core.Exception.UserNotFoundException;
 import software.eng.project.bank.core.boundry.request.*;
 import software.eng.project.bank.core.boundry.response.*;
 import software.eng.project.bank.core.model.Account.*;
+import software.eng.project.bank.core.model.Request.Request;
 import software.eng.project.bank.core.repository.AccountRepository;
 import software.eng.project.bank.security.JwtTokenUtil;
 
@@ -91,5 +92,10 @@ public class UserService {
     public String createReturnFacility(CreateReturnFacility createReturnFacility){
         return null;
     }
-
+    public List<FacilityReturn> reportRegularReturnFacility(){
+        return null;
+    }
+    public List<Request> reportRequest(){
+        return null;
+    }
 }
