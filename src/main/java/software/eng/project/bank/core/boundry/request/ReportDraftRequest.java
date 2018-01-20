@@ -1,18 +1,18 @@
 package software.eng.project.bank.core.boundry.request;
 
+import software.eng.project.bank.core.model.Account.DraftType;
+
 import java.util.Date;
 
-enum MediaType{
-    INTERNET , ATM
-}
+
 public class ReportDraftRequest {
     long acount;
     boolean giveOrPay;
-    MediaType mediaType;
+    DraftType mediaType;
     Date startDate;
     Date endDate;
 
-    public ReportDraftRequest(long acount, boolean giveOrPay, MediaType mediaType, Date startDate, Date endDate) {
+    public ReportDraftRequest(long acount, boolean giveOrPay, DraftType mediaType, Date startDate, Date endDate) {
         this.acount = acount;
         this.giveOrPay = giveOrPay;
         this.mediaType = mediaType;
@@ -36,11 +36,11 @@ public class ReportDraftRequest {
         this.giveOrPay = giveOrPay;
     }
 
-    public MediaType getMediaType() {
+    public DraftType getMediaType() {
         return mediaType;
     }
 
-    public void setMediaType(MediaType mediaType) {
+    public void setMediaType(DraftType mediaType) {
         this.mediaType = mediaType;
     }
 

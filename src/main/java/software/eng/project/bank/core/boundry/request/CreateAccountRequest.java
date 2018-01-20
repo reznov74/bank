@@ -2,20 +2,37 @@ package software.eng.project.bank.core.boundry.request;
 
 
 import software.eng.project.bank.core.model.Account.AccountType;
+import software.eng.project.bank.core.model.Account.AccountTypeIndivisual;
+import software.eng.project.bank.core.model.Account.AccountTypeReal;
 
+import javax.persistence.Column;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class CreateAccountRequest {
-    AccountType type;
     long accountIDForInit;
     long barnchID;
     String confitionForGive;
     Date expireDateOfGive;
     Timestamp createTime;
 
-    public CreateAccountRequest(AccountType type, long accountIDForInit, long barnchID, String confitionForGive, Date expireDateOfGive, Timestamp createTime) {
-        this.type = type;
+    float initCash;
+
+    AccountTypeIndivisual accountTypeIndivisual;
+
+
+    AccountTypeReal accountTypeReal;
+
+
+    boolean withChek;
+
+
+    AccountType accountType;
+
+    public CreateAccountRequest( long accountIDForInit, long barnchID, String confitionForGive, Date expireDateOfGive, Timestamp createTime) {
+
         this.accountIDForInit = accountIDForInit;
         this.barnchID = barnchID;
         this.confitionForGive = confitionForGive;
@@ -23,13 +40,6 @@ public class CreateAccountRequest {
         this.createTime = createTime;
     }
 
-    public AccountType getType() {
-        return type;
-    }
-
-    public void setType(AccountType type) {
-        this.type = type;
-    }
 
     public long getAccountIDForInit() {
         return accountIDForInit;
@@ -69,5 +79,45 @@ public class CreateAccountRequest {
 
     public void setCreateTime(Timestamp createTime) {
         this.createTime = createTime;
+    }
+
+    public AccountTypeIndivisual getAccountTypeIndivisual() {
+        return accountTypeIndivisual;
+    }
+
+    public void setAccountTypeIndivisual(AccountTypeIndivisual accountTypeIndivisual) {
+        this.accountTypeIndivisual = accountTypeIndivisual;
+    }
+
+    public AccountTypeReal getAccountTypeReal() {
+        return accountTypeReal;
+    }
+
+    public void setAccountTypeReal(AccountTypeReal accountTypeReal) {
+        this.accountTypeReal = accountTypeReal;
+    }
+
+    public boolean isWithChek() {
+        return withChek;
+    }
+
+    public void setWithChek(boolean withChek) {
+        this.withChek = withChek;
+    }
+
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+
+    public float getInitCash() {
+        return initCash;
+    }
+
+    public void setInitCash(float initCash) {
+        this.initCash = initCash;
     }
 }

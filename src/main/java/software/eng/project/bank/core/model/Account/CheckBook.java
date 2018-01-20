@@ -2,6 +2,8 @@ package software.eng.project.bank.core.model.Account;
 
 
 
+import software.eng.project.bank.core.model.Role.Customer;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
@@ -26,9 +28,13 @@ public class CheckBook {
     Date expireDate;
     @OneToMany(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "check_number")
-    @Column(name = "checks")
     @NotNull
     List<Check> checks;
+
+    @ManyToOne(fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
+    @JoinColumn(name = "customer")
+    @NotNull
+    Customer customer;
 
     public CheckBook(int checkBookNum, int countOfCheck, Date expireDate, List<Check> checks) {
         this.checkBookNum = checkBookNum;
@@ -67,5 +73,21 @@ public class CheckBook {
 
     public void setChecks(List<Check> checks) {
         this.checks = checks;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

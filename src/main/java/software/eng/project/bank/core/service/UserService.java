@@ -9,18 +9,25 @@ import software.eng.project.bank.core.Exception.UserNotFoundException;
 import software.eng.project.bank.core.boundry.request.*;
 import software.eng.project.bank.core.boundry.response.*;
 import software.eng.project.bank.core.model.Account.*;
+import software.eng.project.bank.core.model.Bank.Branch;
+import software.eng.project.bank.core.model.Request.AccessCardRequest;
+import software.eng.project.bank.core.model.Request.CheckBookRequest;
 import software.eng.project.bank.core.model.Request.Request;
-import software.eng.project.bank.core.repository.AccountFlowRepository;
-import software.eng.project.bank.core.repository.AccountRepository;
-import software.eng.project.bank.core.repository.DraftRepository;
+import software.eng.project.bank.core.model.Role.Stuff;
+import software.eng.project.bank.core.repository.*;
 import software.eng.project.bank.security.JwtTokenUtil;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class UserService {
     private static long MAX_DRAFT_AMOUNT=100000000;
+
+    private static int BUSY_STUFF = 2;
+
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
@@ -31,7 +38,26 @@ public class UserService {
     private AccountFlowRepository accountFlowRepository;
 
     @Autowired
+    private CheckBookRepository checkBookRepository;
+
+    @Autowired
     private DraftRepository draftRepository;
+
+    @Autowired
+    private BranchRepository branchRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private StuffRepository stuffRepository;
+
+    @Autowired
+    private CheckBookRequestRepository checkBookRequestRepository;
+
+    @Autowired
+    private AccessCardRequestRepository accessCardRequestRepository;
+
     public List<Account> getAccountList () throws UserNotFoundException {
         List<Account> queryResult = this.accountRepository.findAll();
         List<Account> ans=new ArrayList<>();
@@ -63,22 +89,36 @@ public class UserService {
         return null;
     }
     public Draft createDraft(CreateDraftRequest createDraftRequest) throws BadArgumentException {
-        if(!this.accountRepository.findOne(createDraftRequest.getDistAccount()).getCustomer().getId()
-                .equals(this.accountRepository.findOne(createDraftRequest.getSourceAccount()))){
+        Account source =this.accountRepository.getOne(createDraftRequest.getSourceAccount());
+        Account dist =this.accountRepository.getOne(createDraftRequest.getDistAccount());
+        if(!dist.getCustomer().getId()
+                .equals(source.getCustomer().getId())){
             if(createDraftRequest.getAmount()>this.MAX_DRAFT_AMOUNT){
                 throw new BadArgumentException();
             }
         }
-        Draft draft =new Draft();
-        draft.setAmount(createDraftRequest.getAmount());
-        draft.setDistAccount(this.accountRepository.findOne(createDraftRequest.getDistAccount()));
-        draft.setDraftType(DraftType.INTERNET);
-        draft.setFowWhy(createDraftRequest.getForWhy());
-        draft.setMaxAmount(this.MAX_DRAFT_AMOUNT);
-        return this.draftRepository.save(draft);
+        if(source.getCash()>createDraftRequest.getAmount()){
+            source.setCash(source.getCash()-createDraftRequest.getAmount());
+            dist.setCash(dist.getCash()+createDraftRequest.getAmount());
+            //UPDATE TOTO
+            Draft draft =new Draft();
+            draft.setAmount(createDraftRequest.getAmount());
+            draft.setDistAccount(this.accountRepository.findOne(createDraftRequest.getDistAccount()));
+            draft.setDraftType(DraftType.INTERNET);
+            draft.setFowWhy(createDraftRequest.getForWhy());
+            draft.setMaxAmount(this.MAX_DRAFT_AMOUNT);
+            return this.draftRepository.save(draft);
+        }
     }
     public List<Draft> reportDraftRequest(ReportDraftRequest reportDraftRequest){
-        return null;
+        List<Draft> resultQuery = this.draftRepository.findAll();
+        List<Draft> ans=new ArrayList<>();
+        for(Draft draft:resultQuery){
+            if(draft.getSourceAccount().getId().equals(reportDraftRequest.getAcount())){
+                ans.add(draft);
+            }
+        }
+        return ans;
     }
     public RegularDraft createRegularDraft(CreateRegularDraftRequest reportDraftRequest){
         return null;
@@ -89,7 +129,7 @@ public class UserService {
     public List<GroupDraft> reportGroupDraft(ReportDraftRequest reportDraftRequest){
         return null;
     }
-    public List<GroupDraft> getRequestedGroupDraft(){
+    public List<GroupDraft> getRequestedGroupDraft(){//need intermediate class between customer and GroupDraft for determine accepted or not
         return null;
     }
     public GroupDraft createGroupDraft(CreateGroupDraftRequest createGroupDraftRequest){
@@ -98,29 +138,129 @@ public class UserService {
     public Response acceptGroupDraft(long draftID){
         return null;
     }
-    public Account getAccountInfo(long accountID){
-        return null;
+    public Account getAccountInfo(long accountID,long userID) throws BadArgumentException {
+        if(this.accountRepository.getOne(accountID).getCustomer().getId().equals(userID)){
+            return this.accountRepository.getOne(accountID);
+        }else{
+            throw new BadArgumentException();
+        }
     }
-    public CheckBook getReportCheck(){
-        return null;
+    public List<CheckBook> getReportCheck(long userID){
+        List<CheckBook> queryResult = this.checkBookRepository.findAll();
+        List<CheckBook> ans=new ArrayList<>();
+        for(CheckBook checkBook:queryResult){
+            if(checkBook.getCustomer().getId().equals(userID)){
+                ans.add(checkBook);
+            }
+        }
+        return ans;
     }
-    public Account createAccount(CreateAccountRequest createAccountRequest){
-        return null;
+    public Account createAccount(CreateAccountRequest createAccountRequest , long userID) throws BadArgumentException {
+        Account account =this.accountRepository.getOne(createAccountRequest.getAccountIDForInit());
+        if(account.getCustomer().getId().equals(userID)){
+            if(this.branchRepository.getOne(createAccountRequest.getBarnchID())==null){
+                throw new BadArgumentException();
+            }else{
+                if(createAccountRequest.getAccountType()==AccountType.GHARZ || createAccountRequest.getAccountType()==AccountType.JARI || createAccountRequest.getAccountType()==AccountType.SEPORDE_KOTAH){
+                    Account account1= new Account();
+                    account1.setAccountStatus(new AccountStatus(AccountStatusType.OPEN, null , null , null));
+                    account1.setCustomer(this.customerRepository.findOne(userID));
+                    account1.setAccountType(createAccountRequest.getAccountType());
+                    account1.setAccountTypeIndivisual(createAccountRequest.getAccountTypeIndivisual());
+                    account1.setAccountTypeReal(createAccountRequest.getAccountTypeReal());
+                    account1=this.accountRepository.save(account1);
+                    this.createDraft(new CreateDraftRequest(createAccountRequest.getInitCash(),account.getId(),account1.getId(),null, null , true));
+                }else {throw new BadArgumentException();}
+            }
+        }else{throw new BadArgumentException();}
     }
     public ReportProfitResponse reportProfitAccount(long accountID){
         return null;
     }
-    public List<Account> reportBlockedAccount(){
-        return null;
+    public List<Account> reportBlockedAccount(Long uerID){
+        List<Account> queryResult=this.accountRepository.findAll();
+        List<Account> ans=new ArrayList<>();
+        for(Account account:queryResult){
+            if(account.getCustomer().getId().equals(uerID) || account.getAccountStatus().getStatusType()==AccountStatusType.BLOCKED){
+                ans.add(account);
+            }
+        }
+        return ans;
     }
-    public Response requestCheckbook(CreateCheckbookRequest createCheckbookRequest){
-        return null;
+    public Response requestCheckbook(CreateCheckbookRequest createCheckbookRequest,long userID) throws BadArgumentException {
+        Account account =this.accountRepository.getOne(createCheckbookRequest.getAccountID());
+        if(account.isWithChek()){
+            for(CheckBook checkBook : account.getCheckBook()){
+                Date date = new Date();
+                if(!checkBook.getExpireDate().before(date)){
+                    Branch branch=this.branchRepository.getOne(createCheckbookRequest.getBranchID());
+                    if(branch!=null){
+                        List<Stuff> stuffs= this.stuffRepository.findAll();
+                        List<Stuff> activeStuff =new ArrayList<>();
+                        for(Stuff stuff: stuffs){
+                            if(stuff.getStuffHistory().getRank().getBranch().equals(branch)){
+                                activeStuff.add(stuff);
+                            }
+                        }
+                        for(Stuff stuff : activeStuff){
+                            List<CheckBookRequest> reqs=this.checkBookRepository.findByStuff(stuff.getPersonalNumber());
+                            if (reqs.size()<this.BUSY_STUFF){
+                                CheckBookRequest checkBookRequest=new CheckBookRequest();
+                                checkBookRequest.setBranch(branch);
+                                checkBookRequest.setCustomer(this.customerRepository.getOne(userID));
+                                checkBookRequest.setStuff(stuff);
+
+                                this.checkBookRequestRepository.save(checkBookRequest);
+                                break;
+                            }
+                        }
+                    }else{throw new BadArgumentException();}
+
+                }else{
+                    throw new BadArgumentException();
+                }
+            }
+        }else{throw new BadArgumentException();}
     }
-    public Response requestCard(CreateCardRequest createCardRequest){
-        return null;
+    public Response requestCard(CreateCardRequest createCardRequest,long userID) throws BadArgumentException {
+        Response response=new Response();
+        Account account =this.accountRepository.getOne(createCardRequest.getAccountID());
+        List<AccessCard> accessCards = account.getAccessCards();
+        for(AccessCard accessCard : accessCards){
+            if(accessCard.isActive()){
+                throw new BadArgumentException();
+            }
+        }
+        Branch branch=this.branchRepository.getOne(createCardRequest.getBrachID());
+        if(branch!=null){
+            List<Stuff> stuffs= this.stuffRepository.findAll();
+            List<Stuff> activeStuff =new ArrayList<>();
+            boolean isFirstOne=true;
+            for(Stuff stuff: stuffs){
+                isFirstOne=false;
+                if(stuff.getStuffHistory().getRank().getBranch().equals(branch)){
+                    activeStuff.add(stuff);
+                }
+            }
+            for(Stuff stuff : activeStuff){
+                List<AccessCardRequest> reqs=this.accessCardRequestRepository.findByStuff(stuff.getPersonalNumber());
+                if (reqs.size()<this.BUSY_STUFF){
+                    AccessCardRequest accessCardRequest =new AccessCardRequest();
+                    accessCardRequest.setFristOrNot(isFirstOne);
+                    accessCardRequest.setBranch(branch);
+                    accessCardRequest.setCustomer(this.customerRepository.getOne(userID));
+                    accessCardRequest.setStuff(stuff);
+                    this.accessCardRequestRepository.save(accessCardRequest);
+                    response=new Response(ResponseStatus.OK,2000);
+                    return response;
+                }
+            }
+        }else{throw new BadArgumentException();}
+        return response;
+
     }
     public Response requestFacility(CreateFacilityRequest createFacilityRequest){
-        return null;
+
     }
     public List<Facility> reportFacility(long accountID){
         return null;

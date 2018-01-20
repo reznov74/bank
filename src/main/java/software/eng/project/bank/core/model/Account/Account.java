@@ -9,6 +9,8 @@ import software.eng.project.bank.core.model.Role.Stuff;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
+
 @Entity
 public class Account {
     @Id
@@ -31,19 +33,19 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type1")
-    AccountType accountTypeSetting1;
+    AccountTypeIndivisual accountTypeIndivisual;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type2")
-    AccountType accountTypeSetting2;
+    AccountTypeReal accountTypeReal;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type3")
-    AccountType accountTypeSetting3;
+    boolean withChek;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type4")
-    AccountType accountTypeSetting4;
+    AccountType accountType;
 
 
 
@@ -51,15 +53,19 @@ public class Account {
     @JoinColumn(name = "status")
     AccountStatus accountStatus;
 
-    @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
+    @OneToMany(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "checkbook")
-    CheckBook checkBook;
+    List<CheckBook> checkBook;
     @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "branch")
     Branch createBranch;
     @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "stuff")
     Stuff createStuff;
+
+    @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
+    @JoinColumn
+    List<AccessCard> accessCards;
 
 
     @JsonIgnore
@@ -103,36 +109,40 @@ public class Account {
         this.startDate = startDate;
     }
 
-    public AccountType getAccountTypeSetting1() {
-        return accountTypeSetting1;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setAccountTypeSetting1(AccountType accountTypeSetting1) {
-        this.accountTypeSetting1 = accountTypeSetting1;
+    public AccountTypeIndivisual getAccountTypeIndivisual() {
+        return accountTypeIndivisual;
     }
 
-    public AccountType getAccountTypeSetting2() {
-        return accountTypeSetting2;
+    public void setAccountTypeIndivisual(AccountTypeIndivisual accountTypeIndivisual) {
+        this.accountTypeIndivisual = accountTypeIndivisual;
     }
 
-    public void setAccountTypeSetting2(AccountType accountTypeSetting2) {
-        this.accountTypeSetting2 = accountTypeSetting2;
+    public AccountTypeReal getAccountTypeReal() {
+        return accountTypeReal;
     }
 
-    public AccountType getAccountTypeSetting3() {
-        return accountTypeSetting3;
+    public void setAccountTypeReal(AccountTypeReal accountTypeReal) {
+        this.accountTypeReal = accountTypeReal;
     }
 
-    public void setAccountTypeSetting3(AccountType accountTypeSetting3) {
-        this.accountTypeSetting3 = accountTypeSetting3;
+    public boolean isWithChek() {
+        return withChek;
     }
 
-    public AccountType getAccountTypeSetting4() {
-        return accountTypeSetting4;
+    public void setWithChek(boolean withChek) {
+        this.withChek = withChek;
     }
 
-    public void setAccountTypeSetting4(AccountType accountTypeSetting4) {
-        this.accountTypeSetting4 = accountTypeSetting4;
+    public AccountType getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
     }
 
     public AccountStatus getAccountStatus() {
@@ -143,11 +153,11 @@ public class Account {
         this.accountStatus = accountStatus;
     }
 
-    public CheckBook getCheckBook() {
+    public List<CheckBook> getCheckBook() {
         return checkBook;
     }
 
-    public void setCheckBook(CheckBook checkBook) {
+    public void setCheckBook(List<CheckBook> checkBook) {
         this.checkBook = checkBook;
     }
 
@@ -173,5 +183,13 @@ public class Account {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public List<AccessCard> getAccessCards() {
+        return accessCards;
+    }
+
+    public void setAccessCards(List<AccessCard> accessCards) {
+        this.accessCards = accessCards;
     }
 }

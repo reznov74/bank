@@ -2,6 +2,8 @@ package software.eng.project.bank.core.model.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 @Entity
 @Table(name = "account_status")
@@ -18,13 +20,19 @@ public class AccountStatus {
     AccountStatusType statusType;
     @Column(name = "start")
     @NotNull
-    Date startDate;
+    Timestamp startDate;
     @Column(name = "end")
-    @NotNull
-    Date endDate;
+    Timestamp endDate;
     @Column(name = "reason" , length = 500)
     @NotNull
     String reason;
+
+    public AccountStatus(AccountStatusType statusType, Timestamp startDate, Timestamp endDate, String reason) {
+        this.statusType = statusType;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.reason = reason;
+    }
 
     public AccountStatusType getStatusType() {
         return statusType;
@@ -34,19 +42,19 @@ public class AccountStatus {
         this.statusType = statusType;
     }
 
-    public Date getStartDate() {
+    public Timestamp getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(Timestamp startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public Timestamp getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
     }
 

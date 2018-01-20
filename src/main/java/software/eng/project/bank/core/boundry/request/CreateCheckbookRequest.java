@@ -6,6 +6,7 @@ public class CreateCheckbookRequest {
     String nameOfOwner;
     long nationalCode;
     long branchID;
+    long accountID;
 
     public CreateCheckbookRequest(int chechbookCount, String nameOfOwner, long nationalCode, long branchID) {
         this.chechbookCount = chechbookCount;
@@ -44,5 +45,13 @@ public class CreateCheckbookRequest {
 
     public void setBranchID(long branchID) {
         this.branchID = branchID;
+    }
+
+    public long getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(long accountID) {
+        this.accountID = accountID;
     }
 }

@@ -1,9 +1,7 @@
 package software.eng.project.bank.core.boundry.response;
 
 
-enum ResponseStatus{
 
- }
 
 public class Response {
      ResponseStatus responseStatus;
@@ -28,5 +26,8 @@ public class Response {
 
     public void setFallowUpNumber(long fallowUpNumber) {
         this.fallowUpNumber = fallowUpNumber;
+    }
+    public Response(){
+
     }
 }
