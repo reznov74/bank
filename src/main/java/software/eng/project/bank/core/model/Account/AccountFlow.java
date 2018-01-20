@@ -1,12 +1,15 @@
 package software.eng.project.bank.core.model.Account;
 
+import software.eng.project.bank.core.boundry.request.AccountFlowType;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-@MappedSuperclass
-public abstract class AccountFlow {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public class AccountFlow {
 
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
@@ -19,10 +22,11 @@ public abstract class AccountFlow {
     Account distAccount;
     @Column(name = "type")
     @NotNull
-    FlowAccountType type;
+    AccountFlowType type;
     @Column(name = "date")
     @NotNull
     Date date;
+
 
 
     public Account getSourceAccount() {
@@ -41,11 +45,11 @@ public abstract class AccountFlow {
         this.distAccount = destAccount;
     }
 
-    public FlowAccountType getType() {
+    public AccountFlowType getType() {
         return type;
     }
 
-    public void setType(FlowAccountType type) {
+    public void setType(AccountFlowType type) {
         this.type = type;
     }
 

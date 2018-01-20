@@ -4,30 +4,57 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import software.eng.project.bank.core.Exception.BadArgumentException;
 import software.eng.project.bank.core.Exception.UserNotFoundException;
 import software.eng.project.bank.core.boundry.request.*;
 import software.eng.project.bank.core.boundry.response.*;
 import software.eng.project.bank.core.model.Account.*;
 import software.eng.project.bank.core.model.Request.Request;
+import software.eng.project.bank.core.repository.AccountFlowRepository;
 import software.eng.project.bank.core.repository.AccountRepository;
+import software.eng.project.bank.core.repository.DraftRepository;
 import software.eng.project.bank.security.JwtTokenUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
-
+    private static long MAX_DRAFT_AMOUNT=100000000;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private AccountFlowRepository accountFlowRepository;
+
+    @Autowired
+    private DraftRepository draftRepository;
     public List<Account> getAccountList () throws UserNotFoundException {
-        return this.accountRepository.findAll();
+        List<Account> queryResult = this.accountRepository.findAll();
+        List<Account> ans=new ArrayList<>();
+        for(Account account : queryResult){
+            if(account.getAccountStatus().getStatusType().equals(AccountStatusType.OPEN)){
+
+            }
+        }
+        return ans;
     }
-    public List<AccountFlow> getAccountFlow() {
-        return null;
+    public List<AccountFlow> getAccountFlow(AccountFlowRequest accountFlowRequest , long userID) throws BadArgumentException{
+        List<AccountFlow> resultQuery=this.accountFlowRepository.findAll();
+        if(this.accountRepository.findOne(accountFlowRequest.getAccount()).getCustomer().getId()!=userID){
+            throw new BadArgumentException();
+        }
+        List<AccountFlow> ans=new ArrayList<>();
+        for(AccountFlow accountFlow:resultQuery){
+            if(accountFlow.getSourceAccount().equals(accountFlowRequest.getAccount()) ||
+                    accountFlow.getDistAccount().equals(accountFlowRequest.getAccount())){
+                ans.add(accountFlow);
+            }
+        }
+        return ans;
     }
     public ResponseEntity<InputStreamResource> getReceiveAccountFlow(){
         return null;
@@ -35,10 +62,22 @@ public class UserService {
     public Response payBill(PayBillRequest payBillRequest){
         return null;
     }
-    public Draft createDraft(CreateDraftRequest createDraftRequest){
-        return null;
+    public Draft createDraft(CreateDraftRequest createDraftRequest) throws BadArgumentException {
+        if(!this.accountRepository.findOne(createDraftRequest.getDistAccount()).getCustomer().getId()
+                .equals(this.accountRepository.findOne(createDraftRequest.getSourceAccount()))){
+            if(createDraftRequest.getAmount()>this.MAX_DRAFT_AMOUNT){
+                throw new BadArgumentException();
+            }
+        }
+        Draft draft =new Draft();
+        draft.setAmount(createDraftRequest.getAmount());
+        draft.setDistAccount(this.accountRepository.findOne(createDraftRequest.getDistAccount()));
+        draft.setDraftType(DraftType.INTERNET);
+        draft.setFowWhy(createDraftRequest.getForWhy());
+        draft.setMaxAmount(this.MAX_DRAFT_AMOUNT);
+        return this.draftRepository.save(draft);
     }
-    public List<Draft> getDraftRequest(ReportDraftRequest reportDraftRequest){
+    public List<Draft> reportDraftRequest(ReportDraftRequest reportDraftRequest){
         return null;
     }
     public RegularDraft createRegularDraft(CreateRegularDraftRequest reportDraftRequest){

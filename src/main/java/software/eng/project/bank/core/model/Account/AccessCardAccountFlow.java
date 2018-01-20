@@ -10,7 +10,6 @@ enum FlowType{
 
 }
 @Entity
-@Table(name = "card_flow")
 public class AccessCardAccountFlow extends AccountFlow {
     @Id
     @Column(name = "id")

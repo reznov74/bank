@@ -3,19 +3,18 @@ package software.eng.project.bank.core.model.Account;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import software.eng.project.bank.core.model.Bank.Branch;
+import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 @Entity
-@Table(name = "account")
 public class Account {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column(name = "number", length = 100)
     @Size(min = 1, max = 100)
@@ -26,7 +25,9 @@ public class Account {
     Date expireDate;
     @Column(name = "start")
     Date startDate;
-
+    @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
+    @JoinColumn(name = "customer")
+    Customer customer;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type1")
@@ -51,7 +52,7 @@ public class Account {
     AccountStatus accountStatus;
 
     @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "checkboook")
+    @JoinColumn(name = "checkbook")
     CheckBook checkBook;
     @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "branch")
@@ -62,7 +63,7 @@ public class Account {
 
 
     @JsonIgnore
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -164,5 +165,13 @@ public class Account {
 
     public void setCreateStuff(Stuff createStuff) {
         this.createStuff = createStuff;
+    }
+    @JsonIgnore
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 }

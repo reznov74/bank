@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -25,7 +26,7 @@ public class Draft implements Serializable {
     Account distAccount;
     @Column(name = "date")
     @NotNull
-    Date draftedDate;
+    Timestamp draftedDate;
     @Column(name = "amount")
     @NotNull
     double amount;
@@ -41,7 +42,7 @@ public class Draft implements Serializable {
     @NotNull
     float maxAmount;
 
-    public Draft(Account sourceAccount, Account distAccount, Date draftedDate, double amount, String fowWhy, DraftType draftType, float maxAmount) {
+    public Draft(Account sourceAccount, Account distAccount, Timestamp draftedDate, double amount, String fowWhy, DraftType draftType, float maxAmount) {
         this.sourceAccount = sourceAccount;
         this.distAccount = distAccount;
         this.draftedDate = draftedDate;
@@ -78,11 +79,11 @@ public class Draft implements Serializable {
         this.distAccount = distAccount;
     }
 
-    public Date getDraftedDate() {
+    public Timestamp getDraftedDate() {
         return draftedDate;
     }
 
-    public void setDraftedDate(Date draftedDate) {
+    public void setDraftedDate(Timestamp draftedDate) {
         this.draftedDate = draftedDate;
     }
 

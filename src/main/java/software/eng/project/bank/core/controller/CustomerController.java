@@ -61,13 +61,14 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<AccountFlow> getAccountAccountFlow(HttpServletResponse response, HttpServletRequest request)
+    List<AccountFlow> getAccountAccountFlow(HttpServletResponse response, HttpServletRequest request , @RequestBody AccountFlowRequest accountFlowRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
+        //get userID
         List<AccountFlow> res = null ;
         try{
-            res=this.userService.getAccountFlow();
+            res=this.userService.getAccountFlow(accountFlowRequest,0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -173,7 +174,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         List<Draft> res = null ;
         try{
-            res=this.userService.getDraftRequest(reportDraftRequest);
+            res=this.userService.reportDraftRequest(reportDraftRequest);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
