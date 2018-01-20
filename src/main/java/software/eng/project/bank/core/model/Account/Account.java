@@ -9,9 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
-enum AccountType{
-    INDIVISUAL , GROUP , REAL , LAWY , WITH_CHECK,NO_CHECK ,RIAL , NORIAL , GHARZ, SEPORDE_KOTAH,SEPORDE_BOLAND,JARI , SARAMAD
-}
 @Entity
 @Table(name = "account")
 public class Account {

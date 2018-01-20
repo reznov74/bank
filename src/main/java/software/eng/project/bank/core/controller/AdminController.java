@@ -5,16 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import software.eng.project.bank.core.boundry.response.CreateFacilityResponse;
-import software.eng.project.bank.core.model.Account.Account;
 import software.eng.project.bank.core.model.Role.User;
 import software.eng.project.bank.core.service.AdminService;
-import software.eng.project.bank.core.service.UserService;
 
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin")

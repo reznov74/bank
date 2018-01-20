@@ -32,7 +32,7 @@ public class UserService {
     public ResponseEntity<InputStreamResource> getReceiveAccountFlow(){
         return null;
     }
-    public PayBillResponse payBill(PayBillRequest payBillRequest){
+    public Response payBill(PayBillRequest payBillRequest){
         return null;
     }
     public Draft createDraft(CreateDraftRequest createDraftRequest){
@@ -56,7 +56,7 @@ public class UserService {
     public GroupDraft createGroupDraft(CreateGroupDraftRequest createGroupDraftRequest){
         return null;
     }
-    public AcceptGroupDraftResponse acceptGroupDraft(long draftID){
+    public Response acceptGroupDraft(long draftID){
         return null;
     }
     public Account getAccountInfo(long accountID){
@@ -71,16 +71,16 @@ public class UserService {
     public ReportProfitResponse reportProfitAccount(long accountID){
         return null;
     }
-    public ReportBlockedAccountResponse reportBlockedAccount(){
+    public List<Account> reportBlockedAccount(){
         return null;
     }
-    public CreateCheckbookResponse requestCheckbook(CreateCheckbookRequest createCheckbookRequest){
+    public Response requestCheckbook(CreateCheckbookRequest createCheckbookRequest){
         return null;
     }
-    public CreateCardResponse requestCard(CreateCardRequest createCardRequest){
+    public Response requestCard(CreateCardRequest createCardRequest){
         return null;
     }
-    public CreateFacilityResponse requestFacility(CreateFacilityRequest createFacilityRequest){
+    public Response requestFacility(CreateFacilityRequest createFacilityRequest){
         return null;
     }
     public List<Facility> reportFacility(long accountID){

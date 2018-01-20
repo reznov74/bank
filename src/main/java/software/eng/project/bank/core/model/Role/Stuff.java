@@ -5,6 +5,6 @@ import java.util.Date;
 @Entity
 public class Stuff extends User{
    Date startDate;
-
-
+   long personalNumber;
+   
 }

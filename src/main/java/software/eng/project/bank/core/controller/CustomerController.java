@@ -101,11 +101,11 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    PayBillResponse payBill(HttpServletResponse response , HttpServletRequest request , @RequestBody PayBillRequest payBillRequest)
+    Response payBill(HttpServletResponse response , HttpServletRequest request , @RequestBody PayBillRequest payBillRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        PayBillResponse res = null ;
+        Response res = null ;
         try{
             res=this.userService.payBill(payBillRequest);
             response.setStatus(200);
@@ -115,6 +115,32 @@ public class CustomerController {
         }
         return res;
     }
+
+
+    ////
+
+    @RequestMapping(value = "/pay/rejected/check",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    void payRejectedCheck(HttpServletResponse response , HttpServletRequest request , @RequestBody PayBillRequest payBillRequest)
+    {
+
+    }
+
+    @RequestMapping(value = "/branch/list",
+            method = RequestMethod.POST,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    void getBranchList(HttpServletResponse response , HttpServletRequest request , @RequestBody PayBillRequest payBillRequest)
+    {
+
+    }
+
+
+    ////
 
     @RequestMapping(value = "/create/draft",
             method = RequestMethod.POST,
@@ -261,11 +287,11 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    AcceptGroupDraftResponse acceptGroupDraft(HttpServletResponse response, HttpServletRequest request, @PathVariable("draftID") long draftID)
+    Response acceptGroupDraft(HttpServletResponse response, HttpServletRequest request, @PathVariable("draftID") long draftID)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        AcceptGroupDraftResponse res = null ;
+        Response res = null ;
         try{
             res=this.userService.acceptGroupDraft(draftID);
             response.setStatus(200);
@@ -363,11 +389,11 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    ReportBlockedAccountResponse reportBlockedAccount(HttpServletResponse response, HttpServletRequest request)
+    List<Account> reportBlockedAccount(HttpServletResponse response, HttpServletRequest request)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        ReportBlockedAccountResponse res = null ;
+        List<Account> res = null ;
         try{
             res=this.userService.reportBlockedAccount();
             response.setStatus(200);
@@ -383,11 +409,11 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    CreateCheckbookResponse requestCheckbook(HttpServletResponse response, HttpServletRequest request, @RequestBody CreateCheckbookRequest createCheckbookRequest)
+    Response requestCheckbook(HttpServletResponse response, HttpServletRequest request, @RequestBody CreateCheckbookRequest createCheckbookRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        CreateCheckbookResponse res = null ;
+        Response res = null ;
         try{
             res=this.userService.requestCheckbook(createCheckbookRequest);
             response.setStatus(200);
@@ -403,11 +429,11 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    CreateCardResponse requestCard(HttpServletResponse response,HttpServletRequest request, @RequestBody CreateCardRequest createCardRequest)
+    Response requestCard(HttpServletResponse response,HttpServletRequest request, @RequestBody CreateCardRequest createCardRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        CreateCardResponse res = null ;
+        Response res = null ;
         try{
             res=this.userService.requestCard(createCardRequest);
             response.setStatus(200);
@@ -423,11 +449,11 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    CreateFacilityResponse requestFacility(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateFacilityRequest createFacilityRequest)
+    Response requestFacility(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateFacilityRequest createFacilityRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        CreateFacilityResponse res = null ;
+        Response res = null ;
         try{
             res=this.userService.requestFacility(createFacilityRequest);
             response.setStatus(200);
