@@ -21,14 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import software.eng.project.bank.security.JwtAuthenticationRequest;
 import software.eng.project.bank.security.JwtTokenUtil;
 import software.eng.project.bank.security.JwtUser;
 import software.eng.project.bank.security.service.JwtAuthenticationResponse;
 
 @RestController
-@CrossOrigin(origins="http://localhost:4200")
 public class AuthenticationRestController {
 
     @Value("${jwt.header}")

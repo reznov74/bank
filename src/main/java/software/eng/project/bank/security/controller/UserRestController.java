@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.servlet.http.HttpServletRequest;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import software.eng.project.bank.security.JwtTokenUtil;
 import software.eng.project.bank.security.JwtUser;
 
