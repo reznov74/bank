@@ -3,6 +3,7 @@ package software.eng.project.bank.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import software.eng.project.bank.core.Exception.BadArgumentException;
 import software.eng.project.bank.core.Exception.UserNotFoundException;
@@ -12,6 +13,7 @@ import software.eng.project.bank.core.model.Account.*;
 import software.eng.project.bank.core.model.Bank.Branch;
 import software.eng.project.bank.core.model.Request.AccessCardRequest;
 import software.eng.project.bank.core.model.Request.CheckBookRequest;
+import software.eng.project.bank.core.model.Request.FacilityRequest;
 import software.eng.project.bank.core.model.Request.Request;
 import software.eng.project.bank.core.model.Role.Stuff;
 import software.eng.project.bank.core.repository.*;
@@ -27,6 +29,10 @@ public class UserService {
     private static long MAX_DRAFT_AMOUNT=100000000;
 
     private static int BUSY_STUFF = 2;
+
+    private static int PORIFT_RATE_SHORT_TIME_ACCOUNT=7;
+
+    private static int PORIFT_RATE_LONG_TIME_ACCOUNT=20;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -57,6 +63,15 @@ public class UserService {
 
     @Autowired
     private AccessCardRequestRepository accessCardRequestRepository;
+
+    @Autowired
+    private FacilityRequestRepository facilityRequestRepository;
+
+    @Autowired
+    private FacilityRepository facilityRepository;
+
+    @Autowired
+    private FacilityReturnRepository facilityReturnRepository;
 
     public List<Account> getAccountList () throws UserNotFoundException {
         List<Account> queryResult = this.accountRepository.findAll();
@@ -91,6 +106,7 @@ public class UserService {
     public Draft createDraft(CreateDraftRequest createDraftRequest) throws BadArgumentException {
         Account source =this.accountRepository.getOne(createDraftRequest.getSourceAccount());
         Account dist =this.accountRepository.getOne(createDraftRequest.getDistAccount());
+        Draft draft =new Draft();
         if(!dist.getCustomer().getId()
                 .equals(source.getCustomer().getId())){
             if(createDraftRequest.getAmount()>this.MAX_DRAFT_AMOUNT){
@@ -101,14 +117,15 @@ public class UserService {
             source.setCash(source.getCash()-createDraftRequest.getAmount());
             dist.setCash(dist.getCash()+createDraftRequest.getAmount());
             //UPDATE TOTO
-            Draft draft =new Draft();
+            draft =new Draft();
             draft.setAmount(createDraftRequest.getAmount());
             draft.setDistAccount(this.accountRepository.findOne(createDraftRequest.getDistAccount()));
             draft.setDraftType(DraftType.INTERNET);
             draft.setFowWhy(createDraftRequest.getForWhy());
             draft.setMaxAmount(this.MAX_DRAFT_AMOUNT);
-            return this.draftRepository.save(draft);
+            draft= this.draftRepository.save(draft);
         }
+        return draft;
     }
     public List<Draft> reportDraftRequest(ReportDraftRequest reportDraftRequest){
         List<Draft> resultQuery = this.draftRepository.findAll();
@@ -157,12 +174,13 @@ public class UserService {
     }
     public Account createAccount(CreateAccountRequest createAccountRequest , long userID) throws BadArgumentException {
         Account account =this.accountRepository.getOne(createAccountRequest.getAccountIDForInit());
+        Account account1= new Account();
         if(account.getCustomer().getId().equals(userID)){
             if(this.branchRepository.getOne(createAccountRequest.getBarnchID())==null){
                 throw new BadArgumentException();
             }else{
                 if(createAccountRequest.getAccountType()==AccountType.GHARZ || createAccountRequest.getAccountType()==AccountType.JARI || createAccountRequest.getAccountType()==AccountType.SEPORDE_KOTAH){
-                    Account account1= new Account();
+                    account1= new Account();
                     account1.setAccountStatus(new AccountStatus(AccountStatusType.OPEN, null , null , null));
                     account1.setCustomer(this.customerRepository.findOne(userID));
                     account1.setAccountType(createAccountRequest.getAccountType());
@@ -173,6 +191,7 @@ public class UserService {
                 }else {throw new BadArgumentException();}
             }
         }else{throw new BadArgumentException();}
+        return account1;
     }
     public ReportProfitResponse reportProfitAccount(long accountID){
         return null;
@@ -188,6 +207,7 @@ public class UserService {
         return ans;
     }
     public Response requestCheckbook(CreateCheckbookRequest createCheckbookRequest,long userID) throws BadArgumentException {
+        Response response=new Response();
         Account account =this.accountRepository.getOne(createCheckbookRequest.getAccountID());
         if(account.isWithChek()){
             for(CheckBook checkBook : account.getCheckBook()){
@@ -203,13 +223,13 @@ public class UserService {
                             }
                         }
                         for(Stuff stuff : activeStuff){
-                            List<CheckBookRequest> reqs=this.checkBookRepository.findByStuff(stuff.getPersonalNumber());
+                            List<CheckBookRequest> reqs=this.checkBookRequestRepository.findByStuff_PersonalNumberOrderByRequestDate(stuff.getPersonalNumber());
                             if (reqs.size()<this.BUSY_STUFF){
                                 CheckBookRequest checkBookRequest=new CheckBookRequest();
                                 checkBookRequest.setBranch(branch);
                                 checkBookRequest.setCustomer(this.customerRepository.getOne(userID));
                                 checkBookRequest.setStuff(stuff);
-
+                                response=new Response(ResponseStatus.OK,2000);
                                 this.checkBookRequestRepository.save(checkBookRequest);
                                 break;
                             }
@@ -221,13 +241,16 @@ public class UserService {
                 }
             }
         }else{throw new BadArgumentException();}
+        return response;
     }
     public Response requestCard(CreateCardRequest createCardRequest,long userID) throws BadArgumentException {
         Response response=new Response();
+        boolean isFirstOne=true;
         Account account =this.accountRepository.getOne(createCardRequest.getAccountID());
         List<AccessCard> accessCards = account.getAccessCards();
         for(AccessCard accessCard : accessCards){
             if(accessCard.isActive()){
+                isFirstOne=false;
                 throw new BadArgumentException();
             }
         }
@@ -235,15 +258,13 @@ public class UserService {
         if(branch!=null){
             List<Stuff> stuffs= this.stuffRepository.findAll();
             List<Stuff> activeStuff =new ArrayList<>();
-            boolean isFirstOne=true;
             for(Stuff stuff: stuffs){
-                isFirstOne=false;
                 if(stuff.getStuffHistory().getRank().getBranch().equals(branch)){
                     activeStuff.add(stuff);
                 }
             }
             for(Stuff stuff : activeStuff){
-                List<AccessCardRequest> reqs=this.accessCardRequestRepository.findByStuff(stuff.getPersonalNumber());
+                List<AccessCardRequest> reqs=this.accessCardRequestRepository.findByStuff_PersonalNumber_OrderByRequestDate(stuff.getPersonalNumber());
                 if (reqs.size()<this.BUSY_STUFF){
                     AccessCardRequest accessCardRequest =new AccessCardRequest();
                     accessCardRequest.setFristOrNot(isFirstOne);
@@ -259,11 +280,41 @@ public class UserService {
         return response;
 
     }
-    public Response requestFacility(CreateFacilityRequest createFacilityRequest){
-
+    public Response requestFacility(CreateFacilityRequest createFacilityRequest) throws BadArgumentException {
+        Response response = new Response();
+        Branch branch=this.branchRepository.getOne(createFacilityRequest.getBranchID());
+        if(branch!=null){
+            List<Stuff> stuffs= this.stuffRepository.findAll();
+            List<Stuff> activeStuff =new ArrayList<>();
+            for(Stuff stuff: stuffs){
+                if(stuff.getStuffHistory().getRank().getBranch().equals(branch)){
+                    activeStuff.add(stuff);
+                }
+            }
+            for(Stuff stuff : activeStuff){
+                List<FacilityRequest> reqs=this.facilityRequestRepository.findByStuff_PersonalNumberOrderByRequestDate(stuff.getPersonalNumber());
+                if (reqs.size()<this.BUSY_STUFF){
+                    FacilityRequest facilityRequest=new FacilityRequest();
+                    facilityRequest.setCashType(createFacilityRequest.getCashType());
+                    facilityRequest.setTitle(createFacilityRequest.getTypeOfFacility());
+                    facilityRequest.setTypeOfGranty(createFacilityRequest.getWarantyType());
+                    facilityRequest.setStuff(stuff);
+                    response=new Response(ResponseStatus.OK,2000);
+                    this.facilityRequestRepository.save(facilityRequest);
+                }
+            }
+        }else{throw new BadArgumentException();}
+        return response;
     }
-    public List<Facility> reportFacility(long accountID){
-        return null;
+    public List<Facility> reportFacility(long userID){
+        List<Facility> facilities = this.facilityRepository.findAll();
+        List<Facility> facilities1 =new ArrayList<>();
+        for(Facility facility:facilities){
+            if(facility.getCustomer().getId().equals(userID)){
+                facilities1.add(facility);
+            }
+        }
+        return facilities1;
     }
     public String createRegularReturnFacility(CreateRegularReturnFacilityRequest createRegularReturnFacilityRequest){
         return null;
@@ -271,10 +322,35 @@ public class UserService {
     public String createReturnFacility(CreateReturnFacility createReturnFacility){
         return null;
     }
-    public List<FacilityReturn> reportRegularReturnFacility(){
-        return null;
+    public List<FacilityReturn> reportRegularReturnFacility(long userID){
+        return this.facilityReturnRepository.findByFacility_Customer_Id(userID);
     }
-    public List<Request> reportRequest(){
-        return null;
+    public List<Request> reportRequest(long userID){
+        List<Request> requests = new ArrayList<>();
+        requests.addAll(this.checkBookRequestRepository.findByStuff_PersonalNumberOrderByRequestDate(userID));
+        requests.addAll(this.facilityRequestRepository.findByStuff_PersonalNumberOrderByRequestDate(userID));
+        requests.addAll(this.accessCardRequestRepository.findByStuff_PersonalNumber_OrderByRequestDate(userID));
+        return requests;
+    }
+    @Scheduled(initialDelay = 86400000)
+    public void profitCalculationOfShortTimeAccount() {
+        List<Account> accounts =this.accountRepository.findByAccountType_SepordeKotah();
+        for(int counter=0;counter<accounts.size();counter++){
+            Account account=accounts.get(counter);
+            double temp=(account.getCash()*PORIFT_RATE_SHORT_TIME_ACCOUNT*account.getLongPeriod())/36500;
+            account.setCash(account.getCash()+temp);
+            this.accountRepository.updateCashValue();//TODO
+        }
+    }
+    @Scheduled(initialDelay = 259200000)//mah
+    public void profitCalculationOfLongTimeAccount() {
+
+        List<Account> accounts =this.accountRepository.findByAccountType_SepordeBoland();
+        for(int counter=0;counter<accounts.size();counter++){
+            Account account=accounts.get(counter);
+            double temp=account.getCash()*PORIFT_RATE_LONG_TIME_ACCOUNT/12;
+            account.setCash(account.getCash()+temp);
+            this.accountRepository.updateCashValue();//TODO
+        }
     }
 }

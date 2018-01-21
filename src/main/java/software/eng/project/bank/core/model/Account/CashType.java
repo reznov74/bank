@@ -1,5 +1,5 @@
 package software.eng.project.bank.core.model.Account;
 
-public enum FacilityRequestType {
-
+public enum CashType {
+    RIAL , DOLLAR
 }

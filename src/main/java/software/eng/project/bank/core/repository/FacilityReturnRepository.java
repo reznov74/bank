@@ -5,5 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 import software.eng.project.bank.core.model.Account.FacilityReturn;
 import software.eng.project.bank.core.model.Account.FacilityReturnRegular;
 
+import java.util.List;
+
 public interface FacilityReturnRepository extends JpaRepository<FacilityReturn, Long>,CrudRepository<FacilityReturn, Long> {
+    public List<FacilityReturn> findByFacility_Customer_Id(long c);
 }

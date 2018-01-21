@@ -5,5 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 import software.eng.project.bank.core.model.Account.Facility;
 import software.eng.project.bank.core.model.Request.FacilityRequest;
 
+import java.util.List;
+
 public interface FacilityRequestRepository  extends JpaRepository<FacilityRequest, Long>,CrudRepository<FacilityRequest, Long> {
+    List<FacilityRequest> findByStuff_PersonalNumberOrderByRequestDate(long p);
 }

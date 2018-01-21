@@ -1,6 +1,9 @@
 package software.eng.project.bank.core.model.Request;
 
-import software.eng.project.bank.core.model.Account.FacilityRequestType;
+import software.eng.project.bank.core.model.Account.CashType;
+
+import software.eng.project.bank.core.model.Account.TypeOfFacility;
+import software.eng.project.bank.core.model.Account.WarantyTypeFacility;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -9,49 +12,45 @@ import javax.validation.constraints.NotNull;
 @Table(name = "facility_req")
 public class FacilityRequest extends Request {
 
-    @Column(name = "type")
-    @NotNull
+
+
     @Enumerated(EnumType.STRING)
-    FacilityRequestType type;
     @Column(name = "title")
     @NotNull
-    String title;
+    TypeOfFacility title;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "cash")
     @NotNull
-    String cashType;
-    @Column(name = "garanty")
+
+    CashType cashType;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "waranty")
     @NotNull
-    String typeOfGranty;
+    WarantyTypeFacility typeOfWaranty;
 
-    public FacilityRequestType getType() {
-        return type;
-    }
 
-    public void setType(FacilityRequestType type) {
-        this.type = type;
-    }
-
-    public String getTitle() {
+    public TypeOfFacility getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(TypeOfFacility title) {
         this.title = title;
     }
 
-    public String getCashType() {
+    public CashType getCashType() {
         return cashType;
     }
 
-    public void setCashType(String cashType) {
+    public void setCashType(CashType cashType) {
         this.cashType = cashType;
     }
 
-    public String getTypeOfGranty() {
-        return typeOfGranty;
+    public WarantyTypeFacility getTypeOfGranty() {
+        return typeOfWaranty;
     }
 
-    public void setTypeOfGranty(String typeOfGranty) {
-        this.typeOfGranty = typeOfGranty;
+    public void setTypeOfGranty(WarantyTypeFacility typeOfGranty) {
+        this.typeOfWaranty = typeOfGranty;
     }
 }

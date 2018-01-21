@@ -67,6 +67,8 @@ public class Account {
     @JoinColumn
     List<AccessCard> accessCards;
 
+    @Column
+    long LongPeriod;//just for seporde ktah modat va boland modat
 
     @JsonIgnore
     public Long getId() {
@@ -191,5 +193,13 @@ public class Account {
 
     public void setAccessCards(List<AccessCard> accessCards) {
         this.accessCards = accessCards;
+    }
+
+    public long getLongPeriod() {
+        return LongPeriod;
+    }
+
+    public void setLongPeriod(long longPeriod) {
+        LongPeriod = longPeriod;
     }
 }

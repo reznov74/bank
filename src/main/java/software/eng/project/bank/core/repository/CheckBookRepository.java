@@ -6,4 +6,5 @@ import software.eng.project.bank.core.model.Account.CheckBook;
 import software.eng.project.bank.core.model.Bank.Branch;
 
 public interface CheckBookRepository extends JpaRepository<CheckBook, Long>,CrudRepository<CheckBook, Long> {
+
 }

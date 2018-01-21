@@ -1,14 +1,12 @@
 package software.eng.project.bank.core.boundry.request;
 
-enum TypeOfFacility {
-    MASKANE_HEYATE_ELMI , MASKANE_NOKHBEGAN , SARMAYE_DAR_GOSTARESH , BONGAH_KOCHIK_MOTEVASET
-}
-enum CashType{
-    RIAL , DOLLAR
-}
-enum WarantyType{
-    CASH , WITHOUT_WARANTY , SANAD
-}
+import software.eng.project.bank.core.model.Account.CashType;
+import software.eng.project.bank.core.model.Account.TypeOfFacility;
+import software.eng.project.bank.core.model.Account.WarantyTypeFacility;
+
+
+
+
 public class CreateFacilityRequest {
     long branchID;
     float amount;
@@ -16,9 +14,9 @@ public class CreateFacilityRequest {
     boolean isDayOrMounth;
     TypeOfFacility typeOfFacility;
     CashType cashType;
-    WarantyType warantyType;
+    WarantyTypeFacility warantyType;
 
-    public CreateFacilityRequest(long branchID, float amount, int timeOfFacility, boolean isDayOrMounth, TypeOfFacility typeOfFacility, CashType cashType, WarantyType warantyType) {
+    public CreateFacilityRequest(long branchID, float amount, int timeOfFacility, boolean isDayOrMounth, TypeOfFacility typeOfFacility, CashType cashType, WarantyTypeFacility warantyType) {
         this.branchID = branchID;
         this.amount = amount;
         this.timeOfFacility = timeOfFacility;
@@ -76,11 +74,11 @@ public class CreateFacilityRequest {
         this.cashType = cashType;
     }
 
-    public WarantyType getWarantyType() {
+    public WarantyTypeFacility getWarantyType() {
         return warantyType;
     }
 
-    public void setWarantyType(WarantyType warantyType) {
+    public void setWarantyType(WarantyTypeFacility warantyType) {
         this.warantyType = warantyType;
     }
 }
