@@ -1,49 +1,74 @@
 package software.eng.project.bank.core.model.Role;
 
 import org.hibernate.validator.constraints.Email;
+import software.eng.project.bank.security.model.AuthorityName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 enum Sex{}
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "user_model")
 @DiscriminatorColumn(name = "user_type")
-public class User {
+public class User implements Serializable {
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
     @Column
-    @NotNull
+
     String fristNAme;
     @Column
-    @NotNull
+
     String lastName;
 
     @Column
-    @NotNull
+
+    String username;
+
+    @Column
+
     int nationalCode;
 
     @Column
-    @NotNull
     int phoneNumber;
     @Column
     @Email
-    @NotNull
+
     String email;
     @Column
-    @NotNull
+
     String address;
     @Column
-    @NotNull
+
     Date brithdayDate;
     @Column
-    @NotNull
+
     @Enumerated(EnumType.STRING)
     Sex sex;
 
+    @Enumerated(EnumType.STRING)
+    @Column
+
+    AuthorityName authorityName;
+
+    public User(){
+
+    }
+    public User(User user){
+        this.address=user.getAddress();
+        this.authorityName=user.getAuthorityName();
+        this.brithdayDate=user.getBrithdayDate();
+        this.email=user.getEmail();
+        this.fristNAme=user.getFristNAme();
+        this.lastName=user.getLastName();
+        this.nationalCode=user.getNationalCode();
+        this.phoneNumber=user.getPhoneNumber();
+        this.username=user.getUsername();
+        this.sex=user.getSex();
+    }
     public Long getId() {
         return id;
     }
@@ -114,5 +139,21 @@ public class User {
 
     public void setSex(Sex sex) {
         this.sex = sex;
+    }
+
+    public AuthorityName getAuthorityName() {
+        return authorityName;
+    }
+
+    public void setAuthorityName(AuthorityName authorityName) {
+        this.authorityName = authorityName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

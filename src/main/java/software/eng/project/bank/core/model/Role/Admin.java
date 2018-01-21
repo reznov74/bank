@@ -5,4 +5,7 @@ import javax.persistence.*;
 @Entity
 public class Admin extends User {
 
+    public Admin(User user) {
+        super(user);
+    }
 }

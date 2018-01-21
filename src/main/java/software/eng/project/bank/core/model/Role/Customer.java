@@ -10,6 +10,10 @@ public class Customer extends User{
     @OneToMany
     List<Account> account;
 
+    public Customer(User user) {
+        super(user);
+    }
+
     public List<Account> getAccount() {
         return account;
     }

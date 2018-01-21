@@ -13,17 +13,16 @@ public class User {//TODO add username.zeppelin and password.zppelin
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "USERNAME", length = 50, unique = true)
-    @NotNull
+
     @Size(min = 4, max = 50)
     private String username;
 
     @Column(name = "PASSWORD", length = 100)
-    @NotNull
+
     @Size(min = 4, max = 100)
     private String password;
 
@@ -33,7 +32,7 @@ public class User {//TODO add username.zeppelin and password.zppelin
 
     @Column(name = "LASTPASSWORDRESETDATE")
     @Temporal(TemporalType.TIMESTAMP)
-    @NotNull
+
     private Date lastPasswordResetDate;
 
     @OneToOne

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping(value = "/admin")
 public class AdminController {
+    private static long ADMINID=1;
     @Value("${jwt.header}")
     private String tokenHeader;
 
@@ -32,7 +33,7 @@ public class AdminController {
         Preconditions.checkNotNull(token);
         User res = null ;
         try{
-            res=this.adminService.addUser(user);
+            res=this.adminService.addUser(user,ADMINID);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();

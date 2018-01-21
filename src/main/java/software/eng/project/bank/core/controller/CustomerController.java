@@ -37,7 +37,7 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<Account> getAccounts(HttpServletResponse response,HttpServletRequest request)
+    List<Account> getAccounts(HttpServletResponse response,HttpServletRequest request)//IMPL
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);

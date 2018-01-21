@@ -13,6 +13,10 @@ public class Stuff extends User{
    @JoinColumn
    StuffHistory stuffHistory;
 
+   public Stuff(User user) {
+      super(user);
+   }
+
 
    public long getPersonalNumber() {
       return personalNumber;
