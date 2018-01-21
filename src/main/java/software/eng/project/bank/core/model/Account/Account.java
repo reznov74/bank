@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+@Table
 public class Account {
     @Id
     @Column(name = "id")
@@ -21,49 +22,50 @@ public class Account {
     @Column(name = "number", length = 100)
     @Size(min = 1, max = 100)
     private long accountNumber;
-    @Column(name = "cash")
+
+    @Column
     double cash= 0.0;
+
     @Column(name = "expire")
     Date expireDate;
     @Column(name = "start")
     Date startDate;
     @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "customer")
+    @JoinColumn
     Customer customer;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type1")
+    @Column
     AccountTypeIndivisual accountTypeIndivisual;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type2")
+    @Column
     AccountTypeReal accountTypeReal;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type3")
+    @Column
     boolean withChek;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "type4")
+    @Column
     AccountType accountType;
 
 
 
-    @OneToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "status")
+    @OneToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @JoinColumn
     AccountStatus accountStatus;
 
-    @OneToMany(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "checkbook")
+    @OneToMany(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @JoinColumn
     List<CheckBook> checkBook;
-    @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "branch")
+    @ManyToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @JoinColumn
     Branch createBranch;
-    @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "stuff")
+    @ManyToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @JoinColumn
     Stuff createStuff;
 
-    @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
+    @OneToMany(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
     @JoinColumn
     List<AccessCard> accessCards;
 

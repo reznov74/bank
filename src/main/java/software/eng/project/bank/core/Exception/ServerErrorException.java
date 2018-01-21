@@ -9,12 +9,12 @@ public class ServerErrorException extends BankException
 {
     public ServerErrorException()
     {
-        super(ExceptionType.ZEPPELIN_SERVER.name());
+        super(ExceptionType.BANK_EXCEPTON.name());
     }
 
     public ServerErrorException(Throwable cause)
     {
-        super(ExceptionType.ZEPPELIN_SERVER.name(), cause);
+        super(ExceptionType.BANK_EXCEPTON.name(), cause);
     }
 
     public ServerErrorException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)

@@ -11,6 +11,10 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AccountFlow {
 
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+    private long id;
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "source")
@@ -59,5 +63,13 @@ public class AccountFlow {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

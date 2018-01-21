@@ -6,8 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
+@Entity
+@Table
 public class StuffHistory {
-    @OneToMany(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @ManyToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "stuff")
     Stuff stuff;
     @Column(name = "start")
@@ -49,5 +56,13 @@ public class StuffHistory {
 
     public void setRank(Rank rank) {
         this.rank = rank;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

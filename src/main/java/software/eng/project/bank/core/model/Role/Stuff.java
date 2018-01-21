@@ -5,12 +5,12 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 @Entity
 public class Stuff extends User{
-   @Column(name = "code")
+   @Column
    @NotNull
    long personalNumber;
 
    @ManyToOne (cascade = {CascadeType.ALL} , fetch = FetchType.EAGER)
-   @JoinColumn(name ="history")
+   @JoinColumn
    StuffHistory stuffHistory;
 
 

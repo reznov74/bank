@@ -11,10 +11,7 @@ enum FlowType{
 }
 @Entity
 public class AccessCardAccountFlow extends AccountFlow {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+
 
     @Enumerated(EnumType.STRING)
     @Column(name = "media_type")

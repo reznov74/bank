@@ -13,23 +13,17 @@ public class FaciltyType {
 
     @Column(name = "request_type")
     @NotNull
-    FacilityRequestType type;
-    @Column(name = "title")
-    @NotNull
-    String title;
+    TypeOfFacility type;
+
     @Column(name = "cash_type" , length = 1000)
     @NotNull
-    String cashType;
+    @Enumerated
+    CashType cashType;
+
     @Column(name = "garanty_type", length = 1000)
     @NotNull
-    String grantyType;
-
-    public FaciltyType(FacilityRequestType type, String title, String cashType, String grantyType) {
-        this.type = type;
-        this.title = title;
-        this.cashType = cashType;
-        this.grantyType = grantyType;
-    }
+    @Enumerated
+    WarantyTypeFacility grantyType;
 
     public long getId() {
         return id;
@@ -39,35 +33,27 @@ public class FaciltyType {
         this.id = id;
     }
 
-    public FacilityRequestType getType() {
+    public TypeOfFacility getType() {
         return type;
     }
 
-    public void setType(FacilityRequestType type) {
+    public void setType(TypeOfFacility type) {
         this.type = type;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCashType() {
+    public CashType getCashType() {
         return cashType;
     }
 
-    public void setCashType(String cashType) {
+    public void setCashType(CashType cashType) {
         this.cashType = cashType;
     }
 
-    public String getGrantyType() {
+    public WarantyTypeFacility getGrantyType() {
         return grantyType;
     }
 
-    public void setGrantyType(String grantyType) {
+    public void setGrantyType(WarantyTypeFacility grantyType) {
         this.grantyType = grantyType;
     }
 }

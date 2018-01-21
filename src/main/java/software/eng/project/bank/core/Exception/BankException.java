@@ -3,7 +3,7 @@ package software.eng.project.bank.core.Exception;
 public class BankException extends  Exception {
     public enum ExceptionType
     {
-        INTERNAL_SERVER_ERROR, COOKIE_EXPIRD, LOGIN_FIALED, BAD_ARGUMENT, ZEPPELIN_SERVER,
+        INTERNAL_SERVER_ERROR, COOKIE_EXPIRD, LOGIN_FIALED, BAD_ARGUMENT , BANK_EXCEPTON
     }
     public BankException()
     {

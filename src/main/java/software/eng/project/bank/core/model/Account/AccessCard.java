@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Entity
+@Table
 public class AccessCard {
     @Id
     @Column(name = "id")
@@ -32,8 +33,8 @@ public class AccessCard {
     @NotNull
     int CVV2;
 
-    @NotNull
-    @Column
+    @ManyToOne ( fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
+    @JoinColumn
     Branch branch;
 
     @NotNull

@@ -3,19 +3,7 @@ package software.eng.project.bank.security.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -39,21 +27,6 @@ public class User {//TODO add username.zeppelin and password.zppelin
     @Size(min = 4, max = 100)
     private String password;
 
-    @Column(name = "FIRSTNAME", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String firstname;
-
-    @Column(name = "LASTNAME", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String lastname;
-
-    @Column(name = "EMAIL", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String email;
-
     @Column(name = "ENABLED")
     @NotNull
     private Boolean enabled;
@@ -62,6 +35,11 @@ public class User {//TODO add username.zeppelin and password.zppelin
     @Temporal(TemporalType.TIMESTAMP)
     @NotNull
     private Date lastPasswordResetDate;
+
+    @OneToOne
+    //@NotNull
+    @JoinColumn
+    software.eng.project.bank.core.model.Role.User user;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -94,30 +72,6 @@ public class User {//TODO add username.zeppelin and password.zppelin
         this.password = password;
     }
 
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Boolean getEnabled() {
         return enabled;
     }
@@ -140,5 +94,13 @@ public class User {//TODO add username.zeppelin and password.zppelin
 
     public void setLastPasswordResetDate(Date lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
+    public software.eng.project.bank.core.model.Role.User getUser() {
+        return user;
+    }
+
+    public void setUser(software.eng.project.bank.core.model.Role.User user) {
+        this.user = user;
     }
 }

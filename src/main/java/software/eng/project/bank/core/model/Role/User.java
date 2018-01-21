@@ -6,36 +6,40 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 enum Sex{}
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "user_model")
+@DiscriminatorColumn(name = "user_type")
 public class User {
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
-    @Column(name = "fname")
+    @Column
     @NotNull
     String fristNAme;
-    @Column(name = "lname")
+    @Column
     @NotNull
     String lastName;
 
-    @Column(name = "code")
+    @Column
     @NotNull
     int nationalCode;
-    @Column(name = "phone")
+
+    @Column
     @NotNull
     int phoneNumber;
-    @Column(name = "email")
+    @Column
     @Email
     @NotNull
     String email;
-    @Column(name = "address")
+    @Column
     @NotNull
     String address;
-    @Column(name = "brith_date")
+    @Column
     @NotNull
     Date brithdayDate;
-    @Column(name = "sex")
+    @Column
     @NotNull
     @Enumerated(EnumType.STRING)
     Sex sex;

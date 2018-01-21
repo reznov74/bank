@@ -3,17 +3,18 @@ package software.eng.project.bank.core.model.Role;
 import software.eng.project.bank.core.model.Account.Account;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Customer extends User{
     @OneToMany
-    Account account;
+    List<Account> account;
 
-    public Account getAccount() {
+    public List<Account> getAccount() {
         return account;
     }
 
-    public void setAccount(Account account) {
+    public void setAccount(List<Account> account) {
         this.account = account;
     }
 }

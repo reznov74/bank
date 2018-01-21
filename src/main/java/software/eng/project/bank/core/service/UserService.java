@@ -116,7 +116,8 @@ public class UserService {
         if(source.getCash()>createDraftRequest.getAmount()){
             source.setCash(source.getCash()-createDraftRequest.getAmount());
             dist.setCash(dist.getCash()+createDraftRequest.getAmount());
-            //UPDATE TOTO
+            this.accountRepository.updateCashValue(dist.getCash(),dist.getId());
+            this.accountRepository.updateCashValue(source.getCash(),source.getId());
             draft =new Draft();
             draft.setAmount(createDraftRequest.getAmount());
             draft.setDistAccount(this.accountRepository.findOne(createDraftRequest.getDistAccount()));
@@ -332,25 +333,25 @@ public class UserService {
         requests.addAll(this.accessCardRequestRepository.findByStuff_PersonalNumber_OrderByRequestDate(userID));
         return requests;
     }
-    @Scheduled(initialDelay = 86400000)
+    @Scheduled(fixedDelay = 86400000)
     public void profitCalculationOfShortTimeAccount() {
-        List<Account> accounts =this.accountRepository.findByAccountType_SepordeKotah();
+        List<Account> accounts =this.accountRepository.findByAccountTypeEquals(AccountType.SEPORDE_KOTAH);
         for(int counter=0;counter<accounts.size();counter++){
             Account account=accounts.get(counter);
             double temp=(account.getCash()*PORIFT_RATE_SHORT_TIME_ACCOUNT*account.getLongPeriod())/36500;
             account.setCash(account.getCash()+temp);
-            this.accountRepository.updateCashValue();//TODO
+            this.accountRepository.updateCashValue(account.getCash(),account.getId());//TODO
         }
     }
-    @Scheduled(initialDelay = 259200000)//mah
+    @Scheduled(fixedDelay = 259200000)//mah
     public void profitCalculationOfLongTimeAccount() {
 
-        List<Account> accounts =this.accountRepository.findByAccountType_SepordeBoland();
+        List<Account> accounts =this.accountRepository.findByAccountTypeEquals(AccountType.SEPORDE_BOLAND);
         for(int counter=0;counter<accounts.size();counter++){
             Account account=accounts.get(counter);
             double temp=account.getCash()*PORIFT_RATE_LONG_TIME_ACCOUNT/12;
             account.setCash(account.getCash()+temp);
-            this.accountRepository.updateCashValue();//TODO
+            this.accountRepository.updateCashValue(account.getCash(),account.getId());//TODO
         }
     }
 }

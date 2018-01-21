@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.ResponseStatus;
 import software.eng.project.bank.core.Exception.UserNotFoundException;
 import software.eng.project.bank.core.boundry.request.*;
 import software.eng.project.bank.core.boundry.response.*;
@@ -315,7 +316,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Account res = null ;
         try{
-            res=this.userService.getAccountInfo(accoundID);
+            res=this.userService.getAccountInfo(accoundID,0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -329,13 +330,13 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    CheckBook reportCheck(HttpServletResponse response,HttpServletRequest request)
+    List<CheckBook> reportCheck(HttpServletResponse response,HttpServletRequest request)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        CheckBook res = null ;
+        List<CheckBook> res = null ;
         try{
-            res=this.userService.getReportCheck();
+            res=this.userService.getReportCheck(0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -355,7 +356,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Account res = null ;
         try{
-            res=this.userService.createAccount(createAccountRequest);
+            res=this.userService.createAccount(createAccountRequest , 0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -396,7 +397,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         List<Account> res = null ;
         try{
-            res=this.userService.reportBlockedAccount();
+            res=this.userService.reportBlockedAccount((long)0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -416,7 +417,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Response res = null ;
         try{
-            res=this.userService.requestCheckbook(createCheckbookRequest);
+            res=this.userService.requestCheckbook(createCheckbookRequest,0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -436,7 +437,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Response res = null ;
         try{
-            res=this.userService.requestCard(createCardRequest);
+            res=this.userService.requestCard(createCardRequest,0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -476,7 +477,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         List<Request> res = null ;
         try{
-            res=this.userService.reportRequest();
+            res=this.userService.reportRequest(0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -556,7 +557,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         List<FacilityReturn> res = null ;
         try{
-            res=this.userService.reportRegularReturnFacility();
+            res=this.userService.reportRegularReturnFacility(0);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
