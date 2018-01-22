@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import software.eng.project.bank.core.model.Role.User;
+import software.eng.project.bank.core.model.Role.UserModel;
 import software.eng.project.bank.core.service.AdminService;
 
 
@@ -27,11 +27,11 @@ public class AdminController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    User addUser(HttpServletResponse response, HttpServletRequest request, @RequestBody User user)
+    UserModel addUser(HttpServletResponse response, HttpServletRequest request, @RequestBody UserModel user)//OK
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        User res = null ;
+        UserModel res = null ;
         try{
             res=this.adminService.addUser(user,ADMINID);
             response.setStatus(200);
@@ -46,11 +46,11 @@ public class AdminController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    User removeUser(HttpServletResponse response,HttpServletRequest request , @PathVariable("userID") long userID)
+    UserModel removeUser(HttpServletResponse response, HttpServletRequest request , @PathVariable("userID") long userID)//OK
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        User res = null ;
+        UserModel res = null ;
         try{
             res=this.adminService.removeUser(userID);
             response.setStatus(200);
@@ -66,11 +66,11 @@ public class AdminController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    User changeUser(HttpServletResponse response,HttpServletRequest request,@RequestBody User user)
+    UserModel changeUser(HttpServletResponse response, HttpServletRequest request, @RequestBody UserModel user)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        User res = null ;
+        UserModel res = null ;
         try{
             res=this.adminService.changeUser(user);
             response.setStatus(200);

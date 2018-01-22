@@ -2,62 +2,66 @@ package software.eng.project.bank.core.model.Role;
 
 import org.hibernate.validator.constraints.Email;
 import software.eng.project.bank.security.model.AuthorityName;
+import software.eng.project.bank.security.model.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 enum Sex{}
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "user_model")
-@DiscriminatorColumn(name = "user_type")
-public class User implements Serializable {
+@DiscriminatorColumn(
+        discriminatorType = DiscriminatorType.INTEGER,
+        name = "user_type",
+        columnDefinition = "TINYINT(1)"
+)
+public class UserModel implements Serializable {
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column
 
+    @Column(name = "frist_name")
     String fristNAme;
-    @Column
 
+    @Column
     String lastName;
 
     @Column
-
     String username;
 
-    @Column
-
+    @Column(name = "national_code")
     int nationalCode;
 
-    @Column
+    @Column(name="phone_number")
     int phoneNumber;
+
     @Column
     @Email
-
     String email;
-    @Column
 
+    @Column
     String address;
-    @Column
 
+    @Column
     Date brithdayDate;
-    @Column
 
+    @Column
     @Enumerated(EnumType.STRING)
     Sex sex;
 
     @Enumerated(EnumType.STRING)
-    @Column
-
+    @Column(name = "authority_name")
     AuthorityName authorityName;
 
-    public User(){
+    @OneToOne(fetch = FetchType.LAZY , cascade = {CascadeType.ALL})
+    @JoinColumn(name = "user")
+    User user;
+    public UserModel(){
 
     }
-    public User(User user){
+    public UserModel(UserModel user){
         this.address=user.getAddress();
         this.authorityName=user.getAuthorityName();
         this.brithdayDate=user.getBrithdayDate();

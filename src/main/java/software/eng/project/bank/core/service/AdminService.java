@@ -6,7 +6,7 @@ import software.eng.project.bank.core.Exception.BadArgumentException;
 import software.eng.project.bank.core.model.Role.Admin;
 import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
-import software.eng.project.bank.core.model.Role.User;
+import software.eng.project.bank.core.model.Role.UserModel;
 import software.eng.project.bank.core.repository.AdminRepository;
 import software.eng.project.bank.core.repository.CustomerRepository;
 import software.eng.project.bank.core.repository.StuffRepository;
@@ -39,11 +39,13 @@ public class AdminService {
     @Autowired
     private AuthorityRepository authorityRepository;
 
+    @Autowired
+    private software.eng.project.bank.core.repository.UserModelRepository userModelRepository;
 
-    public User addUser(User user,long adminID) throws BadArgumentException {
+    public UserModel addUser(UserModel user, long adminID) throws BadArgumentException {
         if(user.getAuthorityName().equals(AuthorityName.ROLE_ADMIN)){
             Admin admin = new Admin(user);
-            User user2=this.adminRepository.save(admin);
+            UserModel user2=this.adminRepository.save(admin);
             software.eng.project.bank.security.model.User user1 =new software.eng.project.bank.security.model.User();
             List<Authority> authorities =new ArrayList<>();
             Authority authority=this.authorityRepository.findById(AUTHORITY_ADMIN);
@@ -56,7 +58,7 @@ public class AdminService {
             this.userRepository.save(user1);
         }else if(user.getAuthorityName().equals(AuthorityName.ROLE_STUFF)){
             Stuff stuff = new Stuff(user);
-            User user2=this.stuffRepository.save(stuff);
+            UserModel user2=this.stuffRepository.save(stuff);
             software.eng.project.bank.security.model.User user1 =new software.eng.project.bank.security.model.User();
             List<Authority> authorities =new ArrayList<>();
             Authority authority=this.authorityRepository.findById(AUTHORITY_STUFF);
@@ -70,7 +72,7 @@ public class AdminService {
 
         }else if(user.getAuthorityName().equals(AuthorityName.ROLE_USER)){
             Customer customer = new Customer(user);
-            User user2=this.customerRepository.save(customer);
+            UserModel user2=this.customerRepository.save(customer);
             software.eng.project.bank.security.model.User user1 =new software.eng.project.bank.security.model.User();
             List<Authority> authorities =new ArrayList<>();
             Authority authority=this.authorityRepository.findById(AUTHORITY_CUSTOMER);
@@ -87,10 +89,16 @@ public class AdminService {
         }
         return null;
     }
-    public User removeUser(long userID){
+    public UserModel removeUser(long userID){
+        List<UserModel> a =this.userModelRepository.findAll();
+        List<software.eng.project.bank.security.model.User> b =this.userRepository.findAll();
+        this.userModelRepository.delete(userID);
+
+        List<UserModel> c =this.userModelRepository.findAll();
+        List<software.eng.project.bank.security.model.User> d =this.userRepository.findAll();
         return null;
     }
-    public User changeUser(User user){
+    public UserModel changeUser(UserModel user){
         return null;
     }
     public String getLog(){

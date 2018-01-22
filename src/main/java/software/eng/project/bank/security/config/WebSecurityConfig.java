@@ -66,15 +66,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                         HttpMethod.GET,
                         "/",
                         "/*.html",
-                        "/customer/*",
-                        "/admin/*",
                         "/favicon.ico",
                         "/**/*.html",
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
                 .antMatchers("/auth/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/stuff/**").hasAuthority("ROLE_STUFF")
+                .antMatchers("/customer/**").hasAuthority("ROLE_USER");
 
         // Custom JWT based security filter
         httpSecurity

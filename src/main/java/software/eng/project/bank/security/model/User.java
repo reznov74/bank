@@ -1,5 +1,7 @@
 package software.eng.project.bank.security.model;
 
+import software.eng.project.bank.core.model.Role.UserModel;
+
 import java.util.Date;
 import java.util.List;
 
@@ -35,10 +37,10 @@ public class User {//TODO add username.zeppelin and password.zppelin
 
     private Date lastPasswordResetDate;
 
-    @OneToOne
+    @OneToOne(cascade={CascadeType.ALL})
     //@NotNull
     @JoinColumn
-    software.eng.project.bank.core.model.Role.User user;
+    UserModel user;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -95,11 +97,11 @@ public class User {//TODO add username.zeppelin and password.zppelin
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
-    public software.eng.project.bank.core.model.Role.User getUser() {
+    public UserModel getUser() {
         return user;
     }
 
-    public void setUser(software.eng.project.bank.core.model.Role.User user) {
+    public void setUser(UserModel user) {
         this.user = user;
     }
 }

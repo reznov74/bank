@@ -9,10 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 
 public enum AuthorityName {
-    @JsonProperty("ROLE_USER")
     ROLE_USER,
     ROLE_ADMIN ,
     ROLE_STUFF
-
-
 }

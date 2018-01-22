@@ -3,9 +3,14 @@ package software.eng.project.bank.core.model.Role;
 import javax.persistence.*;
 
 @Entity
-public class Admin extends User {
+@Table
+@DiscriminatorValue("2")
+public class Admin extends UserModel {
 
-    public Admin(User user) {
+    public Admin(UserModel user) {
         super(user);
+    }
+    public Admin(){
+
     }
 }

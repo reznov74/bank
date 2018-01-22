@@ -2,9 +2,10 @@ package software.eng.project.bank.core.model.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+
 @Entity
-public class Stuff extends User{
+@DiscriminatorValue("3")
+public class Stuff extends UserModel {
    @Column
    @NotNull
    long personalNumber;
@@ -13,7 +14,8 @@ public class Stuff extends User{
    @JoinColumn
    StuffHistory stuffHistory;
 
-   public Stuff(User user) {
+
+   public Stuff(UserModel user) {
       super(user);
    }
 

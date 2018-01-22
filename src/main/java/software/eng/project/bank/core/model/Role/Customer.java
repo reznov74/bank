@@ -6,11 +6,15 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-public class Customer extends User{
+@DiscriminatorValue("1")
+public class Customer extends UserModel {
     @OneToMany
     List<Account> account;
 
-    public Customer(User user) {
+    public Customer(){
+
+    }
+    public Customer(UserModel user) {
         super(user);
     }
 
