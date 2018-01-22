@@ -6,8 +6,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Date;
-@Entity
-@Table(name = "regular_draft")
+//@Entity
+//@Table(name = "regular_draft")
 public class RegularDraft extends Draft{
     @Column(name = "start")
     @NotNull
@@ -30,8 +30,8 @@ public class RegularDraft extends Draft{
 
     boolean isDateBecome ;
 
-    public RegularDraft(Account sourceAccount, Account distAccount, Timestamp draftedDate, double amount, String fowWhy, DraftType draftType, float maxAmount, Date startReturnDate, Date periodDate, Date endReturnDate, long draftGroup, Timestamp dateToPass, boolean isPassed, boolean isDateBecome) {
-        super(sourceAccount, distAccount, draftedDate, amount, fowWhy, draftType, maxAmount);
+    public RegularDraft(Account sourceAccount, Account distAccount, java.sql.Date draftedDate, double amount, String fowWhy, DraftType draftType, float maxAmount, Date startReturnDate, Date periodDate, Date endReturnDate, long draftGroup, Timestamp dateToPass, boolean isPassed, boolean isDateBecome) {
+        super(sourceAccount, distAccount, draftedDate, amount, fowWhy, draftType);
         this.startReturnDate = startReturnDate;
         this.periodDate = periodDate;
         this.endReturnDate = endReturnDate;

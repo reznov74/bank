@@ -2,7 +2,6 @@ package software.eng.project.bank.core.model.Role;
 
 import org.hibernate.validator.constraints.Email;
 import software.eng.project.bank.core.boundry.request.CreateUserRequest;
-import software.eng.project.bank.security.model.AuthorityName;
 import software.eng.project.bank.security.model.User;
 
 import javax.persistence.*;
@@ -30,10 +29,10 @@ public class UserModel implements Serializable {
     String lastName;
 
     @Column(name = "national_code")
-    int nationalCode;
+    String nationalCode;
 
     @Column(name="phone_number")
-    int phoneNumber;
+    String phoneNumber;
 
     @Column
     @Email
@@ -90,19 +89,19 @@ public class UserModel implements Serializable {
         this.lastName = lastName;
     }
 
-    public int getNationalCode() {
+    public String getNationalCode() {
         return nationalCode;
     }
 
-    public void setNationalCode(int nationalCode) {
+    public void setNationalCode(String nationalCode) {
         this.nationalCode = nationalCode;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

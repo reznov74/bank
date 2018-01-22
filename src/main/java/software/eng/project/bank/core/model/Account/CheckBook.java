@@ -17,7 +17,7 @@ public class CheckBook {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(name = "number")
+    @Column(name = "number" , unique = true)
     @NotNull
     int checkBookNum;
     @Column(name = "count")
@@ -27,12 +27,12 @@ public class CheckBook {
     @NotNull
     Date expireDate;
     @OneToMany(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "check_number")
+    @JoinColumn(name = "checks")
     @NotNull
     List<Check> checks;
 
     @ManyToOne(fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "customer")
+    @JoinColumn(name = "account")
     @NotNull
     Account account;
 

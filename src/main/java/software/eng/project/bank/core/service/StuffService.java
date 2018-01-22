@@ -137,7 +137,8 @@ public class StuffService {
         Response response =new Response();
         if(this.customerRepository.exists(createAccountRequest.getUserID())){
             try {
-                this.userService.createAccount(createAccountRequest, createAccountRequest.getUserID());
+                Account account=this.userService.createAccount(createAccountRequest, createAccountRequest.getUserID());
+                //account.setCreateStuff(); TODO
                 response.setFallowUpNumber(0);
                 response.setResponseStatus(ResponseStatus.OK);
             }catch (Exception e ){
@@ -156,8 +157,8 @@ public class StuffService {
 
         Response response =new Response();
         CheckID checkID1= new CheckID();
-        checkID1.setChechID(checkPassRequest.getCheckID());
-        checkID1.setCheckBookID(checkPassRequest.getCheckBookID());
+        checkID1.setCheckNumber(checkPassRequest.getCheckID());
+        checkID1.setCheckBookNumber(checkPassRequest.getCheckBookID());
         Check check = this.checkRepository.getOne(checkID1);
         check.setToName(checkPassRequest.getToName());
         check.setCash(checkPassRequest.getCash());

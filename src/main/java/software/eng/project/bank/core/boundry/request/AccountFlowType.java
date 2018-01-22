@@ -1,6 +1,8 @@
 package software.eng.project.bank.core.boundry.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum AccountFlowType {
-    VARIZ , BARDASHT , PAYBILL , KHARID_INTERNET , KHARID_POZ
-    , BARDASHT_HAVALE , VARIZ_HAVALE , VARIZ_NAGHD ,VARIZ_SOOD
+    PAYBILL , KHARID_INTERNET, KHARID_POZ
+    , VARIZ_NAGHD ,VARIZ_SOOD
 }

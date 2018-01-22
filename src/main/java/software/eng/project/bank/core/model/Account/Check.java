@@ -7,24 +7,21 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = "check")
+@Table(name = "check_")
 public class Check {
 
     @EmbeddedId
     private CheckID checkID;
 
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "checkbook")
     CheckBook checkBook;
 
-    @Column(name = "number")
-    @NotNull
-    int checkNum;
-    @Column(name = "amount")
-    @NotNull
-    double checkAmount;
     @Column(name = "date")
     @NotNull
     Date CheckDate;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     @NotNull
     CheckStatusType status;
@@ -57,22 +54,6 @@ public class Check {
 
     public void setCheckBook(CheckBook checkBook) {
         this.checkBook = checkBook;
-    }
-
-    public int getCheckNum() {
-        return checkNum;
-    }
-
-    public void setCheckNum(int checkNum) {
-        this.checkNum = checkNum;
-    }
-
-    public double getCheckAmount() {
-        return checkAmount;
-    }
-
-    public void setCheckAmount(double checkAmount) {
-        this.checkAmount = checkAmount;
     }
 
     public Date getCheckDate() {

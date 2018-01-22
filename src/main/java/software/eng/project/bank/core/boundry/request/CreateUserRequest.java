@@ -8,12 +8,12 @@ public class CreateUserRequest {
     String firstName;
     String lastName;
     String address;
-    int phone;
+    String phone;
     String password;
     String username;
     AuthorityName authorityName;
     String email;
-    int nationalCode;
+    String nationalCode;
     Date brithday;
 
     public Date getBrithday() {
@@ -56,11 +56,11 @@ public class CreateUserRequest {
         this.email = email;
     }
 
-    public int getNationalCode() {
+    public String getNationalCode() {
         return nationalCode;
     }
 
-    public void setNationalCode(int nationalCode) {
+    public void setNationalCode(String nationalCode) {
         this.nationalCode = nationalCode;
     }
 
@@ -88,11 +88,11 @@ public class CreateUserRequest {
         this.address = address;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 

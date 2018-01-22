@@ -6,24 +6,24 @@ import java.io.Serializable;
 
 @Embeddable
 public class CheckID implements Serializable {
-    @Column(name = "check_id", nullable = false)
-    long chechID;
-    @Column(name = "checkbook_id", nullable = false)
-    long checkBookID;
+    @Column(name = "check_number", nullable = false)
+    long checkNumber;
+    @Column(name = "checkbook_number", nullable = false)
+    long checkBookNumber;
 
-    public long getChechID() {
-        return chechID;
+    public long getCheckNumber() {
+        return checkNumber;
     }
 
-    public void setChechID(long chechID) {
-        this.chechID = chechID;
+    public void setCheckNumber(long checkNumber) {
+        this.checkNumber = checkNumber;
     }
 
-    public long getCheckBookID() {
-        return checkBookID;
+    public long getCheckBookNumber() {
+        return checkBookNumber;
     }
 
-    public void setCheckBookID(long checkBookID) {
-        this.checkBookID = checkBookID;
+    public void setCheckBookNumber(long checkBookNumber) {
+        this.checkBookNumber = checkBookNumber;
     }
 }

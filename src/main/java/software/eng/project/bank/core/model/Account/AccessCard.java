@@ -7,49 +7,49 @@ import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
 @Entity
-@Table
+@Table(name= "access_card")
 public class AccessCard {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column
+    @Column(name = "is_active")
     @NotNull
     boolean isActive;
 
-    @Column
+    @Column(name = "access_card_number")
     @NotNull
-    int accessCardNumber;
+    String accessCardNumber;
 
-    @Column
-    int secondPassword;
+    @Column(name = "second_password")
+    String secondPassword;
 
-    @Column
+    @Column(name = "expire_date")
     @NotNull
     Date expreDate;
 
-    @Column
+    @Column(name = "cvv2")
     @NotNull
     int CVV2;
 
     @ManyToOne ( fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn
+    @JoinColumn(name = "branch")
     Branch branch;
 
     @NotNull
-    @Column
+    @Column(name = "start")
     Date start;
 
-    @NotNull
-    @Column
+
+    @Column(name = "end")
     Date end;
 
     @ManyToOne ( fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn
+    @JoinColumn(name = "account")
     Account account;
 
-    public AccessCard(boolean isActive, int accessCardNumber, int secondPassword, Date expreDate, int CVV2, Branch branch, Date start, Date end, Account account) {
+    public AccessCard(boolean isActive, String accessCardNumber, String secondPassword, Date expreDate, int CVV2, Branch branch, Date start, Date end, Account account) {
         this.isActive = isActive;
         this.accessCardNumber = accessCardNumber;
         this.secondPassword = secondPassword;
@@ -96,19 +96,19 @@ public class AccessCard {
         isActive = active;
     }
 
-    public int getAccessCardNumber() {
+    public String getAccessCardNumber() {
         return accessCardNumber;
     }
 
-    public void setAccessCardNumber(int accessCardNumber) {
+    public void setAccessCardNumber(String accessCardNumber) {
         this.accessCardNumber = accessCardNumber;
     }
 
-    public int getSecondPassword() {
+    public String getSecondPassword() {
         return secondPassword;
     }
 
-    public void setSecondPassword(int secondPassword) {
+    public void setSecondPassword(String secondPassword) {
         this.secondPassword = secondPassword;
     }
 

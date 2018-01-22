@@ -26,8 +26,7 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private static long MAX_DRAFT_AMOUNT=100000000;
-
+    private static double MAX_AMOUNT = 1000000000;
     private static int BUSY_STUFF = 2;
 
     private static int PORIFT_RATE_SHORT_TIME_ACCOUNT=7;
@@ -84,18 +83,8 @@ public class UserService {
         return ans;
     }
     public List<AccountFlow> getAccountFlow(AccountFlowRequest accountFlowRequest , long userID) throws BadArgumentException{
-        List<AccountFlow> resultQuery=this.accountFlowRepository.findAll();
-        if(this.accountRepository.findOne(accountFlowRequest.getAccount()).getCustomer().getId()!=userID){
-            throw new BadArgumentException();
-        }
-        List<AccountFlow> ans=new ArrayList<>();
-        for(AccountFlow accountFlow:resultQuery){
-            if(accountFlow.getSourceAccount().equals(accountFlowRequest.getAccount()) ||
-                    accountFlow.getDistAccount().equals(accountFlowRequest.getAccount())){
-                ans.add(accountFlow);
-            }
-        }
-        return ans;
+       //TODO account flow + draft -->>> result of this method
+        return null;
     }
     public ResponseEntity<InputStreamResource> getReceiveAccountFlow(){
         return null;
@@ -109,7 +98,7 @@ public class UserService {
         Draft draft =new Draft();
         if(!dist.getCustomer().getId()
                 .equals(source.getCustomer().getId())){
-            if(createDraftRequest.getAmount()>this.MAX_DRAFT_AMOUNT){
+            if(createDraftRequest.getAmount()>MAX_AMOUNT){
                 throw new BadArgumentException();
             }
         }
@@ -123,7 +112,6 @@ public class UserService {
             draft.setDistAccount(this.accountRepository.findOne(createDraftRequest.getDistAccount()));
             draft.setDraftType(DraftType.INTERNET);
             draft.setFowWhy(createDraftRequest.getForWhy());
-            draft.setMaxAmount(this.MAX_DRAFT_AMOUNT);
             draft= this.draftRepository.save(draft);
         }
         return draft;

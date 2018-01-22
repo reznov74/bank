@@ -5,51 +5,53 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
+
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Draft implements Serializable {
+@Table(name = "draft")
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Draft {
+    //public static double MAX_AMOUNT = 1000000000;
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonIgnore
-    private long id;
+     long id;
 
-    @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
+    @OneToOne(fetch= FetchType.LAZY)
     @JoinColumn(name = "source")
     @NotNull
     Account sourceAccount;
-    @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
+
+    @OneToOne(fetch= FetchType.LAZY )
     @JoinColumn(name = "dist")
     @NotNull
     Account distAccount;
+
     @Column(name = "date")
     @NotNull
-    Timestamp draftedDate;
+    java.sql.Date draftedDate;
+
     @Column(name = "amount")
     @NotNull
     double amount;
-    @Column(name = "for" , length = 1000)
+
+    @Column(name = "for_" , length = 1000)
     String fowWhy;
-    @JsonIgnore
+
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
     @NotNull
     DraftType draftType;
-    @JsonIgnore
-    @Column(name = "max_amount")
-    @NotNull
-    float maxAmount;
 
-    public Draft(Account sourceAccount, Account distAccount, Timestamp draftedDate, double amount, String fowWhy, DraftType draftType, float maxAmount) {
+
+
+    public Draft(Account sourceAccount, Account distAccount, java.sql.Date draftedDate, double amount, String fowWhy, DraftType draftType) {
         this.sourceAccount = sourceAccount;
         this.distAccount = distAccount;
         this.draftedDate = draftedDate;
         this.amount = amount;
         this.fowWhy = fowWhy;
         this.draftType = draftType;
-        this.maxAmount = maxAmount;
     }
 
     public Draft() {
@@ -79,11 +81,11 @@ public class Draft implements Serializable {
         this.distAccount = distAccount;
     }
 
-    public Timestamp getDraftedDate() {
+    public java.sql.Date getDraftedDate() {
         return draftedDate;
     }
 
-    public void setDraftedDate(Timestamp draftedDate) {
+    public void setDraftedDate(java.sql.Date draftedDate) {
         this.draftedDate = draftedDate;
     }
 
@@ -111,11 +113,4 @@ public class Draft implements Serializable {
         this.draftType = draftType;
     }
 
-    public float getMaxAmount() {
-        return maxAmount;
-    }
-
-    public void setMaxAmount(float maxAmount) {
-        this.maxAmount = maxAmount;
-    }
 }

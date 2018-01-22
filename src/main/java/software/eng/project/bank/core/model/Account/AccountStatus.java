@@ -34,6 +34,9 @@ public class AccountStatus {
         this.reason = reason;
     }
 
+    public AccountStatus() {
+    }
+
     public AccountStatusType getStatusType() {
         return statusType;
     }

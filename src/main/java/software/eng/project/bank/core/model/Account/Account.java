@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "account")
 public class Account {
     @Id
     @Column(name = "id")
@@ -23,53 +23,57 @@ public class Account {
     @Size(min = 1, max = 100)
     private long accountNumber;
 
-    @Column
+    @Column(name = "cash")
     double cash= 0.0;
 
     @Column(name = "expire")
     Date expireDate;
+
     @Column(name = "start")
     Date startDate;
+
     @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn
+    @JoinColumn(name = "customer")
     Customer customer;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(name = "account_type_indivisual")
     AccountTypeIndivisual accountTypeIndivisual;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(name = "account_type_real")
     AccountTypeReal accountTypeReal;
 
-    @Column
+    @Column(name = "with_check")
     boolean withChek;
 
     @Enumerated(EnumType.STRING)
-    @Column
+    @Column(name = "account_type")
     AccountType accountType;
 
 
 
     @OneToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
-    @JoinColumn
+    @JoinColumn(name = "account_status")
     AccountStatus accountStatus;
 
     @OneToMany(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
     @JoinColumn
     List<CheckBook> checkBook;
+
     @ManyToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
-    @JoinColumn
+    @JoinColumn(name = "branch")
     Branch createBranch;
+
     @ManyToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
-    @JoinColumn
+    @JoinColumn(name = "stuff")
     Stuff createStuff;
 
     @OneToMany(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
     @JoinColumn
     List<AccessCard> accessCards;
 
-    @Column
+    @Column (name = "long_period")
     long LongPeriod;//just for seporde ktah modat va boland modat
 
     @JsonIgnore

@@ -4,6 +4,7 @@ package software.eng.project.bank.core.boundry.response;
 
 
 public class Response {
+    //TODO TIME THAT REQUEST BE READY SHOULD ADDED FOR ALL
      ResponseStatus responseStatus;
      long fallowUpNumber;
 

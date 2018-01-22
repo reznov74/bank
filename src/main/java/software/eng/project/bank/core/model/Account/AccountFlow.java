@@ -4,10 +4,10 @@ import software.eng.project.bank.core.boundry.request.AccountFlowType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 @Entity
+@Table(name ="account_flow")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AccountFlow {
 
@@ -17,36 +17,37 @@ public class AccountFlow {
     private long id;
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "source")
+    @JoinColumn(name = "account")
     @NotNull
-    Account sourceAccount;
-    @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "dist")
-    @NotNull
-    Account distAccount;
+    Account account;
+
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     @NotNull
     AccountFlowType type;
+
     @Column(name = "date")
     @NotNull
     Date date;
 
+    @Column(name = "amount")
+    @NotNull
+    double amount;
 
-
-    public Account getSourceAccount() {
-        return sourceAccount;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setSourceAccount(Account sourceAccount) {
-        this.sourceAccount = sourceAccount;
+    public double getAmount() {
+        return amount;
     }
 
-    public Account getDistAccount() {
-        return distAccount;
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 
-    public void setDistAccount(Account destAccount) {
-        this.distAccount = destAccount;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public AccountFlowType getType() {
