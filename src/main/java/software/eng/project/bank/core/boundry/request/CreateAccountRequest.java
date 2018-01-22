@@ -12,10 +12,17 @@ import java.sql.Date;
 import java.sql.Timestamp;
 
 public class CreateAccountRequest {
+
+    long userID;
+
     long accountIDForInit;
+
     long barnchID;
+
     String confitionForGive;
+
     Date expireDateOfGive;
+
     Timestamp createTime;
 
     float initCash;
@@ -40,6 +47,8 @@ public class CreateAccountRequest {
         this.createTime = createTime;
     }
 
+    public CreateAccountRequest() {
+    }
 
     public long getAccountIDForInit() {
         return accountIDForInit;
@@ -119,5 +128,13 @@ public class CreateAccountRequest {
 
     public void setInitCash(float initCash) {
         this.initCash = initCash;
+    }
+
+    public long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(long userID) {
+        this.userID = userID;
     }
 }

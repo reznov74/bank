@@ -4,12 +4,21 @@ import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import software.eng.project.bank.core.boundry.request.CheckPassRequest;
+import software.eng.project.bank.core.boundry.request.CreateAccountRequest;
+import software.eng.project.bank.core.boundry.request.CreateResponseRequest;
+import software.eng.project.bank.core.boundry.response.Response;
 import software.eng.project.bank.core.model.Account.Account;
 import software.eng.project.bank.core.model.Account.Check;
 import software.eng.project.bank.core.model.Request.Request;
 import software.eng.project.bank.core.model.Response.RequestResponse;
+import software.eng.project.bank.core.model.Role.Stuff;
+import software.eng.project.bank.core.repository.StuffRepository;
 import software.eng.project.bank.core.service.StuffService;
+import software.eng.project.bank.security.JwtTokenUtil;
+import software.eng.project.bank.security.JwtUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +31,16 @@ public class StuffController {
     private String tokenHeader;
 
     @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
     private StuffService stuffService;
+
+    @Autowired
+    private StuffRepository stuffRepository;
 
     @RequestMapping(value = "/get/requests",
             method = RequestMethod.GET,
@@ -35,7 +53,7 @@ public class StuffController {
         Preconditions.checkNotNull(token);
         List<Request> res = null ;
         try{
-            res=this.stuffService.getRequests();
+            res=this.stuffService.getRequests(1);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -68,13 +86,13 @@ public class StuffController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    String answerRequest(HttpServletResponse response, HttpServletRequest request , @RequestBody RequestResponse requestResponse)
+    Response answerRequest(HttpServletResponse response, HttpServletRequest request , @RequestBody CreateResponseRequest createResponseRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        String res = null ;
+        Response res = null ;
         try{
-            res=this.stuffService.answerRequest(requestResponse);
+            res=this.stuffService.answerRequest(createResponseRequest,this.getStuffID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -89,11 +107,11 @@ public class StuffController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    String redirectRequest(HttpServletResponse response,HttpServletRequest request,@PathVariable("requestID") long requestID,@PathVariable("userID") long userID)
+    Response redirectRequest(HttpServletResponse response,HttpServletRequest request,@PathVariable("requestID") long requestID,@PathVariable("userID") long userID)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        String res = null ;
+        Response res = null ;
         try{
             res=this.stuffService.redirectRequest(requestID,userID);
             response.setStatus(200);
@@ -110,13 +128,13 @@ public class StuffController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    String createAccount(HttpServletResponse response, HttpServletRequest request , @RequestBody Account account)
+    Response createAccount(HttpServletResponse response, HttpServletRequest request , @RequestBody CreateAccountRequest createAccountRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        String res = null ;
+        Response res = null ;
         try{
-            res=this.stuffService.createAccount(account);
+            res=this.stuffService.createAccount(createAccountRequest);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -124,24 +142,31 @@ public class StuffController {
         }
         return res;
     }
-    @RequestMapping(value = "/pass/check",
+    @RequestMapping(value = "/pass/check/{che}",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    String passCheck(HttpServletResponse response, HttpServletRequest request, @RequestBody Check check)
+    Response passCheck(HttpServletResponse response, HttpServletRequest request, @RequestBody CheckPassRequest checkPassRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        String res = null ;
+        Response res = null ;
         try{
-            res=this.stuffService.passCheck(check);
+            res=this.stuffService.passCheck(checkPassRequest);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
             response.setStatus(500);
         }
         return res;
+    }
+
+    public long getStuffID(String token){
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
+        Stuff stuff =this.stuffRepository.findByUser_Id(jwtUser.getId());
+        return stuff.getId();
     }
 
 

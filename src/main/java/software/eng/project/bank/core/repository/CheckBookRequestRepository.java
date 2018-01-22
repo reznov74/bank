@@ -8,5 +8,6 @@ import software.eng.project.bank.core.model.Request.CheckBookRequest;
 import java.util.List;
 
 public interface CheckBookRequestRepository extends JpaRepository<CheckBookRequest, Long>,CrudRepository<CheckBookRequest, Long> {
-    List<CheckBookRequest> findByStuff_PersonalNumberOrderByRequestDate(long p);
+    List<CheckBookRequest> findByStuff_Id(long p);
+    List<CheckBookRequest> findByCustomer_Id(long p );
 }

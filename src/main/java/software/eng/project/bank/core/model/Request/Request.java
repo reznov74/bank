@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 @MappedSuperclass
-public abstract class Request {
+public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
@@ -32,7 +32,6 @@ public abstract class Request {
     @NotNull
     Branch branch;
     @Column(name = "date")
-    @NotNull
     Date requestDate;
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

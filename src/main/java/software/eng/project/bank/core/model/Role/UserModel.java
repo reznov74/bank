@@ -1,6 +1,7 @@
 package software.eng.project.bank.core.model.Role;
 
 import org.hibernate.validator.constraints.Email;
+import software.eng.project.bank.core.boundry.request.CreateUserRequest;
 import software.eng.project.bank.security.model.AuthorityName;
 import software.eng.project.bank.security.model.User;
 
@@ -28,9 +29,6 @@ public class UserModel implements Serializable {
     @Column
     String lastName;
 
-    @Column
-    String username;
-
     @Column(name = "national_code")
     int nationalCode;
 
@@ -51,27 +49,22 @@ public class UserModel implements Serializable {
     @Enumerated(EnumType.STRING)
     Sex sex;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "authority_name")
-    AuthorityName authorityName;
 
     @OneToOne(fetch = FetchType.LAZY , cascade = {CascadeType.ALL})
     @JoinColumn(name = "user")
     User user;
+
     public UserModel(){
 
     }
-    public UserModel(UserModel user){
+    public UserModel(CreateUserRequest user){
         this.address=user.getAddress();
-        this.authorityName=user.getAuthorityName();
-        this.brithdayDate=user.getBrithdayDate();
+        this.brithdayDate=user.getBrithday();
         this.email=user.getEmail();
-        this.fristNAme=user.getFristNAme();
+        this.fristNAme=user.getFirstName();
         this.lastName=user.getLastName();
         this.nationalCode=user.getNationalCode();
-        this.phoneNumber=user.getPhoneNumber();
-        this.username=user.getUsername();
-        this.sex=user.getSex();
+        this.phoneNumber=user.getPhone();
     }
     public Long getId() {
         return id;
@@ -145,19 +138,11 @@ public class UserModel implements Serializable {
         this.sex = sex;
     }
 
-    public AuthorityName getAuthorityName() {
-        return authorityName;
+    public User getUser() {
+        return user;
     }
 
-    public void setAuthorityName(AuthorityName authorityName) {
-        this.authorityName = authorityName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

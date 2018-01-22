@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -14,8 +15,13 @@ import software.eng.project.bank.core.boundry.response.*;
 import software.eng.project.bank.core.model.Account.*;
 import org.springframework.web.bind.annotation.RequestBody;
 import software.eng.project.bank.core.model.Request.Request;
+import software.eng.project.bank.core.model.Role.Customer;
+import software.eng.project.bank.core.model.Role.Stuff;
+import software.eng.project.bank.core.repository.CustomerRepository;
 import software.eng.project.bank.core.service.UserService;
 import com.google.common.base.Preconditions;
+import software.eng.project.bank.security.JwtTokenUtil;
+import software.eng.project.bank.security.JwtUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,11 +31,20 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/customer")
 public class CustomerController {
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @Value("${jwt.header}")
     private String tokenHeader;
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
 
     @RequestMapping(value = "/home",
@@ -69,7 +84,7 @@ public class CustomerController {
         //get userID
         List<AccountFlow> res = null ;
         try{
-            res=this.userService.getAccountFlow(accountFlowRequest,0);
+            res=this.userService.getAccountFlow(accountFlowRequest,this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -316,7 +331,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Account res = null ;
         try{
-            res=this.userService.getAccountInfo(accoundID,0);
+            res=this.userService.getAccountInfo(accoundID,this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -356,7 +371,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Account res = null ;
         try{
-            res=this.userService.createAccount(createAccountRequest , 0);
+            res=this.userService.createAccount(createAccountRequest , this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -397,7 +412,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         List<Account> res = null ;
         try{
-            res=this.userService.reportBlockedAccount((long)0);
+            res=this.userService.reportBlockedAccount(this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -417,7 +432,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Response res = null ;
         try{
-            res=this.userService.requestCheckbook(createCheckbookRequest,0);
+            res=this.userService.requestCheckbook(createCheckbookRequest,this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -437,7 +452,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Response res = null ;
         try{
-            res=this.userService.requestCard(createCardRequest,0);
+            res=this.userService.requestCard(createCardRequest,this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -477,7 +492,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         List<Request> res = null ;
         try{
-            res=this.userService.reportRequest(0);
+            res=this.userService.reportRequest(this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -557,12 +572,18 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         List<FacilityReturn> res = null ;
         try{
-            res=this.userService.reportRegularReturnFacility(0);
+            res=this.userService.reportRegularReturnFacility(this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
             response.setStatus(500);
         }
         return res;
+    }
+    public long getCustomerID(String token){
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
+        Customer customer =this.customerRepository.findByUser_Id(jwtUser.getId());
+        return customer.getId();
     }
 }

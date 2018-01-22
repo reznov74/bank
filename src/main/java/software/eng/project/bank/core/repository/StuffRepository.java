@@ -6,4 +6,5 @@ import software.eng.project.bank.core.model.Account.FacilityReturn;
 import software.eng.project.bank.core.model.Role.Stuff;
 
 public interface StuffRepository extends JpaRepository<Stuff, Long>,CrudRepository<Stuff, Long> {
+    Stuff findByUser_Id(long id);
 }

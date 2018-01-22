@@ -167,7 +167,7 @@ public class UserService {
         List<CheckBook> queryResult = this.checkBookRepository.findAll();
         List<CheckBook> ans=new ArrayList<>();
         for(CheckBook checkBook:queryResult){
-            if(checkBook.getCustomer().getId().equals(userID)){
+            if(checkBook.getAccount().getCustomer().getId().equals(userID)){
                 ans.add(checkBook);
             }
         }
@@ -224,7 +224,7 @@ public class UserService {
                             }
                         }
                         for(Stuff stuff : activeStuff){
-                            List<CheckBookRequest> reqs=this.checkBookRequestRepository.findByStuff_PersonalNumberOrderByRequestDate(stuff.getPersonalNumber());
+                            List<CheckBookRequest> reqs=this.checkBookRequestRepository.findByStuff_Id(stuff.getPersonalNumber());
                             if (reqs.size()<this.BUSY_STUFF){
                                 CheckBookRequest checkBookRequest=new CheckBookRequest();
                                 checkBookRequest.setBranch(branch);
@@ -265,7 +265,7 @@ public class UserService {
                 }
             }
             for(Stuff stuff : activeStuff){
-                List<AccessCardRequest> reqs=this.accessCardRequestRepository.findByStuff_PersonalNumber_OrderByRequestDate(stuff.getPersonalNumber());
+                List<AccessCardRequest> reqs=this.accessCardRequestRepository.findByStuff_Id(stuff.getPersonalNumber());
                 if (reqs.size()<this.BUSY_STUFF){
                     AccessCardRequest accessCardRequest =new AccessCardRequest();
                     accessCardRequest.setFristOrNot(isFirstOne);
@@ -277,6 +277,7 @@ public class UserService {
                     return response;
                 }
             }
+
         }else{throw new BadArgumentException();}
         return response;
 
@@ -293,7 +294,7 @@ public class UserService {
                 }
             }
             for(Stuff stuff : activeStuff){
-                List<FacilityRequest> reqs=this.facilityRequestRepository.findByStuff_PersonalNumberOrderByRequestDate(stuff.getPersonalNumber());
+                List<FacilityRequest> reqs=this.facilityRequestRepository.findByStuff_Id(stuff.getPersonalNumber());
                 if (reqs.size()<this.BUSY_STUFF){
                     FacilityRequest facilityRequest=new FacilityRequest();
                     facilityRequest.setCashType(createFacilityRequest.getCashType());
@@ -328,9 +329,9 @@ public class UserService {
     }
     public List<Request> reportRequest(long userID){
         List<Request> requests = new ArrayList<>();
-        requests.addAll(this.checkBookRequestRepository.findByStuff_PersonalNumberOrderByRequestDate(userID));
-        requests.addAll(this.facilityRequestRepository.findByStuff_PersonalNumberOrderByRequestDate(userID));
-        requests.addAll(this.accessCardRequestRepository.findByStuff_PersonalNumber_OrderByRequestDate(userID));
+        requests.addAll(this.checkBookRequestRepository.findByCustomer_Id(userID));
+        requests.addAll(this.facilityRequestRepository.findByCustomer_Id(userID));
+        requests.addAll(this.accessCardRequestRepository.findByCustomer_Id(userID));
         return requests;
     }
     @Scheduled(fixedDelay = 86400000)

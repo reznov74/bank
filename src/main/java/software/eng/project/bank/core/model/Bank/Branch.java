@@ -22,12 +22,13 @@ public class Branch {
     @NotNull
     String city;
     @Column(name = "city_")
-    @NotNull
     String city_;
     @Column(name = "code")
     @NotNull
     int barnchCode;
+    public Branch(){
 
+    }
     public Branch(String address, int phone, String city, String city_, int barnchCode) {
         this.address = address;
         this.phone = phone;

@@ -34,7 +34,7 @@ public class CheckBook {
     @ManyToOne(fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "customer")
     @NotNull
-    Customer customer;
+    Account account;
 
     public CheckBook(int checkBookNum, int countOfCheck, Date expireDate, List<Check> checks) {
         this.checkBookNum = checkBookNum;
@@ -83,11 +83,11 @@ public class CheckBook {
         this.id = id;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

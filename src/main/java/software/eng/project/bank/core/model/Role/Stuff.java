@@ -1,13 +1,14 @@
 package software.eng.project.bank.core.model.Role;
 
+import software.eng.project.bank.core.boundry.request.CreateUserRequest;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @DiscriminatorValue("3")
 public class Stuff extends UserModel {
-   @Column
-   @NotNull
+   @Column(name="personal_number")
    long personalNumber;
 
    @ManyToOne (cascade = {CascadeType.ALL} , fetch = FetchType.EAGER)
@@ -15,10 +16,12 @@ public class Stuff extends UserModel {
    StuffHistory stuffHistory;
 
 
-   public Stuff(UserModel user) {
+   public Stuff(CreateUserRequest user) {
       super(user);
    }
+   public Stuff(){
 
+   }
 
    public long getPersonalNumber() {
       return personalNumber;

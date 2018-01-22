@@ -1,5 +1,6 @@
 package software.eng.project.bank.core.model.Role;
 
+import software.eng.project.bank.core.boundry.request.CreateUserRequest;
 import software.eng.project.bank.core.model.Account.Account;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ public class Customer extends UserModel {
     public Customer(){
 
     }
-    public Customer(UserModel user) {
+    public Customer(CreateUserRequest user) {
         super(user);
     }
 

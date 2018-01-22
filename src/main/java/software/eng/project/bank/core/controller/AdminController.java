@@ -4,9 +4,16 @@ import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
+import software.eng.project.bank.core.boundry.request.CreateUserRequest;
+import software.eng.project.bank.core.model.Role.Admin;
+import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.UserModel;
+import software.eng.project.bank.core.repository.AdminRepository;
 import software.eng.project.bank.core.service.AdminService;
+import software.eng.project.bank.security.JwtTokenUtil;
+import software.eng.project.bank.security.JwtUser;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +22,15 @@ import javax.servlet.http.HttpServletResponse;
 @RestController
 @RequestMapping(value = "/admin")
 public class AdminController {
-    private static long ADMINID=1;
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    AdminRepository adminRepository;
+
     @Value("${jwt.header}")
     private String tokenHeader;
 
@@ -27,13 +42,13 @@ public class AdminController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    UserModel addUser(HttpServletResponse response, HttpServletRequest request, @RequestBody UserModel user)//OK
+    UserModel addUser(HttpServletResponse response, HttpServletRequest request, @RequestBody CreateUserRequest user)//OK
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
         UserModel res = null ;
         try{
-            res=this.adminService.addUser(user,ADMINID);
+            res=this.adminService.addUser(user,this.getAdminID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -100,6 +115,11 @@ public class AdminController {
             response.setStatus(500);
         }
         return res;
-
+    }
+    public long getAdminID(String token){
+        String username = jwtTokenUtil.getUsernameFromToken(token);
+        JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
+        Admin admin =this.adminRepository.findByUser_Id(jwtUser.getId());
+        return admin.getId();
     }
 }

@@ -3,6 +3,7 @@ package software.eng.project.bank.core.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import software.eng.project.bank.core.Exception.BadArgumentException;
+import software.eng.project.bank.core.boundry.request.CreateUserRequest;
 import software.eng.project.bank.core.model.Role.Admin;
 import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
@@ -42,10 +43,9 @@ public class AdminService {
     @Autowired
     private software.eng.project.bank.core.repository.UserModelRepository userModelRepository;
 
-    public UserModel addUser(UserModel user, long adminID) throws BadArgumentException {
+    public UserModel addUser(CreateUserRequest user, long adminID) throws BadArgumentException {
         if(user.getAuthorityName().equals(AuthorityName.ROLE_ADMIN)){
             Admin admin = new Admin(user);
-            UserModel user2=this.adminRepository.save(admin);
             software.eng.project.bank.security.model.User user1 =new software.eng.project.bank.security.model.User();
             List<Authority> authorities =new ArrayList<>();
             Authority authority=this.authorityRepository.findById(AUTHORITY_ADMIN);
@@ -54,11 +54,11 @@ public class AdminService {
             user1.setAuthorities(authorities);
             user1.setUsername(user.getUsername());
             user1.setEnabled(true);
-            user1.setUser(user2);
-            this.userRepository.save(user1);
+            user1=this.userRepository.save(user1);
+            admin.setUser(user1);
+            this.adminRepository.save(admin);
         }else if(user.getAuthorityName().equals(AuthorityName.ROLE_STUFF)){
             Stuff stuff = new Stuff(user);
-            UserModel user2=this.stuffRepository.save(stuff);
             software.eng.project.bank.security.model.User user1 =new software.eng.project.bank.security.model.User();
             List<Authority> authorities =new ArrayList<>();
             Authority authority=this.authorityRepository.findById(AUTHORITY_STUFF);
@@ -67,12 +67,11 @@ public class AdminService {
             user1.setAuthorities(authorities);
             user1.setUsername(user.getUsername());
             user1.setEnabled(true);
-            user1.setUser(user2);
-            this.userRepository.save(user1);
-
+            user1=this.userRepository.save(user1);
+            stuff.setUser(user1);
+            this.stuffRepository.save(stuff);
         }else if(user.getAuthorityName().equals(AuthorityName.ROLE_USER)){
             Customer customer = new Customer(user);
-            UserModel user2=this.customerRepository.save(customer);
             software.eng.project.bank.security.model.User user1 =new software.eng.project.bank.security.model.User();
             List<Authority> authorities =new ArrayList<>();
             Authority authority=this.authorityRepository.findById(AUTHORITY_CUSTOMER);
@@ -81,8 +80,9 @@ public class AdminService {
             user1.setAuthorities(authorities);
             user1.setUsername(user.getUsername());
             user1.setEnabled(true);
-            user1.setUser(user2);
-            this.userRepository.save(user1);
+            user1=this.userRepository.save(user1);
+            customer.setUser(user1);
+            this.customerRepository.save(customer);
         }
         else{
             throw new BadArgumentException();

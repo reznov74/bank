@@ -15,11 +15,12 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 public interface AccountRepository extends JpaRepository<Account, Long>,CrudRepository<Account, Long> {
-    List<Account> findByAccountTypeEquals(AccountType accountType);
+    public List<Account> findByAccountTypeEquals(AccountType accountType);
+
+    public List<Account> findByCustomer_Id(long userID);
+
     @Modifying
     @Transactional
     @Query(value = "UPDATE Account SET cash = :newCash where id= :accountID")
     void updateCashValue(@Param("newCash") double newCash , @Param("accountID") long accountID );
-
-
 }

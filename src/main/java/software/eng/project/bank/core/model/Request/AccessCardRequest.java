@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "card_req")
 public class AccessCardRequest extends Request{
 
-    @Column(name = "frist")
+    @Column(name = "first")
     @NotNull
     boolean fristOrNot;
 

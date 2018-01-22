@@ -37,11 +37,6 @@ public class User {//TODO add username.zeppelin and password.zppelin
 
     private Date lastPasswordResetDate;
 
-    @OneToOne(cascade={CascadeType.ALL})
-    //@NotNull
-    @JoinColumn
-    UserModel user;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "USER_AUTHORITY",
@@ -95,13 +90,5 @@ public class User {//TODO add username.zeppelin and password.zppelin
 
     public void setLastPasswordResetDate(Date lastPasswordResetDate) {
         this.lastPasswordResetDate = lastPasswordResetDate;
-    }
-
-    public UserModel getUser() {
-        return user;
-    }
-
-    public void setUser(UserModel user) {
-        this.user = user;
     }
 }
