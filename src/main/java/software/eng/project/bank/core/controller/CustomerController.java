@@ -14,6 +14,7 @@ import software.eng.project.bank.core.boundry.request.*;
 import software.eng.project.bank.core.boundry.response.*;
 import software.eng.project.bank.core.model.Account.*;
 import org.springframework.web.bind.annotation.RequestBody;
+import software.eng.project.bank.core.model.Bank.Branch;
 import software.eng.project.bank.core.model.Request.Request;
 import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
@@ -146,13 +147,23 @@ public class CustomerController {
     }
 
     @RequestMapping(value = "/branch/list",
-            method = RequestMethod.POST,
+            method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    void getBranchList(HttpServletResponse response , HttpServletRequest request , @RequestBody PayBillRequest payBillRequest)
+    List<Branch> getBranchList(HttpServletResponse response , HttpServletRequest request)
     {
-
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<Branch> res = null ;
+        try{
+            res=this.userService.branchList();
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
 
@@ -165,11 +176,13 @@ public class CustomerController {
     public @ResponseBody
     Draft createDraft(HttpServletResponse response,HttpServletRequest request,@RequestBody CreateDraftRequest createDraftRequest)
     {
+        //TODO CHECK FOR SOURCE ACCOUNT BELONG TO USERID THTA REQUESTED
+        //TODO FROM BLOCKED ACCOUNT WE CANT HAVE DRAFT
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
         Draft res = null ;
         try{
-            res=this.userService.createDraft(createDraftRequest);
+            res=this.userService.createDraft(createDraftRequest , this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -178,6 +191,7 @@ public class CustomerController {
         return res;
     }
 
+    //TODO
     @RequestMapping(value = "/report/draft",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -198,6 +212,7 @@ public class CustomerController {
         return res;
     }
 
+    //TODO
     @RequestMapping(value = "/create/draft/regular",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -218,6 +233,7 @@ public class CustomerController {
         return res;
     }
 
+    //TODO
     @RequestMapping(value = "/report/regular/draft",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -238,6 +254,7 @@ public class CustomerController {
         return res;
     }
 
+    //TODO
     @RequestMapping(value = "/report/group/draft",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -258,6 +275,7 @@ public class CustomerController {
         return res;
     }
 
+    //TODO
     @RequestMapping(value = "/get/request/group/draft",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -277,7 +295,7 @@ public class CustomerController {
         }
         return res;
     }
-
+    //TODO
     @RequestMapping(value = "/create/group/draft",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -298,6 +316,7 @@ public class CustomerController {
         return res;
     }
 
+    //TODO
     @RequestMapping(value = "/accept/group/draft/{draftID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -318,11 +337,16 @@ public class CustomerController {
         return res;
     }
 
+    /////////////
+
+
+
+
+    //TODO SHOULD CHANGE FORM ACCOUNT ID TO ACCOUNT NUMBER
     @RequestMapping(value = "/account/info/{accountID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
-
     public @ResponseBody
     Account getAccountInfo(HttpServletResponse response, HttpServletRequest request , @PathVariable("accountID") long accoundID)
     {
@@ -344,13 +368,13 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<CheckBook> reportCheck(HttpServletResponse response,HttpServletRequest request)
+    List<Check> reportCheck(HttpServletResponse response,HttpServletRequest request)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        List<CheckBook> res = null ;
+        List<Check> res = null ;
         try{
-            res=this.userService.getReportCheck(0);
+            res=this.userService.getReportCheck(this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -358,7 +382,7 @@ public class CustomerController {
         }
         return res;
     }
-
+    //TODO TEST
     @RequestMapping(value = "/create/account",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -370,7 +394,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Account res = null ;
         try{
-            res=this.userService.createAccount(createAccountRequest);
+            res=this.userService.createAccount(createAccountRequest , this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -385,13 +409,13 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    ReportProfitResponse reportProfitAccount(HttpServletResponse response, HttpServletRequest request, @PathVariable("accountID") long accountID)
+    List<Profit> reportProfitAccount(HttpServletResponse response, HttpServletRequest request, @PathVariable("accountID") long accountID)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        ReportProfitResponse res = null ;
+        List<Profit> res = null ;
         try{
-            res=this.userService.reportProfitAccount(accountID);
+            res=this.userService.reportProfitAccount(accountID , this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -420,6 +444,9 @@ public class CustomerController {
         return res;
     }
 
+
+    //TODO REQUEST JUST WORK FOR NON BLOCKED ACCOUNT
+    //TODO CHANGE USER ID WITH NATIONAL CODE
     @RequestMapping(value = "/request/checkbook",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})

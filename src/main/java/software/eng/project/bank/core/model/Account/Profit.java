@@ -2,7 +2,7 @@ package software.eng.project.bank.core.model.Account;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table (name = "profit")
@@ -17,8 +17,8 @@ public class Profit {
     double amount;
 
     @NotNull
-    @Column (name = "pay")
-    Date pay;
+    @Column (name = "date")
+    java.util.Date date;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER )
@@ -45,12 +45,12 @@ public class Profit {
         this.amount = amount;
     }
 
-    public Date getPay() {
-        return pay;
+    public java.util.Date getDate() {
+        return date;
     }
 
-    public void setPay(Date pay) {
-        this.pay = pay;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public Account getAccount() {

@@ -13,8 +13,9 @@ public class Check {
     @EmbeddedId
     private CheckID checkID;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "checkbook")
+    @NotNull
     CheckBook checkBook;
 
     @Column(name = "date")

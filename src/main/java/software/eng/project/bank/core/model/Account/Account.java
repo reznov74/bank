@@ -51,12 +51,11 @@ public class Account {
 
 
 
-    @OneToOne(fetch=FetchType.LAZY )
+    @OneToOne(fetch=FetchType.EAGER )
     @JoinColumn(name = "account_status")
     AccountStatus accountStatus;
 
     @OneToMany(fetch=FetchType.LAZY )
-    @JoinColumn
     List<CheckBook> checkBook;
 
     @ManyToOne(fetch=FetchType.LAZY )
@@ -68,14 +67,13 @@ public class Account {
     Stuff createStuff;
 
     @OneToMany(fetch=FetchType.LAZY )
-    @JoinColumn
     List<AccessCard> accessCards;
 
     @Column (name = "long_period")
 
     Long LongPeriod;//just for seporde ktah modat va boland modat
 
-    @JsonIgnore
+
     public Long getId() {
         return id;
     }

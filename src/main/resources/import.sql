@@ -19,19 +19,20 @@ INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (3, 3);
 INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (4, 1);
 INSERT INTO USER_AUTHORITY (USER_ID, AUTHORITY_ID) VALUES (5, 2);
 
-/*USER DEFINE TODO STUFF BRANCH AND HISTORY */
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user ,personal_number) VALUES ('razavi', '0018601375'  , '09392262950' ,'razavi_rohani@yahoo.com','shiraz',3 , 1,2437);
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('rohani', '0018601376'  , '09392262951' ,'razavi_rohanii@yahoo.com','shiraz',1 , 2 );
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user ,personal_number) VALUES ('ebrahimi', '0018601378'  , '09392262952' ,'razavi_rohanii@yahoo.com','tehran',3 , 3 , 2439);
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('kiani', '0018601379'  , '09392262958' ,'razavi_rohaniii@yahoo.com','mashhad',1 , 4 );
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('mohamadi', '0018601380' , '09392262959' ,'razavi_rohaniii@yahoo.com','tabriz',2 , 5);
-
-
 /*BRANCH DEFINE*/
 INSERT INTO branch (address , phone ,city,code ) VALUES ('shiraz',44286981,'shiraz',5863);
 INSERT INTO branch (address , phone ,city,code ) VALUES ('tehran',44286981,'tehran',5864);
 INSERT INTO branch (address , phone ,city,code ) VALUES ('mashhad',44286981,'mashhad',5865);
 INSERT INTO branch (address , phone ,city,code ) VALUES ('tabriz',44286981,'tabriz',5866);
+
+/*USER DEFINE TODO STUFF BRANCH AND HISTORY */
+INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('razavi', '0018601375'  , '09392262950' ,'razavi_rohani@yahoo.com','shiraz',3 , 1,2437 , 'NORMAL' , 1);
+INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('rohani', '0018601376'  , '09392262951' ,'razavi_rohanii@yahoo.com','shiraz',1 , 2 );
+INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('ebrahimi', '0018601378'  , '09392262952' ,'razavi_rohanii@yahoo.com','tehran',3 , 3 , 2439 , 'NORMAL' , 3);
+INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('kiani', '0018601379'  , '09392262958' ,'razavi_rohaniii@yahoo.com','mashhad',1 , 4 );
+INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('mohamadi', '0018601380' , '09392262959' ,'razavi_rohaniii@yahoo.com','tabriz',2 , 5);
+
+
 
 /*ACCESS CARD REQUEST DEFINE */
 INSERT INTO card_req (stuff ,customer , branch , status ,FIRST) VALUES (1 ,2 ,1 ,'NOT_OPEN',1);
@@ -56,11 +57,11 @@ INSERT INTO access_card (is_active , access_card_number , second_password , expi
 INSERT INTO access_card (is_active , access_card_number , second_password , expire_date , cvv2 ,branch , start , end , account) VALUES (1 , '610783784658589' , '98871654321' , PARSEDATETIME('01-01-2020', 'dd-MM-yyyy') , 032 , 3 ,PARSEDATETIME('01-01-2015', 'dd-MM-yyyy') , null , 2 );
 
 /*ACCOUNT FLOW DEFINE*/
-INSERT INTO account_flow (id , account  , type , date , amount) VALUES (1 , 1 , 'KHARID_POZ',PARSEDATETIME('01-01-2016', 'dd-MM-yyyy') , 28800.7);
-INSERT INTO account_flow (id , account , type , date , amount) VALUES (2 , 2 , 'KHARID_INTERNET' ,PARSEDATETIME('01-01-2015', 'dd-MM-yyyy') , 28548400.7);
-INSERT INTO account_flow (id , account  , type , date ,amount ) VALUES (3 , 3  ,'VARIZ_NAGHD' ,PARSEDATETIME('01-01-2014', 'dd-MM-yyyy') , 28452000.7);
-INSERT INTO account_flow (id , account  , type , date ,amount) VALUES (4 , 2  , 'KHARID_POZ' ,PARSEDATETIME('05-01-2016', 'dd-MM-yyyy') , 2880000.7);
-INSERT INTO account_flow (id , account  , type , date ,amount) VALUES (5 , 1  , 'KHARID_INTERNET' ,PARSEDATETIME('04-08-2016', 'dd-MM-yyyy') , 28800.7);
+INSERT INTO account_flow ( account  , type , date , amount) VALUES ( 1 , 'KHARID_POZ',PARSEDATETIME('01-01-2016', 'dd-MM-yyyy') , 28800.7);
+INSERT INTO account_flow ( account , type , date , amount) VALUES ( 2 , 'KHARID_INTERNET' ,PARSEDATETIME('01-01-2015', 'dd-MM-yyyy') , 28548400.7);
+INSERT INTO account_flow ( account  , type , date ,amount ) VALUES ( 3  ,'VARIZ_NAGHD' ,PARSEDATETIME('01-01-2014', 'dd-MM-yyyy') , 28452000.7);
+INSERT INTO account_flow ( account  , type , date ,amount) VALUES ( 2  , 'KHARID_POZ' ,PARSEDATETIME('05-01-2016', 'dd-MM-yyyy') , 2880000.7);
+INSERT INTO account_flow ( account  , type , date ,amount) VALUES ( 1  , 'KHARID_INTERNET' ,PARSEDATETIME('04-08-2016', 'dd-MM-yyyy') , 28800.7);
 
 /*CHECKBOOK DEFINE*/
 INSERT INTO checkbook (number , count , expire , account) VALUES (991023 , 15 , PARSEDATETIME('01-01-2019', 'dd-MM-yyyy') , 2);
@@ -89,7 +90,7 @@ INSERT INTO check_ (check_number , checkbook_number ,checkbook,cash,date,status,
 INSERT INTO check_ (check_number , checkbook_number ,checkbook,cash,date,status,to_name) VALUES ( 104858 , 991024 , 2 , 24000.0, PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 'NOT_USE' , 'ابراهیمی');
 INSERT INTO check_ (check_number , checkbook_number ,checkbook,cash,date,status,to_name) VALUES ( 104859 , 991024 , 2 , 24000.0, PARSEDATETIME('01-01-2019', 'dd-MM-yyyy') , 'PASS' , 'کیانی');
 
-/*DRAFT DEFINE TODO SYNC WITH ACCOUNT FLOW*/
+/*DRAFT DEFINE*/
 
 INSERT INTO draft (source , dist , date , amount  , for_  , type) VALUES (2 , 3 , PARSEDATETIME('01-01-2015', 'dd-MM-yyyy') , 260000.0 , 'خرید لامپ' , 'INTERNET');
 INSERT INTO draft (source , dist , date , amount  , for_  , type) VALUES (3 , 4 , PARSEDATETIME('01-01-2016', 'dd-MM-yyyy') , 260000.0 , 'پرداخت شارژ' , 'INTERNET');
@@ -98,6 +99,7 @@ INSERT INTO draft (source , dist , date , amount  , for_  , type) VALUES (3 , 2 
 INSERT INTO draft (source , dist , date , amount  , for_  , type) VALUES (4 , 4 , PARSEDATETIME('07-11-2016', 'dd-MM-yyyy') , 260000.0 , 'پرداخت شارژ' , 'ATM');
 INSERT INTO draft (source , dist , date , amount  , for_  , type) VALUES (3 , 4 , PARSEDATETIME('01-01-2016', 'dd-MM-yyyy') , 260000.0 , 'پرداخت شارژ' , 'INTERNET');
 INSERT INTO draft (source , dist , date , amount  , for_  , type) VALUES (2 , 4 , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 260000.0 , 'پرداخت شارژ' , 'ATM');
+
 
 /*FACILITY REQUEST DEFINE */
 

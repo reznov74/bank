@@ -7,5 +7,5 @@ import software.eng.project.bank.core.model.Account.Account;
 import software.eng.project.bank.core.model.Account.AccountFlow;
 import software.eng.project.bank.core.model.Role.Admin;
 
-public interface AccessCradAccountFlowRepository extends JpaRepository<AccessCardAccountFlow, Long>,CrudRepository<AccessCardAccountFlow, Long> {
-}
+//public interface AccessCradAccountFlowRepository extends JpaRepository<AccessCardAccountFlow, Long>,CrudRepository<AccessCardAccountFlow, Long> {
+//}

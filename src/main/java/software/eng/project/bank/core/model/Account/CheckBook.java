@@ -2,6 +2,7 @@ package software.eng.project.bank.core.model.Account;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import software.eng.project.bank.core.model.Role.Customer;
 
 import javax.persistence.*;
@@ -20,14 +21,16 @@ public class CheckBook {
     @Column(name = "number" , unique = true)
     @NotNull
     int checkBookNum;
+
     @Column(name = "count")
     @NotNull
     int countOfCheck;
+
     @Column(name = "expire")
     @NotNull
     Date expireDate;
-    @OneToMany(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "checks")
+
+    @OneToMany
     @NotNull
     List<Check> checks;
 
@@ -41,6 +44,9 @@ public class CheckBook {
         this.countOfCheck = countOfCheck;
         this.expireDate = expireDate;
         this.checks = checks;
+    }
+
+    public CheckBook() {
     }
 
     public int getCheckBookNum() {
@@ -83,6 +89,7 @@ public class CheckBook {
         this.id = id;
     }
 
+    @JsonIgnore
     public Account getAccount() {
         return account;
     }

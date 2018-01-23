@@ -8,12 +8,11 @@ import java.util.Date;
 
 @Entity
 @Table(name ="account_flow")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class AccountFlow {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @OneToOne(fetch= FetchType.EAGER )

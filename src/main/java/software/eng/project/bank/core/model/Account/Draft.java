@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "draft")
@@ -29,7 +29,7 @@ public class Draft {
 
     @Column(name = "date")
     @NotNull
-    java.sql.Date draftedDate;
+    java.util.Date draftedDate;
 
     @Column(name = "amount")
     @NotNull
@@ -57,6 +57,7 @@ public class Draft {
     public Draft() {
     }
 
+    @JsonIgnore
     public long getId() {
         return id;
     }
@@ -81,11 +82,11 @@ public class Draft {
         this.distAccount = distAccount;
     }
 
-    public java.sql.Date getDraftedDate() {
+    public java.util.Date getDraftedDate() {
         return draftedDate;
     }
 
-    public void setDraftedDate(java.sql.Date draftedDate) {
+    public void setDraftedDate(Date draftedDate) {
         this.draftedDate = draftedDate;
     }
 

@@ -3,16 +3,20 @@ package software.eng.project.bank.core.boundry.request;
 
 public class CreateCheckbookRequest {
     int chechbookCount;
+
     String nameOfOwner;
-    long nationalCode;
+
     long branchID;
+
     long accountID;
 
-    public CreateCheckbookRequest(int chechbookCount, String nameOfOwner, long nationalCode, long branchID) {
+    public CreateCheckbookRequest(int chechbookCount, String nameOfOwner, long branchID) {
         this.chechbookCount = chechbookCount;
         this.nameOfOwner = nameOfOwner;
-        this.nationalCode = nationalCode;
         this.branchID = branchID;
+    }
+
+    public CreateCheckbookRequest() {
     }
 
     public int getChechbookCount() {
@@ -29,14 +33,6 @@ public class CreateCheckbookRequest {
 
     public void setNameOfOwner(String nameOfOwner) {
         this.nameOfOwner = nameOfOwner;
-    }
-
-    public long getNationalCode() {
-        return nationalCode;
-    }
-
-    public void setNationalCode(long nationalCode) {
-        this.nationalCode = nationalCode;
     }
 
     public long getBranchID() {

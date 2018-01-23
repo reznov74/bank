@@ -12,20 +12,26 @@ public class Branch {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @Column(name = "address")
     @NotNull
     String address;
+
     @Column(name = "phone")
     @NotNull
     int phone;
+
     @Column(name = "city")
     @NotNull
     String city;
+
     @Column(name = "city_")
     String city_;
+
     @Column(name = "code")
     @NotNull
     int barnchCode;
+
     public Branch(){
 
     }

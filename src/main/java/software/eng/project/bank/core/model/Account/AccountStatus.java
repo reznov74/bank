@@ -18,11 +18,14 @@ public class AccountStatus {
     @Column(name = "type")
     @NotNull
     AccountStatusType statusType;
+
     @Column(name = "start")
     @NotNull
     Timestamp startDate;
+
     @Column(name = "end")
     Timestamp endDate;
+
     @Column(name = "reason" , length = 500)
     @NotNull
     String reason;

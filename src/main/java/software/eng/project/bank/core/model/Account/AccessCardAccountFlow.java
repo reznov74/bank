@@ -9,7 +9,7 @@ enum MediaType{
 enum FlowType{
 
 }
-@Entity
+//@Entity
 public class AccessCardAccountFlow extends AccountFlow {
 
 

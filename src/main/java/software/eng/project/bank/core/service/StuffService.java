@@ -137,7 +137,7 @@ public class StuffService {
         Response response =new Response();
         Stuff stuff =this.stuffRepository.findByUser_Id(stuffID);
         if(account.getCustomer().getNationalCode().equals(createAccountRequest.getNationalCodeCustomer())){
-            if(this.branchRepository.findOne(stuff.getStuffHistory().getRank().getBranch().getId())==null){
+            if(this.branchRepository.findOne(stuff.getBranch().getId())==null){
                 throw new BadArgumentException();
             }else{
                 if(createAccountRequest.getAccountType()== AccountType.GHARZ || createAccountRequest.getAccountType()==AccountType.JARI || createAccountRequest.getAccountType()==AccountType.SEPORDE_KOTAH){
@@ -148,7 +148,8 @@ public class StuffService {
                     account1.setAccountTypeIndivisual(createAccountRequest.getAccountTypeIndivisual());
                     account1.setAccountTypeReal(createAccountRequest.getAccountTypeReal());
                     account1=this.accountRepository.save(account1);
-                    userService.createDraft(new CreateDraftRequest(createAccountRequest.getInitCash(),account.getId(),account1.getId(),null, null , true));
+                    userService.createDraft(new CreateDraftRequest(createAccountRequest.getInitCash(),account.getAccountNumber(),account1.getAccountNumber(),null, null ),
+                            this.customerRepository.findByNationalCode(createAccountRequest.getNationalCodeCustomer()).getId());
                     response.setResponseStatus(ResponseStatus.OK);
                 }else {response.setResponseStatus(ResponseStatus.ERROR);throw new BadArgumentException();}
             }

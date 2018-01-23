@@ -2,43 +2,49 @@ package software.eng.project.bank.core.boundry.request;
 
 
 public class CreateDraftRequest {
-    float amount;
-    long sourceAccount;
-    long distAccount;
-    String forWhy;
-    TypeOfConfirme type;
-    boolean fromMeToMe;
 
-    public CreateDraftRequest(float amount, long sourceAccount, long distAccount, String forWhy, TypeOfConfirme type, boolean fromMeToMe) {
+    double amount;
+
+    String sourceAccount;
+
+    String distAccount;
+
+    String forWhy;
+
+    TypeOfConfirme type;
+
+    public CreateDraftRequest(float amount, String sourceAccount, String distAccount, String forWhy, TypeOfConfirme type) {
         this.amount = amount;
         this.sourceAccount = sourceAccount;
         this.distAccount = distAccount;
         this.forWhy = forWhy;
         this.type = type;
-        this.fromMeToMe = fromMeToMe;
     }
 
-    public float getAmount() {
+    public CreateDraftRequest() {
+    }
+
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(float amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 
-    public long getSourceAccount() {
+    public String getSourceAccount() {
         return sourceAccount;
     }
 
-    public void setSourceAccount(long sourceAccount) {
+    public void setSourceAccount(String sourceAccount) {
         this.sourceAccount = sourceAccount;
     }
 
-    public long getDistAccount() {
+    public String getDistAccount() {
         return distAccount;
     }
 
-    public void setDistAccount(long distAccount) {
+    public void setDistAccount(String distAccount) {
         this.distAccount = distAccount;
     }
 
@@ -58,11 +64,4 @@ public class CreateDraftRequest {
         this.type = type;
     }
 
-    public boolean isFromMeToMe() {
-        return fromMeToMe;
-    }
-
-    public void setFromMeToMe(boolean fromMeToMe) {
-        this.fromMeToMe = fromMeToMe;
-    }
 }

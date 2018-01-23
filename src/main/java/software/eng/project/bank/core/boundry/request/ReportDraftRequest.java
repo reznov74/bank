@@ -6,13 +6,18 @@ import java.util.Date;
 
 
 public class ReportDraftRequest {
-    long acount;
+
+    String acount;
+
     boolean giveOrPay;
+
     DraftType mediaType;
+
     Date startDate;
+
     Date endDate;
 
-    public ReportDraftRequest(long acount, boolean giveOrPay, DraftType mediaType, Date startDate, Date endDate) {
+    public ReportDraftRequest(String acount, boolean giveOrPay, DraftType mediaType, Date startDate, Date endDate) {
         this.acount = acount;
         this.giveOrPay = giveOrPay;
         this.mediaType = mediaType;
@@ -20,11 +25,11 @@ public class ReportDraftRequest {
         this.endDate = endDate;
     }
 
-    public long getAcount() {
+    public String getAcount() {
         return acount;
     }
 
-    public void setAcount(long acount) {
+    public void setAcount(String acount) {
         this.acount = acount;
     }
 
