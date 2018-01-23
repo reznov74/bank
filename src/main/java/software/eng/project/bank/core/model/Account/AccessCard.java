@@ -18,7 +18,7 @@ public class AccessCard {
     @NotNull
     boolean isActive;
 
-    @Column(name = "access_card_number")
+    @Column(name = "access_card_number" , unique = true)
     @NotNull
     String accessCardNumber;
 
@@ -45,7 +45,7 @@ public class AccessCard {
     @Column(name = "end")
     Date end;
 
-    @ManyToOne ( fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
+    @ManyToOne ( fetch = FetchType.EAGER )
     @JoinColumn(name = "account")
     Account account;
 

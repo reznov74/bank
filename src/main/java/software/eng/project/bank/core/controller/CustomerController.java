@@ -58,7 +58,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         List<Account> res = null ;
         try{
-            res=this.userService.getAccountList();
+            res=this.userService.getAccountList(this.getCustomerID(token));
             response.setStatus(200);
         }catch(UserNotFoundException e){
             e.printStackTrace();
@@ -77,12 +77,11 @@ public class CustomerController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    List<AccountFlow> getAccountAccountFlow(HttpServletResponse response, HttpServletRequest request , @RequestBody AccountFlowRequest accountFlowRequest)
+    List<AccountFlowResponse> getAccountAccountFlow(HttpServletResponse response, HttpServletRequest request , @RequestBody AccountFlowRequest accountFlowRequest)
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        //get userID
-        List<AccountFlow> res = null ;
+        List<AccountFlowResponse> res = null ;
         try{
             res=this.userService.getAccountFlow(accountFlowRequest,this.getCustomerID(token));
             response.setStatus(200);
@@ -371,7 +370,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Account res = null ;
         try{
-            res=this.userService.createAccount(createAccountRequest , this.getCustomerID(token));
+            res=this.userService.createAccount(createAccountRequest);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -581,6 +580,7 @@ public class CustomerController {
         return res;
     }
     public long getCustomerID(String token){
+        token=token.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         Customer customer =this.customerRepository.findByUser_Id(jwtUser.getId());

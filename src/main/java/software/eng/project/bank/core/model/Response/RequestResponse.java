@@ -4,7 +4,7 @@ import software.eng.project.bank.core.model.Role.Stuff;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 @Entity
 @Table(name = "request_response")
@@ -18,16 +18,16 @@ public class RequestResponse {
     @NotNull
     boolean isAccept;
     @Column(name = "answerTime")
-    @NotNull
-    Timestamp answerTime;
+    Date answerTime;
+
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "stuff")
     Stuff stuff;
+
     @Column(name = "forWhy")
-    @NotNull
     String forWhy;
 
-    public RequestResponse(boolean isAccept, Timestamp answerTime, Stuff stuff, String forWhy) {
+    public RequestResponse(boolean isAccept, Date answerTime, Stuff stuff, String forWhy) {
         this.isAccept = isAccept;
         this.answerTime = answerTime;
         this.stuff = stuff;
@@ -53,11 +53,11 @@ public class RequestResponse {
         isAccept = accept;
     }
 
-    public Timestamp getAnswerTime() {
+    public Date getAnswerTime() {
         return answerTime;
     }
 
-    public void setAnswerTime(Timestamp answerTime) {
+    public void setAnswerTime(Date answerTime) {
         this.answerTime = answerTime;
     }
 

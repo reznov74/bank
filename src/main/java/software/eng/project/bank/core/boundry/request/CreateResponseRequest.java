@@ -1,7 +1,7 @@
 package software.eng.project.bank.core.boundry.request;
 
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 public class CreateResponseRequest {
 
@@ -9,7 +9,7 @@ public class CreateResponseRequest {
 
     boolean isAccept;
 
-    Timestamp answerTime;
+    Date answerTime;
 
     String forWhy;
 
@@ -29,11 +29,11 @@ public class CreateResponseRequest {
         isAccept = accept;
     }
 
-    public Timestamp getAnswerTime() {
+    public Date getAnswerTime() {
         return answerTime;
     }
 
-    public void setAnswerTime(Timestamp answerTime) {
+    public void setAnswerTime(Date answerTime) {
         this.answerTime = answerTime;
     }
 

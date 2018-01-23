@@ -16,7 +16,7 @@ public class AccountFlow {
     @GeneratedValue(strategy = GenerationType.TABLE)
     private long id;
 
-    @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
+    @OneToOne(fetch= FetchType.EAGER )
     @JoinColumn(name = "account")
     @NotNull
     Account account;

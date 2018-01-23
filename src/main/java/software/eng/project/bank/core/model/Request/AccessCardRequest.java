@@ -2,11 +2,12 @@ package software.eng.project.bank.core.model.Request;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "card_req")
-public class AccessCardRequest extends Request{
+public class AccessCardRequest extends Request {
 
     @Column(name = "first")
     @NotNull

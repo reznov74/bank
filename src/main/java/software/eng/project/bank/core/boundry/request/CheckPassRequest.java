@@ -2,25 +2,25 @@ package software.eng.project.bank.core.boundry.request;
 
 public class CheckPassRequest {
 
-    long checkID;
-    long checkBookID;
+    long checkNumber;
+    long checkBookNumber;
     double cash;
     String toName;
 
-    public long getCheckID() {
-        return checkID;
+    public long getCheckNumber() {
+        return checkNumber;
     }
 
-    public void setCheckID(long checkID) {
-        this.checkID = checkID;
+    public void setCheckNumber(long checkNumber) {
+        this.checkNumber = checkNumber;
     }
 
-    public long getCheckBookID() {
-        return checkBookID;
+    public long getCheckBookNumber() {
+        return checkBookNumber;
     }
 
-    public void setCheckBookID(long checkBookID) {
-        this.checkBookID = checkBookID;
+    public void setCheckBookNumber(long checkBookNumber) {
+        this.checkBookNumber = checkBookNumber;
     }
 
     public double getCash() {

@@ -4,5 +4,5 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum AccountFlowType {
     PAYBILL , KHARID_INTERNET, KHARID_POZ
-    , VARIZ_NAGHD ,VARIZ_SOOD
+    , VARIZ_NAGHD ,VARIZ_SOOD , HAVALE_VARIZ , HAVALE_BARDASHT
 }

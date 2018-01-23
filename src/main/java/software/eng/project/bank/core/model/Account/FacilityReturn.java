@@ -13,7 +13,7 @@ public class FacilityReturn {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @ManyToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
+    @ManyToOne(fetch= FetchType.EAGER )
     @JoinColumn(name = "facility")
     @NotNull
     Facility facility;

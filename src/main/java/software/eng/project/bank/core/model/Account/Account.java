@@ -7,7 +7,6 @@ import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
 
 import javax.persistence.*;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +18,8 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "number", length = 100)
-    @Size(min = 1, max = 100)
-    private long accountNumber;
+    @Column(name = "number", length = 100 , unique = true)
+    private String accountNumber;
 
     @Column(name = "cash")
     double cash= 0.0;
@@ -32,7 +30,7 @@ public class Account {
     @Column(name = "start")
     Date startDate;
 
-    @ManyToOne(fetch=FetchType.EAGER , cascade = {CascadeType.ALL})
+    @ManyToOne(fetch=FetchType.EAGER )
     @JoinColumn(name = "customer")
     Customer customer;
 
@@ -53,28 +51,29 @@ public class Account {
 
 
 
-    @OneToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @OneToOne(fetch=FetchType.LAZY )
     @JoinColumn(name = "account_status")
     AccountStatus accountStatus;
 
-    @OneToMany(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @OneToMany(fetch=FetchType.LAZY )
     @JoinColumn
     List<CheckBook> checkBook;
 
-    @ManyToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @ManyToOne(fetch=FetchType.LAZY )
     @JoinColumn(name = "branch")
     Branch createBranch;
 
-    @ManyToOne(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @ManyToOne(fetch=FetchType.LAZY )
     @JoinColumn(name = "stuff")
     Stuff createStuff;
 
-    @OneToMany(fetch=FetchType.LAZY , cascade = {CascadeType.ALL})
+    @OneToMany(fetch=FetchType.LAZY )
     @JoinColumn
     List<AccessCard> accessCards;
 
     @Column (name = "long_period")
-    long LongPeriod;//just for seporde ktah modat va boland modat
+
+    Long LongPeriod;//just for seporde ktah modat va boland modat
 
     @JsonIgnore
     public Long getId() {
@@ -85,11 +84,11 @@ public class Account {
         this.id = id;
     }
 
-    public long getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(long accountNumber) {
+    public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
 
@@ -201,6 +200,7 @@ public class Account {
         this.accessCards = accessCards;
     }
 
+    @JsonIgnore
     public long getLongPeriod() {
         return LongPeriod;
     }

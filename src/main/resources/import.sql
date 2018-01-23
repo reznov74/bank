@@ -24,7 +24,7 @@ INSERT INTO user_model (frist_name  , national_code , phone_number , email , add
 INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('rohani', '0018601376'  , '09392262951' ,'razavi_rohanii@yahoo.com','shiraz',1 , 2 );
 INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user ,personal_number) VALUES ('ebrahimi', '0018601378'  , '09392262952' ,'razavi_rohanii@yahoo.com','tehran',3 , 3 , 2439);
 INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('kiani', '0018601379'  , '09392262958' ,'razavi_rohaniii@yahoo.com','mashhad',1 , 4 );
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('mohamadi', '0018601379' , '09392262959' ,'razavi_rohaniii@yahoo.com','tabriz',2 , 5);
+INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('mohamadi', '0018601380' , '09392262959' ,'razavi_rohaniii@yahoo.com','tabriz',2 , 5);
 
 
 /*BRANCH DEFINE*/
@@ -46,10 +46,10 @@ INSERT INTO account_status(type , start , end , reason) VALUES ('OPEN' , PARSEDA
 INSERT INTO account_status(type , start , end , reason) VALUES ('BLOCKED' , PARSEDATETIME('01-01-2016', 'dd-MM-yyyy') , PARSEDATETIME('01-01-2018', 'dd-MM-yyyy') , 'بدهی');
 
 /*ACCOUNT DEFINE*/
-INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES (6104337846275855 , 250000.0 , null , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 2  , 'INDIVISUAL' , 'REAL' , 0 , 'GHARZ' , 1 , 4 , 1 , null);
-INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES (6104337846275852 , 952000.0 , null , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 4  , 'INDIVISUAL' , 'LAWY' , 1 , 'SEPORDE_KOTAH' , 2 , 3 , 3 , 90);
-INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES (6104337846275853 , 759000.0 , null , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 4  , 'GROUP' , 'REAL' , 1 , 'SEPORDE_BOLAND' , 3 , 2 , 1 , 24);
-INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES (6104337846275854 , 45000.0 , null , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 2  , 'INDIVISUAL' , 'REAL' , 0 , 'JARI' , 4 , 1 , 3 , null);
+INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES ('6104337846275855' , 250000.0 , null , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 2  , 'INDIVISUAL' , 'REAL' , 0 , 'GHARZ' , 1 , 4 , 1 , null);
+INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES ('6104337846275852' , 952000.0 , null , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 4  , 'INDIVISUAL' , 'LAWY' , 1 , 'SEPORDE_KOTAH' , 2 , 3 , 3 , 90);
+INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES ('6104337846275853' , 759000.0 , null , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 4  , 'GROUP' , 'REAL' , 1 , 'SEPORDE_BOLAND' , 3 , 2 , 1 , 24);
+INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES ('6104337846275854' , 45000.0 , null , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 2  , 'INDIVISUAL' , 'REAL' , 0 , 'JARI' , 4 , 1 , 3 , null);
 
 /*ACCESS CARD DEFINE*/
 INSERT INTO access_card (is_active , access_card_number , second_password , expire_date , cvv2 ,branch , start , end , account) VALUES (1 , '610433784658588' , '987654321' , PARSEDATETIME('01-01-2019', 'dd-MM-yyyy') , 022 ,1, PARSEDATETIME('01-01-2014', 'dd-MM-yyyy') , null , 1 );

@@ -8,31 +8,33 @@ import software.eng.project.bank.core.model.Role.Stuff;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 @MappedSuperclass
-public class Request {
+public class Request implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", updatable = false, nullable = false)
-    protected Long id;
+    @Column(name = "id", nullable = false)
+     Long id;
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "stuff")
-    //@Column(name = "stuff")
     @NotNull
     Stuff stuff;
+
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "customer")
-    //@Column(name = "customer")
     @NotNull
     Customer customer;
+
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "branch")
-    //@Column(name = "branch")
     @NotNull
     Branch branch;
+
     @Column(name = "date")
     Date requestDate;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     @NotNull
@@ -53,7 +55,7 @@ public class Request {
 
     public Request() {
     }
-    @JsonIgnore
+
     public Long getId() {
         return id;
     }

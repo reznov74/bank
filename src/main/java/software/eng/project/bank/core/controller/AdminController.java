@@ -117,6 +117,7 @@ public class AdminController {
         return res;
     }
     public long getAdminID(String token){
+        token = token.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         Admin admin =this.adminRepository.findByUser_Id(jwtUser.getId());

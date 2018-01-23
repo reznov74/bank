@@ -25,11 +25,11 @@ public class Facility {
     @NotNull
     double amount;
 
-    @ManyToOne(fetch = FetchType.EAGER ,cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.EAGER )
     @JoinColumn
     Customer customer;
 
-    @OneToMany(fetch = FetchType.EAGER ,cascade = {CascadeType.ALL})
+    @OneToMany(fetch = FetchType.EAGER )
     @JoinColumn
     List<FacilityReturn> facilityReturn;
     public Facility(FaciltyType type, double amount) {

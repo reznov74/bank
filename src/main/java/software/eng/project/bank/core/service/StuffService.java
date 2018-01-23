@@ -7,19 +7,15 @@ import software.eng.project.bank.core.Exception.BadArgumentException;
 import software.eng.project.bank.core.Exception.ServerErrorException;
 import software.eng.project.bank.core.boundry.request.CheckPassRequest;
 import software.eng.project.bank.core.boundry.request.CreateAccountRequest;
+import software.eng.project.bank.core.boundry.request.CreateDraftRequest;
 import software.eng.project.bank.core.boundry.request.CreateResponseRequest;
 import software.eng.project.bank.core.boundry.response.Response;
 import software.eng.project.bank.core.boundry.response.ResponseStatus;
-import software.eng.project.bank.core.model.Account.Account;
-import software.eng.project.bank.core.model.Account.Check;
-import software.eng.project.bank.core.model.Account.CheckID;
-import software.eng.project.bank.core.model.Account.CheckStatusType;
-import software.eng.project.bank.core.model.Request.AccessCardRequest;
-import software.eng.project.bank.core.model.Request.CheckBookRequest;
-import software.eng.project.bank.core.model.Request.FacilityRequest;
-import software.eng.project.bank.core.model.Request.Request;
+import software.eng.project.bank.core.model.Account.*;
+import software.eng.project.bank.core.model.Request.*;
 import software.eng.project.bank.core.model.Response.RequestResponse;
 
+import software.eng.project.bank.core.model.Role.Stuff;
 import software.eng.project.bank.core.repository.*;
 
 import java.util.ArrayList;
@@ -29,6 +25,10 @@ import java.util.List;
 public class StuffService {
     @Autowired
     CheckRepository checkRepository;
+
+    @Autowired
+    BranchRepository branchRepository;
+
     @Autowired
     UserService userService;
 
@@ -60,11 +60,11 @@ public class StuffService {
     }
     public Request getRequest(long requestID) throws BadArgumentException {
         if(this.checkBookRequestRepository.exists(requestID)){
-            return this.checkBookRequestRepository.getOne(requestID);
+            return this.checkBookRequestRepository.findOne(requestID);
         }else if (this.accessCardRequestRepository.exists(requestID)){
-            return this.accessCardRequestRepository.getOne(requestID);
+            return this.accessCardRequestRepository.findOne(requestID);
         }else if(this.facilityRequestRepository.exists(requestID)){
-            return this.facilityRequestRepository.getOne(requestID);
+            return this.facilityRequestRepository.findOne(requestID);
         }else {
             throw new BadArgumentException();
         }
@@ -76,22 +76,25 @@ public class StuffService {
         Response response =new Response();
         try {
             if (this.stuffRepository.exists(stuffID)) {
-                requestResponse.setStuff(this.stuffRepository.getOne(stuffID));
+                requestResponse.setStuff(this.stuffRepository.findOne(stuffID));
             } else {
                 throw new BadArgumentException();
             }
             Request request = this.getRequest(createResponseRequest.getRequestID());
+            if(createResponseRequest.isAccept()){
+                request.setStatus(RequestStatus.ACCEPT);
+            } else if (!createResponseRequest.isAccept()){
+                request.setStatus(RequestStatus.REJECT);
+            } else {
+                request.setStatus(RequestStatus.READED);
+            }
             if (request instanceof CheckBookRequest) {
-                this.checkBookRequestRepository.delete(request.getId());
                 request.setRequestResponse(requestResponse);
                 this.checkBookRequestRepository.save((CheckBookRequest) request);
             } else if (request instanceof AccessCardRequest) {
-
-                this.accessCardRequestRepository.delete(request.getId());
                 request.setRequestResponse(requestResponse);
                 this.accessCardRequestRepository.save((AccessCardRequest) request);
             } else if (request instanceof FacilityRequest) {
-                this.facilityRequestRepository.delete(request.getId());
                 request.setRequestResponse(requestResponse);
                 this.facilityRequestRepository.save((FacilityRequest) request);
             }
@@ -107,23 +110,18 @@ public class StuffService {
     }
     public Response redirectRequest(long requestID, long userID) throws BadArgumentException {
         Request request = this.getRequest(requestID);
-        request.setStuff(this.stuffRepository.getOne(userID));
+        request.setStuff(this.stuffRepository.findOne(userID));
         Response response = new Response();
         try {
+            request.setStatus(RequestStatus.REDIRECTED);
             if (request instanceof CheckBookRequest) {
-                this.checkBookRequestRepository.delete(request.getId());
-                request.setStuff(this.stuffRepository.getOne(userID));
                 this.checkBookRequestRepository.save((CheckBookRequest) request);
             } else if (request instanceof AccessCardRequest) {
-
-                this.accessCardRequestRepository.delete(request.getId());
-                request.setStuff(this.stuffRepository.getOne(userID));
                 this.accessCardRequestRepository.save((AccessCardRequest) request);
             } else if (request instanceof FacilityRequest) {
-                this.facilityRequestRepository.delete(request.getId());
-                request.setStuff(this.stuffRepository.getOne(userID));
                 this.facilityRequestRepository.save((FacilityRequest) request);
             }
+            response.setResponseStatus(ResponseStatus.OK);
         }catch (Exception e ){
             e.printStackTrace();
             response.setResponseStatus(ResponseStatus.ERROR);
@@ -133,32 +131,39 @@ public class StuffService {
         }
 
     }
-    public Response createAccount(CreateAccountRequest createAccountRequest) throws BadArgumentException { //TODO SHOULD SAVE STUFF WHO CREATE ACCOUNT
+    public Response createAccount(CreateAccountRequest createAccountRequest , long stuffID) throws BadArgumentException { //TODO SHOULD SAVE STUFF WHO CREATE ACCOUNT
+        Account account =this.accountRepository.findByAccountNumber(createAccountRequest.getAccountNumberForInit());
+        Account account1= new Account();
         Response response =new Response();
-        if(this.customerRepository.exists(createAccountRequest.getUserID())){
-            try {
-                Account account=this.userService.createAccount(createAccountRequest, createAccountRequest.getUserID());
-                //account.setCreateStuff(); TODO
-                response.setFallowUpNumber(0);
-                response.setResponseStatus(ResponseStatus.OK);
-            }catch (Exception e ){
-                response.setResponseStatus(ResponseStatus.OK);
-            }finally {
-                return response;
+        Stuff stuff =this.stuffRepository.findByUser_Id(stuffID);
+        if(account.getCustomer().getNationalCode().equals(createAccountRequest.getNationalCodeCustomer())){
+            if(this.branchRepository.findOne(stuff.getStuffHistory().getRank().getBranch().getId())==null){
+                throw new BadArgumentException();
+            }else{
+                if(createAccountRequest.getAccountType()== AccountType.GHARZ || createAccountRequest.getAccountType()==AccountType.JARI || createAccountRequest.getAccountType()==AccountType.SEPORDE_KOTAH){
+                    account1= new Account();
+                    account1.setAccountStatus(new AccountStatus(AccountStatusType.OPEN, null , null , null));
+                    account1.setCustomer(this.customerRepository.findByNationalCode(createAccountRequest.getNationalCodeCustomer()));
+                    account1.setAccountType(createAccountRequest.getAccountType());
+                    account1.setAccountTypeIndivisual(createAccountRequest.getAccountTypeIndivisual());
+                    account1.setAccountTypeReal(createAccountRequest.getAccountTypeReal());
+                    account1=this.accountRepository.save(account1);
+                    userService.createDraft(new CreateDraftRequest(createAccountRequest.getInitCash(),account.getId(),account1.getId(),null, null , true));
+                    response.setResponseStatus(ResponseStatus.OK);
+                }else {response.setResponseStatus(ResponseStatus.ERROR);throw new BadArgumentException();}
             }
-        }else{
-            throw new BadArgumentException();
-        }
+        }else{response.setResponseStatus(ResponseStatus.ERROR);throw new BadArgumentException();}
+        return response;
     }
     public Response passCheck(CheckPassRequest checkPassRequest) throws BadArgumentException {
         Preconditions.checkNotNull(checkPassRequest.getCash());
-        Preconditions.checkNotNull(checkPassRequest.getCheckID());
+        Preconditions.checkNotNull(checkPassRequest.getCheckNumber());
         Preconditions.checkNotNull(checkPassRequest.getToName());
 
         Response response =new Response();
         CheckID checkID1= new CheckID();
-        checkID1.setCheckNumber(checkPassRequest.getCheckID());
-        checkID1.setCheckBookNumber(checkPassRequest.getCheckBookID());
+        checkID1.setCheckNumber(checkPassRequest.getCheckNumber());
+        checkID1.setCheckBookNumber(checkPassRequest.getCheckBookNumber());
         Check check = this.checkRepository.getOne(checkID1);
         check.setToName(checkPassRequest.getToName());
         check.setCash(checkPassRequest.getCash());

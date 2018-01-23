@@ -5,25 +5,22 @@ import software.eng.project.bank.core.model.Account.AccountType;
 import software.eng.project.bank.core.model.Account.AccountTypeIndivisual;
 import software.eng.project.bank.core.model.Account.AccountTypeReal;
 
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class CreateAccountRequest {
 
-    long userID;
+    String nationalCodeCustomer;
 
-    long accountIDForInit;
+    String accountNumberForInit;
 
-    long barnchID;
-
-    String confitionForGive;
+    String conditionForGive;
 
     Date expireDateOfGive;
 
     Timestamp createTime;
+
+    int branchCode;
 
     float initCash;
 
@@ -38,11 +35,10 @@ public class CreateAccountRequest {
 
     AccountType accountType;
 
-    public CreateAccountRequest( long accountIDForInit, long barnchID, String confitionForGive, Date expireDateOfGive, Timestamp createTime) {
+    public CreateAccountRequest(String accountIDForInit, String confitionForGive, Date expireDateOfGive, Timestamp createTime) {
 
-        this.accountIDForInit = accountIDForInit;
-        this.barnchID = barnchID;
-        this.confitionForGive = confitionForGive;
+        this.accountNumberForInit = accountIDForInit;
+        this.conditionForGive = confitionForGive;
         this.expireDateOfGive = expireDateOfGive;
         this.createTime = createTime;
     }
@@ -50,28 +46,20 @@ public class CreateAccountRequest {
     public CreateAccountRequest() {
     }
 
-    public long getAccountIDForInit() {
-        return accountIDForInit;
+    public String getAccountNumberForInit() {
+        return accountNumberForInit;
     }
 
-    public void setAccountIDForInit(long accountIDForInit) {
-        this.accountIDForInit = accountIDForInit;
+    public void setAccountNumberForInit(String accountNumberForInit) {
+        this.accountNumberForInit = accountNumberForInit;
     }
 
-    public long getBarnchID() {
-        return barnchID;
+    public String getConditionForGive() {
+        return conditionForGive;
     }
 
-    public void setBarnchID(long barnchID) {
-        this.barnchID = barnchID;
-    }
-
-    public String getConfitionForGive() {
-        return confitionForGive;
-    }
-
-    public void setConfitionForGive(String confitionForGive) {
-        this.confitionForGive = confitionForGive;
+    public void setConditionForGive(String conditionForGive) {
+        this.conditionForGive = conditionForGive;
     }
 
     public Date getExpireDateOfGive() {
@@ -130,11 +118,19 @@ public class CreateAccountRequest {
         this.initCash = initCash;
     }
 
-    public long getUserID() {
-        return userID;
+    public String getNationalCodeCustomer() {
+        return nationalCodeCustomer;
     }
 
-    public void setUserID(long userID) {
-        this.userID = userID;
+    public void setNationalCodeCustomer(String nationalCodeCustomer) {
+        this.nationalCodeCustomer = nationalCodeCustomer;
+    }
+
+    public int getBranchCode() {
+        return branchCode;
+    }
+
+    public void setBranchCode(int branchCode) {
+        this.branchCode = branchCode;
     }
 }

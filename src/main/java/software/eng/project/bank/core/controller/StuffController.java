@@ -53,7 +53,7 @@ public class StuffController {
         Preconditions.checkNotNull(token);
         List<Request> res = null ;
         try{
-            res=this.stuffService.getRequests(1);
+            res=this.stuffService.getRequests(this.getStuffID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -82,7 +82,7 @@ public class StuffController {
     }
 
     @RequestMapping(value = "/request/answer", ////difrrent controller for diffrent request
-            method = RequestMethod.GET,
+            method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
@@ -123,6 +123,11 @@ public class StuffController {
 
     }
 
+
+    ///TODO ta inja
+
+
+
     @RequestMapping(value = "/create/account",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -134,7 +139,7 @@ public class StuffController {
         Preconditions.checkNotNull(token);
         Response res = null ;
         try{
-            res=this.stuffService.createAccount(createAccountRequest);
+            res=this.stuffService.createAccount(createAccountRequest , this.getStuffID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -142,7 +147,7 @@ public class StuffController {
         }
         return res;
     }
-    @RequestMapping(value = "/pass/check/{che}",
+    @RequestMapping(value = "/pass/check",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
@@ -161,8 +166,18 @@ public class StuffController {
         }
         return res;
     }
+    @RequestMapping(value = "/get/stuff/list",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    Response getStuffList(HttpServletResponse response,HttpServletRequest request)
+    {
+        return null;
+    }
 
     public long getStuffID(String token){
+        token = token.substring(7);
         String username = jwtTokenUtil.getUsernameFromToken(token);
         JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
         Stuff stuff =this.stuffRepository.findByUser_Id(jwtUser.getId());

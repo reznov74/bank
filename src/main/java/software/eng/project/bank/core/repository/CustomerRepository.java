@@ -8,4 +8,5 @@ import software.eng.project.bank.core.model.Role.Stuff;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long>,CrudRepository<Customer, Long> {
     Customer findByUser_Id(long id);
+    Customer findByNationalCode(String nationalCode);
 }

@@ -31,7 +31,7 @@ public class CheckBook {
     @NotNull
     List<Check> checks;
 
-    @ManyToOne(fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
+    @ManyToOne(fetch = FetchType.EAGER )
     @JoinColumn(name = "account")
     @NotNull
     Account account;

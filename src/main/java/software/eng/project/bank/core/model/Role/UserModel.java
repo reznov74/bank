@@ -1,5 +1,6 @@
 package software.eng.project.bank.core.model.Role;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 import software.eng.project.bank.core.boundry.request.CreateUserRequest;
 import software.eng.project.bank.security.model.User;
@@ -28,7 +29,7 @@ public class UserModel implements Serializable {
     @Column
     String lastName;
 
-    @Column(name = "national_code")
+    @Column(name = "national_code" , unique = true)
     String nationalCode;
 
     @Column(name="phone_number")
@@ -49,6 +50,7 @@ public class UserModel implements Serializable {
     Sex sex;
 
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY , cascade = {CascadeType.ALL})
     @JoinColumn(name = "user")
     User user;

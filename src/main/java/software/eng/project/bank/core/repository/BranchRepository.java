@@ -5,4 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import software.eng.project.bank.core.model.Bank.Branch;
 
 public interface BranchRepository extends JpaRepository<Branch, Long>,CrudRepository<Branch, Long> {
+    public Branch findByBarnchCode(int branchCode);
 }

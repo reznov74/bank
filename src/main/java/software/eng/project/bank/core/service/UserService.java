@@ -72,19 +72,26 @@ public class UserService {
     @Autowired
     private FacilityReturnRepository facilityReturnRepository;
 
-    public List<Account> getAccountList () throws UserNotFoundException {
-        List<Account> queryResult = this.accountRepository.findAll();
-        List<Account> ans=new ArrayList<>();
-        for(Account account : queryResult){
-            if(account.getAccountStatus().getStatusType().equals(AccountStatusType.OPEN)){
-
+    public List<Account> getAccountList (long userID) throws UserNotFoundException {
+        List<Account> queryResult = this.accountRepository.findByCustomer_IdAndAccountStatus_StatusType(userID,AccountStatusType.OPEN);
+        return queryResult;
+    }
+    public List<AccountFlowResponse> getAccountFlow(AccountFlowRequest accountFlowRequest , long userID) throws BadArgumentException{
+       //TODO account flow + draft -->>> result of this method
+        List<AccountFlowResponse> responses=new ArrayList<>();
+        if(accountFlowRequest.isAllActivity()){
+            responses.addAll(this.getAccountFlow(accountFlowRequest,true));
+            responses.addAll(this.getDraft(accountFlowRequest));
+            return responses;
+        }else{
+            if(accountFlowRequest.getAccountFlowType().equals(AccountFlowType.HAVALE_BARDASHT) ||
+                    accountFlowRequest.getAccountFlowType().equals(AccountFlowType.HAVALE_VARIZ) ){
+                    return this.getDraft(accountFlowRequest);
+            }else {
+                return this.getAccountFlow(accountFlowRequest ,false);
             }
         }
-        return ans;
-    }
-    public List<AccountFlow> getAccountFlow(AccountFlowRequest accountFlowRequest , long userID) throws BadArgumentException{
-       //TODO account flow + draft -->>> result of this method
-        return null;
+
     }
     public ResponseEntity<InputStreamResource> getReceiveAccountFlow(){
         return null;
@@ -161,17 +168,18 @@ public class UserService {
         }
         return ans;
     }
-    public Account createAccount(CreateAccountRequest createAccountRequest , long userID) throws BadArgumentException {
-        Account account =this.accountRepository.getOne(createAccountRequest.getAccountIDForInit());
+    //
+    public Account createAccount(CreateAccountRequest createAccountRequest) throws BadArgumentException {
+        Account account =this.accountRepository.findByAccountNumber(createAccountRequest.getAccountNumberForInit());
         Account account1= new Account();
-        if(account.getCustomer().getId().equals(userID)){
-            if(this.branchRepository.getOne(createAccountRequest.getBarnchID())==null){
+        if(account.getCustomer().getNationalCode().equals(createAccountRequest.getNationalCodeCustomer())){
+            if(this.branchRepository.findByBarnchCode(createAccountRequest.getBranchCode())==null){
                 throw new BadArgumentException();
             }else{
                 if(createAccountRequest.getAccountType()==AccountType.GHARZ || createAccountRequest.getAccountType()==AccountType.JARI || createAccountRequest.getAccountType()==AccountType.SEPORDE_KOTAH){
                     account1= new Account();
                     account1.setAccountStatus(new AccountStatus(AccountStatusType.OPEN, null , null , null));
-                    account1.setCustomer(this.customerRepository.findOne(userID));
+                    account1.setCustomer(this.customerRepository.findByNationalCode(createAccountRequest.getNationalCodeCustomer()));
                     account1.setAccountType(createAccountRequest.getAccountType());
                     account1.setAccountTypeIndivisual(createAccountRequest.getAccountTypeIndivisual());
                     account1.setAccountTypeReal(createAccountRequest.getAccountTypeReal());
@@ -342,5 +350,50 @@ public class UserService {
             account.setCash(account.getCash()+temp);
             this.accountRepository.updateCashValue(account.getCash(),account.getId());//TODO
         }
+    }
+    private List<AccountFlowResponse> getDraft (AccountFlowRequest accountFlowRequest){
+        List<AccountFlowResponse> responses=new ArrayList<>();
+        List<Draft> drafts  = this.draftRepository.findBySourceAccount_AccountNumberOrDistAccount_AccountNumberOrderByDraftedDate(
+                accountFlowRequest.getAccountNumber(),accountFlowRequest.getAccountNumber());
+
+        for ( Draft draft : drafts){
+            AccountFlowResponse accountFlowResponse =new AccountFlowResponse();
+            accountFlowResponse.setDate(draft.getDraftedDate());
+            accountFlowResponse.setAmount(draft.getAmount());
+            if(draft.getSourceAccount().getAccountNumber().equals(accountFlowRequest.getAccountNumber())){
+                accountFlowResponse.setAccountFlowType(AccountFlowType.HAVALE_BARDASHT);
+                accountFlowResponse.setPayOrNot(true);
+            }else{
+                accountFlowResponse.setAccountFlowType(AccountFlowType.HAVALE_VARIZ);
+                accountFlowResponse.setPayOrNot(false);
+            }
+            responses.add(accountFlowResponse);
+        }
+        return responses ;
+    }
+    private List<AccountFlowResponse> getAccountFlow(AccountFlowRequest accountFlowRequest , boolean all){
+        List<AccountFlowResponse> responses=new ArrayList<>();
+        List<AccountFlow> accountFlows;
+        if(all){
+            accountFlows = this.accountFlowRepository.findByAccount_AccountNumberOrderByDate(accountFlowRequest.getAccountNumber());
+        }else {
+             accountFlows = this.accountFlowRepository.findByAccount_AccountNumberAndTypeOrderByDate( accountFlowRequest.getAccountNumber(), accountFlowRequest.getAccountFlowType());
+        }
+        for  (AccountFlow accountFlow : accountFlows){
+            AccountFlowResponse accountFlowResponse =new AccountFlowResponse();
+            accountFlowResponse.setAccountFlowType(accountFlow.getType());
+            accountFlowResponse.setAmount(accountFlow.getAmount());
+            accountFlowResponse.setDate(accountFlow.getDate());
+            if(accountFlow.getType().equals(AccountFlowType.KHARID_INTERNET)
+                    || accountFlow.getType().equals(AccountFlowType.KHARID_POZ)
+                    || accountFlow.getType().equals(AccountFlowType.PAYBILL)
+                    ){
+                accountFlowResponse.setPayOrNot(true);
+            }else{
+                accountFlowResponse.setPayOrNot(false);
+            }
+            responses.add(accountFlowResponse);
+        }
+        return responses;
     }
 }

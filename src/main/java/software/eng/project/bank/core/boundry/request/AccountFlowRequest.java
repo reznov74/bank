@@ -1,7 +1,8 @@
 package software.eng.project.bank.core.boundry.request;
 
 public class AccountFlowRequest {
-    long account;
+
+    String accountNumber;
 
     int count;
 
@@ -11,8 +12,8 @@ public class AccountFlowRequest {
 
     long branchID;
 
-    public AccountFlowRequest(long account, int count, AccountFlowType accountFlowType, boolean allActivity, long branchID) {
-        this.account = account;
+    public AccountFlowRequest(String accountNumber, int count, AccountFlowType accountFlowType, boolean allActivity, long branchID) {
+        this.accountNumber = accountNumber;
         this.count = count;
         this.accountFlowType = accountFlowType;
         this.allActivity = allActivity;
@@ -22,12 +23,12 @@ public class AccountFlowRequest {
     public AccountFlowRequest() {
     }
 
-    public long getAccount() {
-        return account;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setAccount(long account) {
-        this.account = account;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public int getCount() {
