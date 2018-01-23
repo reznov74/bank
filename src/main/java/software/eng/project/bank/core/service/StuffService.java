@@ -12,6 +12,7 @@ import software.eng.project.bank.core.boundry.request.CreateResponseRequest;
 import software.eng.project.bank.core.boundry.response.Response;
 import software.eng.project.bank.core.boundry.response.ResponseStatus;
 import software.eng.project.bank.core.model.Account.*;
+import software.eng.project.bank.core.model.Bank.Branch;
 import software.eng.project.bank.core.model.Request.*;
 import software.eng.project.bank.core.model.Response.RequestResponse;
 
@@ -73,14 +74,16 @@ public class StuffService {
         RequestResponse requestResponse = new RequestResponse();
         requestResponse.setAccept(createResponseRequest.isAccept());
         requestResponse.setForWhy(createResponseRequest.getForWhy());
+        requestResponse.setDayRequiredForReady(createResponseRequest.getDayForReady());
         Response response =new Response();
         try {
-            if (this.stuffRepository.exists(stuffID)) {
-                requestResponse.setStuff(this.stuffRepository.findOne(stuffID));
-            } else {
+            if (!this.stuffRepository.exists(stuffID)) {
                 throw new BadArgumentException();
             }
             Request request = this.getRequest(createResponseRequest.getRequestID());
+            if(request.getStuff().getId().equals(stuffID)){ // stuff marboote bayad pasokh bedahad
+                throw new BadArgumentException();
+            }
             if(createResponseRequest.isAccept()){
                 request.setStatus(RequestStatus.ACCEPT);
             } else if (!createResponseRequest.isAccept()){
@@ -188,6 +191,10 @@ public class StuffService {
             }
         }
         return response;
+    }
+    public List<Stuff> getStuffList(long stuffID){
+        Branch branch=this.stuffRepository.findByUser_Id(stuffID).getBranch();
+        return this.stuffRepository.findByBranch_Id(branch.getId());
     }
 
 }

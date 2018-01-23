@@ -8,12 +8,20 @@ import software.eng.project.bank.core.model.Account.WarantyTypeFacility;
 
 
 public class CreateFacilityRequest {
+    long accountID;
+
     long branchID;
+
     float amount;
+
     int timeOfFacility;
+
     boolean isDayOrMounth;
+
     TypeOfFacility typeOfFacility;
+
     CashType cashType;
+
     WarantyTypeFacility warantyType;
 
     public CreateFacilityRequest(long branchID, float amount, int timeOfFacility, boolean isDayOrMounth, TypeOfFacility typeOfFacility, CashType cashType, WarantyTypeFacility warantyType) {
@@ -24,6 +32,17 @@ public class CreateFacilityRequest {
         this.typeOfFacility = typeOfFacility;
         this.cashType = cashType;
         this.warantyType = warantyType;
+    }
+
+    public CreateFacilityRequest() {
+    }
+
+    public long getAccountID() {
+        return accountID;
+    }
+
+    public void setAccountID(long accountID) {
+        this.accountID = accountID;
     }
 
     public long getBranchID() {

@@ -1,9 +1,8 @@
 package software.eng.project.bank.core.model.Request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import software.eng.project.bank.core.model.Account.Account;
 import software.eng.project.bank.core.model.Bank.Branch;
 import software.eng.project.bank.core.model.Response.RequestResponse;
-import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
 
 import javax.persistence.*;
@@ -15,7 +14,7 @@ public class Request implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-     Long id;
+    Long id;
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "stuff")
@@ -23,14 +22,9 @@ public class Request implements Serializable {
     Stuff stuff;
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "customer")
+    @JoinColumn(name = "account")
     @NotNull
-    Customer customer;
-
-    @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "branch")
-    @NotNull
-    Branch branch;
+    Account account;
 
     @Column(name = "date")
     Date requestDate;
@@ -45,10 +39,9 @@ public class Request implements Serializable {
     RequestResponse requestResponse;
 
 
-    public Request(Stuff stuff, Customer customer, Branch branch, Date requestDate, RequestStatus status) {
+    public Request(Stuff stuff, Account account, Date requestDate, RequestStatus status) {
         this.stuff = stuff;
-        this.customer = customer;
-        this.branch = branch;
+        this.account = account;
         this.requestDate = requestDate;
         this.status = status;
     }
@@ -72,21 +65,14 @@ public class Request implements Serializable {
         this.stuff = stuff;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public Branch getBranch() {
-        return branch;
-    }
-
-    public void setBranch(Branch branch) {
-        this.branch = branch;
-    }
 
     public Date getRequestDate() {
         return requestDate;

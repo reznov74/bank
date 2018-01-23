@@ -4,6 +4,10 @@ public class CreateCardRequest {
     long accountID;
     ///
     long brachID;
+
+    public CreateCardRequest() {
+    }
+
     public long getAccountID() {
         return accountID;
     }

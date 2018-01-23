@@ -14,23 +14,22 @@ public class RequestResponse {
     @Column(name = "id", updatable = false, nullable = false)
     protected Long id;
 
-    @Column(name = "isAccept")
+    @Column(name = "is_accept")
     @NotNull
     boolean isAccept;
-    @Column(name = "answerTime")
+
+    @Column(name = "answer_time")
     Date answerTime;
 
-    @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
-    @JoinColumn(name = "stuff")
-    Stuff stuff;
-
-    @Column(name = "forWhy")
+    @Column(name = "for_why")
     String forWhy;
 
-    public RequestResponse(boolean isAccept, Date answerTime, Stuff stuff, String forWhy) {
+    @Column(name = "day_required_for_ready")
+    int dayRequiredForReady;
+
+    public RequestResponse(boolean isAccept, Date answerTime, String forWhy) {
         this.isAccept = isAccept;
         this.answerTime = answerTime;
-        this.stuff = stuff;
         this.forWhy = forWhy;
     }
 
@@ -61,19 +60,19 @@ public class RequestResponse {
         this.answerTime = answerTime;
     }
 
-    public Stuff getStuff() {
-        return stuff;
-    }
-
-    public void setStuff(Stuff stuff) {
-        this.stuff = stuff;
-    }
-
     public String getForWhy() {
         return forWhy;
     }
 
     public void setForWhy(String forWhy) {
         this.forWhy = forWhy;
+    }
+
+    public int getDayRequiredForReady() {
+        return dayRequiredForReady;
+    }
+
+    public void setDayRequiredForReady(int dayRequiredForReady) {
+        this.dayRequiredForReady = dayRequiredForReady;
     }
 }

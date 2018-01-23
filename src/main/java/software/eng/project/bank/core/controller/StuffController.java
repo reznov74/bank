@@ -171,9 +171,19 @@ public class StuffController {
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
-    Response getStuffList(HttpServletResponse response,HttpServletRequest request)
+    List<Stuff> getStuffList(HttpServletResponse response,HttpServletRequest request)
     {
-        return null;
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<Stuff> res = null ;
+        try{
+            res=this.stuffService.getStuffList(this.getStuffID(token));
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
     }
 
     public long getStuffID(String token){

@@ -37,6 +37,7 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
+    //OK
     @RequestMapping(value = "/add/user",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -56,6 +57,7 @@ public class AdminController {
         }
         return res;
     }
+    //OK
     @RequestMapping(value = "/remove/user/{userID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -76,6 +78,7 @@ public class AdminController {
         return res;
 
     }
+
     @RequestMapping(value = "/change/user",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})

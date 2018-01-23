@@ -22,8 +22,8 @@ public class FacilityRequest extends Request {
     @Enumerated(EnumType.STRING)
     @Column(name = "cash")
     @NotNull
-
     CashType cashType;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "waranty")
     @NotNull

@@ -11,5 +11,5 @@ import java.util.List;
 public interface CheckBookRequestRepository extends JpaRepository<CheckBookRequest, Long>,CrudRepository<CheckBookRequest, Long> {
     List<CheckBookRequest> findByStuff_Id(long p);
     List<CheckBookRequest> findByStuff_IdAndStatus(long stuffID , RequestStatus requestStatus);
-    List<CheckBookRequest> findByCustomer_Id(long p );
+    List<CheckBookRequest> findByAccount_Customer_Id(long customerID);
 }

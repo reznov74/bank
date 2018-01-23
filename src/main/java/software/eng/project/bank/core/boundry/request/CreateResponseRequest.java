@@ -13,6 +13,19 @@ public class CreateResponseRequest {
 
     String forWhy;
 
+    int dayForReady;
+
+    public CreateResponseRequest() {
+    }
+
+    public int getDayForReady() {
+        return dayForReady;
+    }
+
+    public void setDayForReady(int dayForReady) {
+        this.dayForReady = dayForReady;
+    }
+
     public long getRequestID() {
         return requestID;
     }

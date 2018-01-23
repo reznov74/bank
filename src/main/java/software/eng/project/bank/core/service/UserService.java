@@ -243,8 +243,7 @@ public class UserService {
                             List<CheckBookRequest> reqs=this.checkBookRequestRepository.findByStuff_IdAndStatus(stuff.getPersonalNumber(), RequestStatus.NOT_OPEN);
                             if (reqs.size()<this.BUSY_STUFF){
                                 CheckBookRequest checkBookRequest=new CheckBookRequest();
-                                checkBookRequest.setBranch(branch);
-                                checkBookRequest.setCustomer(this.customerRepository.findOne(userID));
+                                checkBookRequest.setAccount(this.accountRepository.findOne(createCheckbookRequest.getAccountID()));
                                 checkBookRequest.setStuff(stuff);
                                 checkBookRequest.setStatus(RequestStatus.NOT_OPEN);
                                 checkBookRequest.setRequestDate(new Date());
@@ -265,8 +264,7 @@ public class UserService {
     public Response requestCard(CreateCardRequest createCardRequest,long userID) throws BadArgumentException {
         Response response=new Response();
         boolean isFirstOne=true;
-        Account account =this.accountRepository.getOne(createCardRequest.getAccountID());
-        List<AccessCard> accessCards = account.getAccessCards();
+        Account account =this.accountRepository.findOne(createCardRequest.getAccountID());
         if(!this.accountRepository.findOne(createCardRequest.getAccountID()).
                 getAccountStatus().getStatusType().equals(AccountStatusType.OPEN)){
             throw new BadArgumentException();
@@ -274,7 +272,7 @@ public class UserService {
         if(!this.accountRepository.findOne(createCardRequest.getAccountID()).getCustomer().getId().equals(userID)){
             throw new BadArgumentException();
         }
-
+        List<AccessCard> accessCards = account.getAccessCards();
         for(AccessCard accessCard : accessCards){
             if(accessCard.isActive()){
                 isFirstOne=false;
@@ -291,13 +289,14 @@ public class UserService {
                 }
             }
             for(Stuff stuff : activeStuff){
-                List<AccessCardRequest> reqs=this.accessCardRequestRepository.findByStuff_Id(stuff.getPersonalNumber());
+                List<AccessCardRequest> reqs=this.accessCardRequestRepository.findByStuff_IdAndStatus(stuff.getPersonalNumber() , RequestStatus.NOT_OPEN);
                 if (reqs.size()<this.BUSY_STUFF){
                     AccessCardRequest accessCardRequest =new AccessCardRequest();
                     accessCardRequest.setFristOrNot(isFirstOne);
-                    accessCardRequest.setBranch(branch);
-                    accessCardRequest.setCustomer(this.customerRepository.getOne(userID));
+                    accessCardRequest.setAccount(this.accountRepository.findOne(createCardRequest.getAccountID()));
                     accessCardRequest.setStuff(stuff);
+                    accessCardRequest.setRequestDate(new Date());
+                    accessCardRequest.setStatus(RequestStatus.NOT_OPEN);
                     this.accessCardRequestRepository.save(accessCardRequest);
                     response=new Response(ResponseStatus.OK,2000);
                     return response;
@@ -308,9 +307,9 @@ public class UserService {
         return response;
 
     }
-    public Response requestFacility(CreateFacilityRequest createFacilityRequest) throws BadArgumentException {
+    public Response requestFacility(CreateFacilityRequest createFacilityRequest , long customerID) throws BadArgumentException {
         Response response = new Response();
-        Branch branch=this.branchRepository.getOne(createFacilityRequest.getBranchID());
+        Branch branch=this.branchRepository.findOne(createFacilityRequest.getBranchID());
         if(branch!=null){
             List<Stuff> stuffs= this.stuffRepository.findAll();
             List<Stuff> activeStuff =new ArrayList<>();
@@ -320,13 +319,16 @@ public class UserService {
                 }
             }
             for(Stuff stuff : activeStuff){
-                List<FacilityRequest> reqs=this.facilityRequestRepository.findByStuff_Id(stuff.getPersonalNumber());
+                List<FacilityRequest> reqs=this.facilityRequestRepository.findByStuff_IdAndStatus(stuff.getPersonalNumber() , RequestStatus.NOT_OPEN);
                 if (reqs.size()<this.BUSY_STUFF){
                     FacilityRequest facilityRequest=new FacilityRequest();
                     facilityRequest.setCashType(createFacilityRequest.getCashType());
                     facilityRequest.setTitle(createFacilityRequest.getTypeOfFacility());
                     facilityRequest.setTypeOfGranty(createFacilityRequest.getWarantyType());
                     facilityRequest.setStuff(stuff);
+                    facilityRequest.setStatus(RequestStatus.NOT_OPEN);
+                    facilityRequest.setRequestDate(new Date());
+                    facilityRequest.setAccount(this.accountRepository.findOne(createFacilityRequest.getAccountID()));
                     response=new Response(ResponseStatus.OK,2000);
                     this.facilityRequestRepository.save(facilityRequest);
                 }
@@ -355,9 +357,9 @@ public class UserService {
     }
     public List<Request> reportRequest(long userID){
         List<Request> requests = new ArrayList<>();
-        requests.addAll(this.checkBookRequestRepository.findByCustomer_Id(userID));
-        requests.addAll(this.facilityRequestRepository.findByCustomer_Id(userID));
-        requests.addAll(this.accessCardRequestRepository.findByCustomer_Id(userID));
+        requests.addAll(this.checkBookRequestRepository.findByAccount_Customer_Id(userID));
+        requests.addAll(this.facilityRequestRepository.findByAccount_Customer_Id(userID));
+        requests.addAll(this.accessCardRequestRepository.findByAccount_Customer_Id(userID));
         return requests;
     }
 

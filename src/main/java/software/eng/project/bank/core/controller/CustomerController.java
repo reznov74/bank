@@ -47,7 +47,7 @@ public class CustomerController {
     @Autowired
     private CustomerRepository customerRepository;
 
-
+    //OK
     @RequestMapping(value = "/home",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -71,8 +71,8 @@ public class CustomerController {
         //get user information from jwt
         return res;
     }
-    /////////////////////////////////
 
+    //OK
     @RequestMapping(value = "/account/flow",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -93,6 +93,7 @@ public class CustomerController {
         return res;
     }
 
+    //TODO
     @RequestMapping(value = "/receive/account/flow",
             method = RequestMethod.POST,
             produces = {"application/pdf"})
@@ -113,6 +114,7 @@ public class CustomerController {
         return (ResponseEntity<InputStreamResource>) res;
     }
 
+    //TODO
     @RequestMapping(value = "/pay/bill",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -134,8 +136,7 @@ public class CustomerController {
     }
 
 
-    ////
-
+    //TODO
     @RequestMapping(value = "/pay/rejected/check",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -146,6 +147,7 @@ public class CustomerController {
 
     }
 
+    //OK
     @RequestMapping(value = "/branch/list",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -167,8 +169,7 @@ public class CustomerController {
     }
 
 
-    ////
-
+    //OK
     @RequestMapping(value = "/create/draft",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -343,6 +344,7 @@ public class CustomerController {
 
 
     //TODO SHOULD CHANGE FORM ACCOUNT ID TO ACCOUNT NUMBER
+    //OK
     @RequestMapping(value = "/account/info/{accountID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -363,6 +365,7 @@ public class CustomerController {
         return res;
     }
 
+    //OK
     @RequestMapping(value = "/report/check",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -382,6 +385,7 @@ public class CustomerController {
         }
         return res;
     }
+
     //TODO TEST
     @RequestMapping(value = "/create/account",
             method = RequestMethod.POST,
@@ -404,6 +408,7 @@ public class CustomerController {
     }
 
 
+    //OK
     @RequestMapping(value = "/report/profit/{accountID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -424,6 +429,7 @@ public class CustomerController {
         return res;
     }
 
+    //OK
     @RequestMapping(value = "/report/blocked/account",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -445,8 +451,7 @@ public class CustomerController {
     }
 
 
-    //TODO REQUEST JUST WORK FOR NON BLOCKED ACCOUNT
-    //TODO CHANGE USER ID WITH NATIONAL CODE
+    //OK
     @RequestMapping(value = "/request/checkbook",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -467,6 +472,7 @@ public class CustomerController {
         return res;
     }
 
+    //OK
     @RequestMapping(value = "/request/card",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -486,7 +492,7 @@ public class CustomerController {
         }
         return res;
     }
-
+    //OK
     @RequestMapping(value = "/request/facility",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -498,7 +504,7 @@ public class CustomerController {
         Preconditions.checkNotNull(token);
         Response res = null ;
         try{
-            res=this.userService.requestFacility(createFacilityRequest);
+            res=this.userService.requestFacility(createFacilityRequest , this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -507,8 +513,9 @@ public class CustomerController {
         return res;
     }
 
+    //OK
     @RequestMapping(value = "/report/request",
-            method = RequestMethod.POST,
+            method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody
@@ -527,6 +534,7 @@ public class CustomerController {
         return res;
     }
 
+    //TODO
     @RequestMapping(value = "/report/facility/{accountID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
