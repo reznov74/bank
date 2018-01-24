@@ -30,14 +30,14 @@ INSERT INTO branch (address , phone ,city,code ) VALUES ('tehran',44286981,'tehr
 INSERT INTO branch (address , phone ,city,code ) VALUES ('mashhad',44286981,'mashhad',5865);
 
 /*USER DEFINE*/
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('razavi', '0018601375'  , '09392262950' ,'razavi_rohani@yahoo.com','shiraz',3 , 1 , 2437 , 'NORMAL' , 1);
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('rohani', '0018601376'  , '09392262951' ,'razavi_rohanii@yahoo.com','shiraz',1 , 2 );
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('ebrahimi', '0018601378'  , '09392262952' ,'razavi_rohanii@yahoo.com','tehran',3 , 3 , 2439 , 'NORMAL' , 3);
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('kiani', '0018601379'  , '09392262958' ,'razavi_rohaniii@yahoo.com','mashhad',1 , 4 );
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('mohamadi', '0018601380' , '09392262959' ,'razavi_rohaniii@yahoo.com','tabriz',3 , 5 , 2580 , 'HEAD' , 3);
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('motahari', '0018601325' , '09392262978' ,'razavi_rohaniiii@yahoo.com','tabriz',1 , 6);
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('taheri', '00186012580' , '09992262959' ,'razavi_rohaniiiii@yahoo.com','tabriz',3 , 7 , 8976 ,'NORMAL' , 2);
-INSERT INTO user_model (frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('ahmadi', '0017901380' , '09392266559' ,'razavi_rohaniiiii@yahoo.com','tabriz',2 , 8);
+INSERT INTO user_model (LAST_NAME , BRITHDAY_DATE , frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('mamad' , PARSEDATETIME('01-01-1993', 'dd-MM-yyyy') , 'razavi', '0018601375'  , '09392262950' ,'razavi_rohani@yahoo.com','shiraz',3 , 1 , 2437 , 'NORMAL' , 1);
+INSERT INTO user_model (LAST_NAME , BRITHDAY_DATE , frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('ali' , PARSEDATETIME('01-01-01-01-1994', 'dd-MM-yyyy') , 'rohani', '0018601376'  , '09392262951' ,'razavi_rohanii@yahoo.com','shiraz',1 , 2 );
+INSERT INTO user_model (LAST_NAME , BRITHDAY_DATE , frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('reza' ,  PARSEDATETIME('01-01-01-01-1985', 'dd-MM-yyyy') , 'ebrahimi', '0018601378'  , '09392262952' ,'razavi_rohanii@yahoo.com','tehran',3 , 3 , 2439 , 'NORMAL' , 3);
+INSERT INTO user_model (LAST_NAME , BRITHDAY_DATE , frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('ghanbar' , PARSEDATETIME('01-01-01-01-1974', 'dd-MM-yyyy'), 'kiani', '0018601379'  , '09392262958' ,'razavi_rohaniii@yahoo.com','mashhad',1 , 4 );
+INSERT INTO user_model (LAST_NAME , BRITHDAY_DATE , frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('ali' , PARSEDATETIME('01-01-01-01-1975', 'dd-MM-yyyy') , 'mohamadi', '0018601380' , '09392262959' ,'razavi_rohaniii@yahoo.com','tabriz',3 , 5 , 2580 , 'HEAD' , 3);
+INSERT INTO user_model (LAST_NAME , BRITHDAY_DATE , frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('hoseyn' , PARSEDATETIME('01-01-01-01-1999', 'dd-MM-yyyy') , 'motahari', '0018601325' , '09392262978' ,'razavi_rohaniiii@yahoo.com','tabriz',1 , 6);
+INSERT INTO user_model (LAST_NAME , BRITHDAY_DATE , frist_name  , national_code , phone_number , email , address , user_type, user , personal_number , type , branch) VALUES ('karim' , PARSEDATETIME('01-01-2017', 'dd-MM-yyyy') , 'taheri', '00186012580' , '09992262959' ,'razavi_rohaniiiii@yahoo.com','tabriz',3 , 7 , 8976 ,'NORMAL' , 2);
+INSERT INTO user_model (LAST_NAME , BRITHDAY_DATE , frist_name  , national_code , phone_number , email , address , user_type, user) VALUES ('javad' , PARSEDATETIME('01-01-01-01-1969', 'dd-MM-yyyy') , 'ahmadi', '0017901380' , '09392266559' ,'razavi_rohaniiiii@yahoo.com','tabriz',2 , 8);
 
 
 /*ACCOUNT STATUS DEFINE*/
@@ -63,9 +63,9 @@ INSERT INTO account (number , cash , expire , start , customer , account_type_in
 INSERT INTO account (number , cash , expire , start , customer , account_type_indivisual ,account_type_real ,with_check , account_type , account_status , branch , stuff ,long_period) VALUES ('6104337846275859' , 4782000.0 , null , PARSEDATETIME('21-05-2017', 'dd-MM-yyyy') , 6  , 'INDIVISUAL' , 'REAL' , 0 , 'JARI' , 9 , 1 , 7 , null);
 
 /*ACCESS CARD DEFINE*/
-INSERT INTO access_card (is_active , access_card_number , second_password , expire_date , cvv2 ,branch , start , end , account) VALUES (1 , '610433784658588' , '987654321' , PARSEDATETIME('01-01-2019', 'dd-MM-yyyy') , 022 ,1, PARSEDATETIME('01-01-2014', 'dd-MM-yyyy') , null , 1 );
-INSERT INTO access_card (is_active , access_card_number , second_password , expire_date , cvv2 ,branch , start , end , account) VALUES (1 , '610783784658589' , '98871654321' , PARSEDATETIME('01-01-2020', 'dd-MM-yyyy') , 032 , 2 ,PARSEDATETIME('01-01-2015', 'dd-MM-yyyy') , null , 4 );
-INSERT INTO access_card (is_active , access_card_number , second_password , expire_date , cvv2 ,branch , start , end , account) VALUES (1 , '610783784658590' , '9887165821' , PARSEDATETIME('01-01-2021', 'dd-MM-yyyy') , 079 , 3 ,PARSEDATETIME('01-01-2013', 'dd-MM-yyyy') , null , 7 );
+INSERT INTO access_card ( is_active , access_card_number , second_password , expire_date , cvv2 ,branch , start , end , account) VALUES ( 1 , '610433784658588' , '987654321' , PARSEDATETIME('01-01-2019', 'dd-MM-yyyy') , 022 ,1, PARSEDATETIME('01-01-2014', 'dd-MM-yyyy') , null , 1 );
+INSERT INTO access_card ( is_active , access_card_number , second_password , expire_date , cvv2 ,branch , start , end , account) VALUES ( 1 , '610783784658589' , '98871654321' , PARSEDATETIME('01-01-2020', 'dd-MM-yyyy') , 032 , 2 ,PARSEDATETIME('01-01-2015', 'dd-MM-yyyy') , null , 4 );
+INSERT INTO access_card ( is_active , access_card_number , second_password , expire_date , cvv2 ,branch , start , end , account) VALUES ( 1 , '610783784658590' , '9887165821' , PARSEDATETIME('01-01-2021', 'dd-MM-yyyy') , 079 , 3 ,PARSEDATETIME('01-01-2013', 'dd-MM-yyyy') , null , 7 );
 
 /*ACCOUNT FLOW DEFINE*/
 INSERT INTO account_flow ( account  , type , date , amount) VALUES ( 1 , 'KHARID_POZ',PARSEDATETIME('01-01-2016', 'dd-MM-yyyy') , 28800.7);
@@ -175,25 +175,25 @@ INSERT INTO request_response (is_accept , answer_time , for_why , day_required_f
 
 
 /*ACCESS CARD REQUEST DEFINE 1 4 7 */
-INSERT INTO card_req (stuff ,account  , status ,FIRST) VALUES (1 ,6  ,'NOT_OPEN',1);
-INSERT INTO card_req (stuff ,account  , status ,FIRST) VALUES (3 ,3  ,'NOT_OPEN',1);
-INSERT INTO card_req (stuff ,account  , status ,FIRST) VALUES (5 ,5  ,'NOT_OPEN',1);
-INSERT INTO card_req (stuff ,account , status ,FIRST , response) VALUES (5 , 7 ,'ACCEPT',1 , 1);
+INSERT INTO card_req (DATE , stuff ,account  , status ,FIRST) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 1 ,6  ,'NOT_OPEN',1);
+INSERT INTO card_req (DATE  , stuff ,account  , status ,FIRST) VALUES (PARSEDATETIME('01-01-2013', 'dd-MM-yyyy') , 3 ,3  ,'NOT_OPEN',1);
+INSERT INTO card_req (DATE  , stuff ,account  , status ,FIRST) VALUES (PARSEDATETIME('01-01-2014', 'dd-MM-yyyy') , 5 ,5  ,'NOT_OPEN',1);
+INSERT INTO card_req (DATE  , stuff ,account , status ,FIRST , response) VALUES (PARSEDATETIME('01-01-2011', 'dd-MM-yyyy') , 5 , 7 ,'ACCEPT',1 , 1);
 
 
 
 /*FACILITY REQUEST DEFINE  2 4 9 */
-INSERT INTO facility_req (stuff , account , status , title , cash , waranty) VALUES (1 , 3 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'CASH');
-INSERT INTO facility_req (stuff , account , status , title , cash , waranty) VALUES (3 , 5 , 'NOT_OPEN' , 'MASKANE_NOKHBEGAN' , 'RIAL' , 'SANAD');
-INSERT INTO facility_req (stuff , account , status , title , cash , waranty , response) VALUES (5 , 6 , 'REJECTED' , 'SARMAYE_DAR_GOSTARESH' , 'DOLLAR' , 'CASH' , 2);
-INSERT INTO facility_req (stuff , account , status , title , cash , waranty) VALUES (7 , 7 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'SANAD');
-INSERT INTO facility_req (stuff , account , status , title , cash , waranty , response) VALUES (3 , 8 , 'ACCEPT' , 'BONGAH_KOCHIK_MOTEVASET' , 'DOLLAR' , 'WITHOUT_WARANTY' , 3);
-INSERT INTO facility_req (stuff , account , status , title , cash , waranty) VALUES (1 , 3 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'WITHOUT_WARANTY');
+INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty) VALUES (PARSEDATETIME('01-11-2012', 'dd-MM-yyyy') , 1 , 3 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'CASH');
+INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty) VALUES (PARSEDATETIME('81-04-2012', 'dd-MM-yyyy') , 3 , 5 , 'NOT_OPEN' , 'MASKANE_NOKHBEGAN' , 'RIAL' , 'SANAD');
+INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty , response) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 5 , 6 , 'REJECTED' , 'SARMAYE_DAR_GOSTARESH' , 'DOLLAR' , 'CASH' , 2);
+INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty) VALUES (PARSEDATETIME('01-8-2013', 'dd-MM-yyyy') , 7 , 7 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'SANAD');
+INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty , response) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 3 , 8 , 'ACCEPT' , 'BONGAH_KOCHIK_MOTEVASET' , 'DOLLAR' , 'WITHOUT_WARANTY' , 3);
+INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty) VALUES (PARSEDATETIME('07-09-2014', 'dd-MM-yyyy'), 1 , 3 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'WITHOUT_WARANTY');
 
 
 /*CHECKBOOK REQUEST DEFINE 2 4 9 */
-INSERT INTO check_book_request (stuff , account , status , number_of_check) VALUES (3 , 6 , 'NOT_OPEN' , 10);
-INSERT INTO check_book_request (stuff , account , status , number_of_check , response) VALUES (7 , 7 , 'REJECTED' , 15 , 4);
-INSERT INTO check_book_request (stuff , account , status , number_of_check) VALUES (7 , 1 , 'NOT_OPEN' , 50);
-INSERT INTO check_book_request (stuff , account , status , number_of_check , response) VALUES (5 , 3 , 'ACCEPT' , 25 , 5);
+INSERT INTO check_book_request (DATE ,stuff , account , status , number_of_check) VALUES (PARSEDATETIME('01-01-2011', 'dd-MM-yyyy') , 3 , 6 , 'NOT_OPEN' , 10);
+INSERT INTO check_book_request (DATE , stuff , account , status , number_of_check , response) VALUES (PARSEDATETIME('01-11-2013', 'dd-MM-yyyy') , 7 , 7 , 'REJECTED' , 15 , 4);
+INSERT INTO check_book_request (DATE , stuff , account , status , number_of_check) VALUES (PARSEDATETIME('26-07-2012', 'dd-MM-yyyy') , 7 , 1 , 'NOT_OPEN' , 50);
+INSERT INTO check_book_request (DATE , stuff , account , status , number_of_check , response) VALUES (PARSEDATETIME('23-03-2013', 'dd-MM-yyyy') , 5 , 3 , 'ACCEPT' , 25 , 5);
 

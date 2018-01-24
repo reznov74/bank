@@ -42,7 +42,7 @@ public class Branch {
         this.city_ = city_;
         this.barnchCode = barnchCode;
     }
-    @JsonIgnore
+    
     public long getId() {
         return id;
     }

@@ -1,7 +1,5 @@
 package software.eng.project.bank.core.model.Account;
 
-import software.eng.project.bank.core.model.Role.Customer;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -27,7 +25,7 @@ public class Facility {
 
     @ManyToOne(fetch = FetchType.EAGER )
     @JoinColumn
-    Customer customer;
+    Account account;
 
     @OneToMany(fetch = FetchType.EAGER )
     @JoinColumn
@@ -69,11 +67,11 @@ public class Facility {
         this.facilityReturn = facilityReturn;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

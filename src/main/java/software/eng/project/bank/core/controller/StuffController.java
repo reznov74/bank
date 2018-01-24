@@ -124,10 +124,9 @@ public class StuffController {
     }
 
 
-    ///TODO ta inja
 
 
-
+    //TODO
     @RequestMapping(value = "/create/account",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -147,6 +146,7 @@ public class StuffController {
         }
         return res;
     }
+    //OK
     @RequestMapping(value = "/pass/check",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -166,6 +166,8 @@ public class StuffController {
         }
         return res;
     }
+
+    //OK
     @RequestMapping(value = "/get/stuff/list",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -184,6 +186,40 @@ public class StuffController {
             response.setStatus(500);
         }
         return res;
+    }
+
+
+    //TODO
+    @RequestMapping(value = "/create/checkbook/{requestID}",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    Response createCheckBook(HttpServletResponse response,HttpServletRequest request)
+    {
+        return null;
+    }
+
+    //TODO
+    @RequestMapping(value = "/create/facility/{requestID}",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    Response createFacility(HttpServletResponse response,HttpServletRequest request)
+    {
+        return null;
+    }
+
+    //TODO
+    @RequestMapping(value = "/create/card/{requestID}",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    Response createAccessCard(HttpServletResponse response,HttpServletRequest request)
+    {
+        return null;
     }
 
     public long getStuffID(String token){

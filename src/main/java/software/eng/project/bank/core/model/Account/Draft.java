@@ -57,7 +57,6 @@ public class Draft {
     public Draft() {
     }
 
-    @JsonIgnore
     public long getId() {
         return id;
     }

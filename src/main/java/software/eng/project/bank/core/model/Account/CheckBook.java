@@ -31,7 +31,6 @@ public class CheckBook {
     Date expireDate;
 
     @OneToMany
-    @NotNull
     List<Check> checks;
 
     @ManyToOne(fetch = FetchType.EAGER )

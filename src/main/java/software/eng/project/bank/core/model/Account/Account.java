@@ -7,6 +7,7 @@ import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -18,41 +19,50 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "number", length = 100 , unique = true)
+    @Column(name = "number", length = 16 , unique = true)
+    @NotNull
     private String accountNumber;
 
     @Column(name = "cash")
+    @NotNull
     double cash= 0.0;
 
     @Column(name = "expire")
     Date expireDate;
 
     @Column(name = "start")
+    @NotNull
     Date startDate;
 
     @ManyToOne(fetch=FetchType.EAGER )
     @JoinColumn(name = "customer")
+    @NotNull
     Customer customer;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type_indivisual")
+    @NotNull
     AccountTypeIndivisual accountTypeIndivisual;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type_real")
+    @NotNull
     AccountTypeReal accountTypeReal;
 
     @Column(name = "with_check")
+    @NotNull
     boolean withChek;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type")
+    @NotNull
     AccountType accountType;
 
 
 
     @OneToOne(fetch=FetchType.EAGER )
     @JoinColumn(name = "account_status")
+    @NotNull
     AccountStatus accountStatus;
 
     @OneToMany(fetch=FetchType.LAZY )
@@ -60,6 +70,7 @@ public class Account {
 
     @ManyToOne(fetch=FetchType.LAZY )
     @JoinColumn(name = "branch")
+    @NotNull
     Branch createBranch;
 
     @ManyToOne(fetch=FetchType.LAZY )
@@ -70,7 +81,6 @@ public class Account {
     List<AccessCard> accessCards;
 
     @Column (name = "long_period")
-
     Long LongPeriod;//just for seporde ktah modat va boland modat
 
 

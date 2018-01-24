@@ -3,9 +3,15 @@ package software.eng.project.bank.core.boundry.request;
 public class CheckPassRequest {
 
     long checkNumber;
+
     long checkBookNumber;
+
     double cash;
+
     String toName;
+
+    public CheckPassRequest() {
+    }
 
     public long getCheckNumber() {
         return checkNumber;

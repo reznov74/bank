@@ -18,22 +18,23 @@ public class AccessCard {
     @NotNull
     boolean isActive;
 
-    @Column(name = "access_card_number" , unique = true)
+    @Column(name = "access_card_number" , unique = true , length = 16)
     @NotNull
     String accessCardNumber;
 
-    @Column(name = "second_password")
+    @Column(name = "second_password" , length = 16)
     String secondPassword;
 
     @Column(name = "expire_date")
     @NotNull
     Date expreDate;
 
-    @Column(name = "cvv2")
+    @Column(name = "cvv2" , length = 4)
     @NotNull
     int CVV2;
 
-    @ManyToOne ( fetch = FetchType.EAGER , cascade = {CascadeType.ALL})
+    @NotNull
+    @ManyToOne ( fetch = FetchType.EAGER )
     @JoinColumn(name = "branch")
     Branch branch;
 
@@ -45,6 +46,7 @@ public class AccessCard {
     @Column(name = "end")
     Date end;
 
+    @NotNull
     @ManyToOne ( fetch = FetchType.EAGER )
     @JoinColumn(name = "account")
     Account account;

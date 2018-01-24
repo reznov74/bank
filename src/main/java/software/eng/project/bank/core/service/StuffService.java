@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import software.eng.project.bank.core.Exception.BadArgumentException;
 import software.eng.project.bank.core.Exception.ServerErrorException;
-import software.eng.project.bank.core.boundry.request.CheckPassRequest;
-import software.eng.project.bank.core.boundry.request.CreateAccountRequest;
-import software.eng.project.bank.core.boundry.request.CreateDraftRequest;
-import software.eng.project.bank.core.boundry.request.CreateResponseRequest;
+import software.eng.project.bank.core.boundry.request.*;
 import software.eng.project.bank.core.boundry.response.Response;
 import software.eng.project.bank.core.boundry.response.ResponseStatus;
 import software.eng.project.bank.core.model.Account.*;
@@ -20,6 +17,7 @@ import software.eng.project.bank.core.model.Role.Stuff;
 import software.eng.project.bank.core.repository.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -50,8 +48,8 @@ public class StuffService {
     @Autowired
     FacilityRequestRepository facilityRequestRepository;
 
-
-
+    @Autowired
+    AccountFlowRepository accountFlowRepository;
     public List<Request> getRequests(long stuffID){
         List<Request> requests = new ArrayList<>();
         requests.addAll(this.checkBookRequestRepository.findByStuff_Id(stuffID));
@@ -176,16 +174,20 @@ public class StuffService {
         }
         else {
             if(check.getCheckBook().getAccount().getCash()>check.getCash()){
-                //TODO IS IMPORT IN DRAFT
+
                 check.setStatus(CheckStatusType.PASS);
-                this.checkRepository.delete(check.getCheckID());
                 this.checkRepository.save(check);
                 this.accountRepository.updateCashValue(check.getCheckBook().getAccount().getCash()-check.getCash() ,
-                        check.getCheckBook().getAccount().getId() );
+                        check.getCheckBook().getAccount().getId());
+                AccountFlow accountFlow =new AccountFlow();
+                accountFlow.setType(AccountFlowType.PASS_CHECK);
+                accountFlow.setDate(new Date());
+                accountFlow.setAmount(checkPassRequest.getCash());
+                accountFlow.setAccount(this.accountRepository.findOne(check.getCheckBook().getAccount().getId()));
+                this.accountFlowRepository.save(accountFlow);
                 response.setResponseStatus(ResponseStatus.OK);
             }else{
                 check.setStatus(CheckStatusType.REJECTED);
-                this.checkRepository.delete(check.getCheckID());
                 this.checkRepository.save(check);
                 response.setResponseStatus(ResponseStatus.ERROR);
             }

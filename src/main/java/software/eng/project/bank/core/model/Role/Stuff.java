@@ -19,6 +19,7 @@ public class Stuff extends UserModel {
 
    @OneToOne(fetch=FetchType.EAGER )
    @JoinColumn(name = "branch")
+   @NotNull
    Branch branch;
 
    public Stuff(CreateUserRequest user) {

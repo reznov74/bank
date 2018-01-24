@@ -6,9 +6,9 @@ import software.eng.project.bank.core.boundry.request.CreateUserRequest;
 import software.eng.project.bank.security.model.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
-enum Sex{}
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "user_model")
@@ -24,30 +24,34 @@ public class UserModel implements Serializable {
     private Long id;
 
     @Column(name = "frist_name")
+    @NotNull
     String fristNAme;
 
     @Column
+    @NotNull
     String lastName;
 
     @Column(name = "national_code" , unique = true)
+    @NotNull
     String nationalCode;
 
     @Column(name="phone_number")
+    @NotNull
     String phoneNumber;
 
     @Column
     @Email
+    @NotNull
     String email;
 
     @Column
+    @NotNull
     String address;
 
     @Column
+    @NotNull
     Date brithdayDate;
 
-    @Column
-    @Enumerated(EnumType.STRING)
-    Sex sex;
 
 
     @JsonIgnore
@@ -129,14 +133,6 @@ public class UserModel implements Serializable {
 
     public void setBrithdayDate(Date brithdayDate) {
         this.brithdayDate = brithdayDate;
-    }
-
-    public Sex getSex() {
-        return sex;
-    }
-
-    public void setSex(Sex sex) {
-        this.sex = sex;
     }
 
     public User getUser() {

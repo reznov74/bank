@@ -26,6 +26,7 @@ public class Request implements Serializable {
     @NotNull
     Account account;
 
+    @NotNull
     @Column(name = "date")
     Date requestDate;
 
