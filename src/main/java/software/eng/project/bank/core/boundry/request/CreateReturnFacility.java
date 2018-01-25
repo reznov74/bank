@@ -1,6 +1,6 @@
 package software.eng.project.bank.core.boundry.request;
 
-import java.util.Date;
+
 
 public class CreateReturnFacility {
     long sourceAccount;
@@ -9,13 +9,10 @@ public class CreateReturnFacility {
 
     double amount;
 
-    String fowWhy;
-
-    public CreateReturnFacility(long sourceAccount, long facilityID, double amount, String fowWhy) {
+    public CreateReturnFacility(long sourceAccount, long facilityID, double amount) {
         this.sourceAccount = sourceAccount;
         this.facilityID = facilityID;
         this.amount = amount;
-        this.fowWhy = fowWhy;
     }
 
     public long getSourceAccount() {
@@ -40,13 +37,5 @@ public class CreateReturnFacility {
 
     public void setAmount(double amount) {
         this.amount = amount;
-    }
-
-    public String getFowWhy() {
-        return fowWhy;
-    }
-
-    public void setFowWhy(String fowWhy) {
-        this.fowWhy = fowWhy;
     }
 }

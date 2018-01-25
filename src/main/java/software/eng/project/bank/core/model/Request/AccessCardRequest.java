@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "card_req")
+@DiscriminatorValue("1")
 public class AccessCardRequest extends Request {
 
     @Column(name = "first")

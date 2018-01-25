@@ -18,11 +18,11 @@ public class CreateAccountRequest {
 
     Date expireDateOfGive;
 
-    Timestamp createTime;
+    java.util.Date createTime;
 
     int branchCode;
 
-    float initCash;
+    double initCash;
 
     AccountTypeIndivisual accountTypeIndivisual;
 
@@ -70,7 +70,7 @@ public class CreateAccountRequest {
         this.expireDateOfGive = expireDateOfGive;
     }
 
-    public Timestamp getCreateTime() {
+    public java.util.Date getCreateTime() {
         return createTime;
     }
 
@@ -110,11 +110,11 @@ public class CreateAccountRequest {
         this.accountType = accountType;
     }
 
-    public float getInitCash() {
+    public double getInitCash() {
         return initCash;
     }
 
-    public void setInitCash(float initCash) {
+    public void setInitCash(double initCash) {
         this.initCash = initCash;
     }
 

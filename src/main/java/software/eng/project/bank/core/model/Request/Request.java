@@ -9,12 +9,20 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
-@MappedSuperclass
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "request")
+@DiscriminatorColumn(
+        discriminatorType = DiscriminatorType.INTEGER,
+        name = "request_type",
+        columnDefinition = "TINYINT(1)"
+)
 public class Request implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    Long id;
+    private Long id;
 
     @OneToOne(fetch= FetchType.EAGER , cascade = {CascadeType.ALL})
     @JoinColumn(name = "stuff")

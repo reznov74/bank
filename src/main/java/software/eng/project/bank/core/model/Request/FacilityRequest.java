@@ -9,10 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "facility_req")
+@DiscriminatorValue("3")
 public class FacilityRequest extends Request {
-
-
 
     @Enumerated(EnumType.STRING)
     @Column(name = "title")

@@ -174,26 +174,20 @@ INSERT INTO request_response (is_accept , answer_time , for_why , day_required_f
 INSERT INTO request_response (is_accept , answer_time , for_why , day_required_for_ready)  VALUES (1 , PARSEDATETIME('01-01-2019', 'dd-MM-yyyy') , null , 7 )
 
 
-/*ACCESS CARD REQUEST DEFINE 1 4 7 */
-INSERT INTO card_req (DATE , stuff ,account  , status ,FIRST) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 1 ,6  ,'NOT_OPEN',1);
-INSERT INTO card_req (DATE  , stuff ,account  , status ,FIRST) VALUES (PARSEDATETIME('01-01-2013', 'dd-MM-yyyy') , 3 ,3  ,'NOT_OPEN',1);
-INSERT INTO card_req (DATE  , stuff ,account  , status ,FIRST) VALUES (PARSEDATETIME('01-01-2014', 'dd-MM-yyyy') , 5 ,5  ,'NOT_OPEN',1);
-INSERT INTO card_req (DATE  , stuff ,account , status ,FIRST , response) VALUES (PARSEDATETIME('01-01-2011', 'dd-MM-yyyy') , 5 , 7 ,'ACCEPT',1 , 1);
 
+INSERT INTO request  (DATE , stuff ,account  , status ,FIRST , request_type) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 1 ,6  ,'NOT_OPEN',1 , 1);
+INSERT INTO request  (DATE  , stuff ,account  , status ,FIRST ,request_type ) VALUES (PARSEDATETIME('01-01-2013', 'dd-MM-yyyy') , 3 ,3  ,'NOT_OPEN',1 , 1);
+INSERT INTO request  (DATE  , stuff ,account  , status ,FIRST ,request_type ) VALUES (PARSEDATETIME('01-01-2014', 'dd-MM-yyyy') , 5 ,5  ,'NOT_OPEN',1 , 1);
+INSERT INTO request  (DATE  , stuff ,account , status ,FIRST , response ,request_type ) VALUES (PARSEDATETIME('01-01-2011', 'dd-MM-yyyy') , 5 , 7 ,'ACCEPT',1 , 1 , 1);
 
+INSERT INTO request (DATE ,stuff , account , status , number_of_check , request_type) VALUES (PARSEDATETIME('01-01-2011', 'dd-MM-yyyy') , 3 , 6 , 'NOT_OPEN' , 10 , 2);
+INSERT INTO request (DATE , stuff , account , status , number_of_check , response ,request_type) VALUES (PARSEDATETIME('01-11-2013', 'dd-MM-yyyy') , 7 , 7 , 'REJECTED' , 15 , 4 , 2);
+INSERT INTO request (DATE , stuff , account , status , number_of_check , request_type) VALUES (PARSEDATETIME('26-07-2012', 'dd-MM-yyyy') , 7 , 1 , 'NOT_OPEN' , 50 , 2);
+INSERT INTO request (DATE , stuff , account , status , number_of_check , response , request_type) VALUES (PARSEDATETIME('23-03-2013', 'dd-MM-yyyy') , 5 , 3 , 'ACCEPT' , 25 , 5 , 2);
 
-/*FACILITY REQUEST DEFINE  2 4 9 */
-INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty) VALUES (PARSEDATETIME('01-11-2012', 'dd-MM-yyyy') , 1 , 3 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'CASH');
-INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty) VALUES (PARSEDATETIME('81-04-2012', 'dd-MM-yyyy') , 3 , 5 , 'NOT_OPEN' , 'MASKANE_NOKHBEGAN' , 'RIAL' , 'SANAD');
-INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty , response) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 5 , 6 , 'REJECTED' , 'SARMAYE_DAR_GOSTARESH' , 'DOLLAR' , 'CASH' , 2);
-INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty) VALUES (PARSEDATETIME('01-8-2013', 'dd-MM-yyyy') , 7 , 7 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'SANAD');
-INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty , response) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 3 , 8 , 'ACCEPT' , 'BONGAH_KOCHIK_MOTEVASET' , 'DOLLAR' , 'WITHOUT_WARANTY' , 3);
-INSERT INTO facility_req (DATE , stuff , account , status , title , cash , waranty) VALUES (PARSEDATETIME('07-09-2014', 'dd-MM-yyyy'), 1 , 3 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'WITHOUT_WARANTY');
-
-
-/*CHECKBOOK REQUEST DEFINE 2 4 9 */
-INSERT INTO check_book_request (DATE ,stuff , account , status , number_of_check) VALUES (PARSEDATETIME('01-01-2011', 'dd-MM-yyyy') , 3 , 6 , 'NOT_OPEN' , 10);
-INSERT INTO check_book_request (DATE , stuff , account , status , number_of_check , response) VALUES (PARSEDATETIME('01-11-2013', 'dd-MM-yyyy') , 7 , 7 , 'REJECTED' , 15 , 4);
-INSERT INTO check_book_request (DATE , stuff , account , status , number_of_check) VALUES (PARSEDATETIME('26-07-2012', 'dd-MM-yyyy') , 7 , 1 , 'NOT_OPEN' , 50);
-INSERT INTO check_book_request (DATE , stuff , account , status , number_of_check , response) VALUES (PARSEDATETIME('23-03-2013', 'dd-MM-yyyy') , 5 , 3 , 'ACCEPT' , 25 , 5);
-
+INSERT INTO request (DATE , stuff , account , status , title , cash , waranty , request_type) VALUES (PARSEDATETIME('01-11-2012', 'dd-MM-yyyy') , 1 , 3 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'CASH' , 3);
+INSERT INTO request  (DATE , stuff , account , status , title , cash , waranty , request_type) VALUES (PARSEDATETIME('81-04-2012', 'dd-MM-yyyy') , 3 , 5 , 'NOT_OPEN' , 'MASKANE_NOKHBEGAN' , 'RIAL' , 'SANAD' , 3 );
+INSERT INTO request  (DATE , stuff , account , status , title , cash , waranty , response , request_type) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 5 , 6 , 'REJECTED' , 'SARMAYE_DAR_GOSTARESH' , 'DOLLAR' , 'CASH' , 2 , 3);
+INSERT INTO request  (DATE , stuff , account , status , title , cash , waranty , request_type) VALUES (PARSEDATETIME('01-8-2013', 'dd-MM-yyyy') , 7 , 7 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'SANAD' , 3);
+INSERT INTO request  (DATE , stuff , account , status , title , cash , waranty , response , request_type) VALUES (PARSEDATETIME('01-01-2012', 'dd-MM-yyyy') , 3 , 8 , 'ACCEPT' , 'BONGAH_KOCHIK_MOTEVASET' , 'DOLLAR' , 'WITHOUT_WARANTY' , 3 , 3);
+INSERT INTO request  (DATE , stuff , account , status , title , cash , waranty , request_type) VALUES (PARSEDATETIME('07-09-2014', 'dd-MM-yyyy'), 1 , 3 , 'NOT_OPEN' , 'MASKANE_HEYATE_ELMI' , 'RIAL' , 'WITHOUT_WARANTY' , 3);

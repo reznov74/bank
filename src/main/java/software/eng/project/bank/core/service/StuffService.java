@@ -15,6 +15,7 @@ import software.eng.project.bank.core.model.Response.RequestResponse;
 
 import software.eng.project.bank.core.model.Role.Stuff;
 import software.eng.project.bank.core.repository.*;
+import software.eng.project.bank.core.util.Util;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,9 @@ import java.util.List;
 
 @Service
 public class StuffService {
+
+    @Autowired
+    AccountStatusRepository accountStatusRepository;
     @Autowired
     CheckRepository checkRepository;
 
@@ -60,7 +64,8 @@ public class StuffService {
     public Request getRequest(long requestID) throws BadArgumentException {
         if(this.checkBookRequestRepository.exists(requestID)){
             return this.checkBookRequestRepository.findOne(requestID);
-        }else if (this.accessCardRequestRepository.exists(requestID)){
+        }
+        else if (this.accessCardRequestRepository.exists(requestID)){
             return this.accessCardRequestRepository.findOne(requestID);
         }else if(this.facilityRequestRepository.exists(requestID)){
             return this.facilityRequestRepository.findOne(requestID);
@@ -109,7 +114,11 @@ public class StuffService {
             return response;
         }
     }
-    public Response redirectRequest(long requestID, long userID) throws BadArgumentException {
+
+    public Response redirectRequest(long requestID, long userID , long userID1) throws BadArgumentException {
+        if(userID==userID1){
+            throw new BadArgumentException();
+        }
         Request request = this.getRequest(requestID);
         request.setStuff(this.stuffRepository.findOne(userID));
         Response response = new Response();
@@ -148,6 +157,15 @@ public class StuffService {
                     account1.setAccountType(createAccountRequest.getAccountType());
                     account1.setAccountTypeIndivisual(createAccountRequest.getAccountTypeIndivisual());
                     account1.setAccountTypeReal(createAccountRequest.getAccountTypeReal());
+                    account1.setCreateStuff(this.stuffRepository.findOne(stuffID));
+                    AccountStatus accountStatus = new AccountStatus();
+                    accountStatus.setStartDate(new Date());
+                    accountStatus.setStatusType(AccountStatusType.OPEN);
+                    accountStatus = this.accountStatusRepository.save(accountStatus);
+                    account1.setAccountStatus(accountStatus);
+                    account1.setStartDate(new Date());
+                    account1.setCreateBranch(this.branchRepository.findByBarnchCode(createAccountRequest.getBranchCode()));
+                    account1.setAccountNumber(Util.accountNumberGenerator(16));
                     account1=this.accountRepository.save(account1);
                     userService.createDraft(new CreateDraftRequest(createAccountRequest.getInitCash(),account.getAccountNumber(),account1.getAccountNumber(),null, null ),
                             this.customerRepository.findByNationalCode(createAccountRequest.getNationalCodeCustomer()).getId());

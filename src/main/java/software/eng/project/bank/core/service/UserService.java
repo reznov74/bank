@@ -14,6 +14,7 @@ import software.eng.project.bank.core.model.Bank.Branch;
 import software.eng.project.bank.core.model.Request.*;
 import software.eng.project.bank.core.model.Role.Stuff;
 import software.eng.project.bank.core.repository.*;
+import software.eng.project.bank.core.util.Util;
 import software.eng.project.bank.security.JwtTokenUtil;
 
 
@@ -29,6 +30,9 @@ public class UserService {
     private static int PORIFT_RATE_SHORT_TIME_ACCOUNT=7;
 
     private static int PORIFT_RATE_LONG_TIME_ACCOUNT=20;
+
+    @Autowired
+    private AccountStatusRepository accountStatusRepository;
 
     @Autowired
     private ProfitRepository profitRepository;
@@ -197,6 +201,14 @@ public class UserService {
                     account1.setAccountType(createAccountRequest.getAccountType());
                     account1.setAccountTypeIndivisual(createAccountRequest.getAccountTypeIndivisual());
                     account1.setAccountTypeReal(createAccountRequest.getAccountTypeReal());
+                    AccountStatus accountStatus = new AccountStatus();
+                    accountStatus.setStartDate(new Date());
+                    accountStatus.setStatusType(AccountStatusType.OPEN);
+                    accountStatus = this.accountStatusRepository.save(accountStatus);
+                    account1.setAccountStatus(accountStatus);
+                    account1.setStartDate(new Date());
+                    account1.setCreateBranch(this.branchRepository.findByBarnchCode(createAccountRequest.getBranchCode()));
+                    account1.setAccountNumber(Util.accountNumberGenerator(16));
                     account1=this.accountRepository.save(account1);
                     this.createDraft(new CreateDraftRequest(createAccountRequest.getInitCash(),account.getAccountNumber(),account1.getAccountNumber(),null, null ),userID);
                 }else {throw new BadArgumentException();}
@@ -337,14 +349,7 @@ public class UserService {
         return response;
     }
     public List<Facility> reportFacility(long userID){
-        List<Facility> facilities = this.facilityRepository.findAll();
-        List<Facility> facilities1 =new ArrayList<>();
-        for(Facility facility:facilities){
-            if(facility.getCustomer().getId().equals(userID)){
-                facilities1.add(facility);
-            }
-        }
-        return facilities1;
+        return this.facilityRepository.findByAccount_Customer_Id(userID);
     }
     public String createRegularReturnFacility(CreateRegularReturnFacilityRequest createRegularReturnFacilityRequest){
         return null;
@@ -353,7 +358,7 @@ public class UserService {
         return null;
     }
     public List<FacilityReturn> reportRegularReturnFacility(long userID){
-        return this.facilityReturnRepository.findByFacility_Customer_Id(userID);
+        return this.facilityReturnRepository.findByFacility_Account_Customer_Id(userID);
     }
     public List<Request> reportRequest(long userID){
         List<Request> requests = new ArrayList<>();

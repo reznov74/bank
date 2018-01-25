@@ -4,7 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "check_book_request")
+@DiscriminatorValue("2")
 public class CheckBookRequest extends Request{
 
     @Column(name = "number_of_check")

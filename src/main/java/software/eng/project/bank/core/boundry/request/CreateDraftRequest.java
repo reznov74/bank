@@ -13,7 +13,7 @@ public class CreateDraftRequest {
 
     TypeOfConfirme type;
 
-    public CreateDraftRequest(float amount, String sourceAccount, String distAccount, String forWhy, TypeOfConfirme type) {
+    public CreateDraftRequest(double amount, String sourceAccount, String distAccount, String forWhy, TypeOfConfirme type) {
         this.amount = amount;
         this.sourceAccount = sourceAccount;
         this.distAccount = distAccount;

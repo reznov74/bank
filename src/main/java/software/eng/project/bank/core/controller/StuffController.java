@@ -81,6 +81,7 @@ public class StuffController {
         return res;
     }
 
+
     @RequestMapping(value = "/request/answer", ////difrrent controller for diffrent request
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})
@@ -101,7 +102,7 @@ public class StuffController {
         return res;
     }
 
-
+    //OK
     @RequestMapping(value = "/request/redirect/{requestID}/{userID}",
             method = RequestMethod.GET,
             produces = {"application/json", "application/xml"})
@@ -113,7 +114,7 @@ public class StuffController {
         Preconditions.checkNotNull(token);
         Response res = null ;
         try{
-            res=this.stuffService.redirectRequest(requestID,userID);
+            res=this.stuffService.redirectRequest(requestID,userID , this.getStuffID(token));
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
@@ -126,7 +127,7 @@ public class StuffController {
 
 
 
-    //TODO
+    //OK
     @RequestMapping(value = "/create/account",
             method = RequestMethod.POST,
             produces = {"application/json", "application/xml"})

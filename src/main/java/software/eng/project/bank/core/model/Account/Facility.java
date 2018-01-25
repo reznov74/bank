@@ -6,7 +6,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "facility")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Facility {
     @Id
     @Column(name = "id")
@@ -24,11 +23,10 @@ public class Facility {
     double amount;
 
     @ManyToOne(fetch = FetchType.EAGER )
-    @JoinColumn
+    @JoinColumn(name= "account")
     Account account;
 
     @OneToMany(fetch = FetchType.EAGER )
-    @JoinColumn
     List<FacilityReturn> facilityReturn;
     public Facility(FaciltyType type, double amount) {
         this.type = type;
