@@ -11,6 +11,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,6 +26,9 @@ import software.eng.project.bank.security.JwtAuthenticationRequest;
 import software.eng.project.bank.security.JwtTokenUtil;
 import software.eng.project.bank.security.JwtUser;
 import software.eng.project.bank.security.service.JwtAuthenticationResponse;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class AuthenticationRestController {
@@ -57,8 +61,15 @@ public class AuthenticationRestController {
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
         final String token = jwtTokenUtil.generateToken(userDetails, device);
 
+        String token1 = "Bearer "+token;
         // Return the token
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
+        token1 = token1.substring(7);
+        String username = jwtTokenUtil.getUsernameFromToken(token1);
+        JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
+        List<GrantedAuthority> ans = new ArrayList<>(jwtUser.getAuthorities() );
+        JwtAuthenticationResponse result = new JwtAuthenticationResponse(token);
+        result.setRole(ans.get(0).getAuthority());
+        return ResponseEntity.ok(result);
     }
 
     @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
