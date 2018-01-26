@@ -309,6 +309,7 @@ public class UserService {
                     accessCardRequest.setRequestDate(new Date());
                     accessCardRequest.setStatus(RequestStatus.NOT_OPEN);
                     this.accessCardRequestRepository.save(accessCardRequest);
+                    return ;
                 }
             }
 
