@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
+import software.eng.project.bank.core.Exception.BadArgumentException;
 import software.eng.project.bank.core.Exception.UserNotFoundException;
 import software.eng.project.bank.core.boundry.request.*;
 import software.eng.project.bank.core.boundry.response.*;
@@ -486,11 +487,13 @@ public class CustomerController {
         try{
             res=this.userService.requestCard(createCardRequest,this.getCustomerID(token));
             response.setStatus(200);
-        }catch (Exception e){
-            e.printStackTrace();
+        }catch (BadArgumentException e){
+            res.setResponseStatus(software.eng.project.bank.core.boundry.response.ResponseStatus.ERROR);
             response.setStatus(500);
+            e.printStackTrace();
+        }finally {
+            return res;
         }
-        return res;
     }
     //OK
     @RequestMapping(value = "/request/facility",

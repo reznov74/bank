@@ -10,18 +10,18 @@ public class JwtAuthenticationResponse implements Serializable {
 
     private final String token;
 
-    private String Role;
+    private String role;
 
     public JwtAuthenticationResponse(String token) {
         this.token = token;
     }
 
     public String getRole() {
-        return Role;
+        return role;
     }
 
     public void setRole(String role) {
-        Role = role;
+        this.role = role;
     }
 
     public String getToken() {
