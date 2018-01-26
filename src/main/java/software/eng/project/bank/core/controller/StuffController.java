@@ -13,6 +13,7 @@ import software.eng.project.bank.core.boundry.response.Response;
 import software.eng.project.bank.core.model.Account.Account;
 import software.eng.project.bank.core.model.Account.Check;
 import software.eng.project.bank.core.model.Request.Request;
+import software.eng.project.bank.core.model.Request.RequestStatus;
 import software.eng.project.bank.core.model.Response.RequestResponse;
 import software.eng.project.bank.core.model.Role.Stuff;
 import software.eng.project.bank.core.repository.StuffRepository;
@@ -167,9 +168,12 @@ public class StuffController {
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
+            res.setResponseStatus(software.eng.project.bank.core.boundry.response.ResponseStatus.ERROR);
             response.setStatus(500);
         }
-        return res;
+        finally {
+            return res;
+        }
     }
 
     //OK
