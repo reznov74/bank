@@ -141,7 +141,7 @@ public class StuffService {
         }
 
     }
-    public Response createAccount(CreateAccountRequest createAccountRequest , long stuffID) throws BadArgumentException { //TODO SHOULD SAVE STUFF WHO CREATE ACCOUNT
+    public void createAccount(CreateAccountRequest createAccountRequest , long stuffID) throws BadArgumentException { //TODO SHOULD SAVE STUFF WHO CREATE ACCOUNT
         Account account =this.accountRepository.findByAccountNumber(createAccountRequest.getAccountNumberForInit());
         Account account1= new Account();
         Response response =new Response();
@@ -174,7 +174,6 @@ public class StuffService {
                 }else {response.setResponseStatus(ResponseStatus.ERROR);throw new BadArgumentException();}
             }
         }else{response.setResponseStatus(ResponseStatus.ERROR);throw new BadArgumentException();}
-        return response;
     }
     public Response passCheck(CheckPassRequest checkPassRequest) throws BadArgumentException {
         Preconditions.checkNotNull(checkPassRequest.getCash());
