@@ -166,6 +166,7 @@ public class StuffService {
                     account1.setStartDate(new Date());
                     account1.setCreateBranch(this.stuffRepository.findByUser_Id(stuffID).getBranch());
                     account1.setAccountNumber(Util.accountNumberGenerator(16));
+                    account1.setWithChek(createAccountRequest.isWithChek());
                     account1=this.accountRepository.save(account1);
                     userService.createDraft(new CreateDraftRequest(createAccountRequest.getInitCash(),account.getAccountNumber(),account1.getAccountNumber(),null, null ),
                             this.customerRepository.findByNationalCode(createAccountRequest.getNationalCodeCustomer()).getId());
