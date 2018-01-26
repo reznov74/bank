@@ -483,10 +483,11 @@ public class CustomerController {
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        Response res = null ;
+        Response res = new Response() ;
         try{
-            res=this.userService.requestCard(createCardRequest,this.getCustomerID(token));
+            this.userService.requestCard(createCardRequest,this.getCustomerID(token));
             response.setStatus(200);
+            res.setResponseStatus(software.eng.project.bank.core.boundry.response.ResponseStatus.OK);
         }catch (BadArgumentException e){
             res.setResponseStatus(software.eng.project.bank.core.boundry.response.ResponseStatus.ERROR);
             response.setStatus(500);

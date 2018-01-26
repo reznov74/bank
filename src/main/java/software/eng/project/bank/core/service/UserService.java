@@ -273,8 +273,7 @@ public class UserService {
         }else{throw new BadArgumentException();}
         return response;
     }
-    public Response requestCard(CreateCardRequest createCardRequest,long userID) throws BadArgumentException {
-        Response response=new Response();
+    public void requestCard(CreateCardRequest createCardRequest,long userID) throws BadArgumentException {
         boolean isFirstOne=true;
         Account account =this.accountRepository.findOne(createCardRequest.getAccountID());
         if(!this.accountRepository.findOne(createCardRequest.getAccountID()).
@@ -310,14 +309,10 @@ public class UserService {
                     accessCardRequest.setRequestDate(new Date());
                     accessCardRequest.setStatus(RequestStatus.NOT_OPEN);
                     this.accessCardRequestRepository.save(accessCardRequest);
-                    response=new Response(ResponseStatus.OK,2000);
-                    return response;
                 }
             }
 
         }else{throw new BadArgumentException();}
-        return response;
-
     }
     public Response requestFacility(CreateFacilityRequest createFacilityRequest , long customerID) throws BadArgumentException {
         Response response = new Response();
