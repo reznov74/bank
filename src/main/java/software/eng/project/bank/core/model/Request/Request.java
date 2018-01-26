@@ -19,6 +19,9 @@ import java.util.Date;
 )
 public class Request implements Serializable {
 
+
+    private String type;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -105,5 +108,9 @@ public class Request implements Serializable {
 
     public void setRequestResponse(RequestResponse requestResponse) {
         this.requestResponse = requestResponse;
+    }
+
+    public String getType() {
+        return "request";
     }
 }

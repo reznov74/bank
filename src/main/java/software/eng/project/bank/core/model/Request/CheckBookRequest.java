@@ -21,4 +21,9 @@ public class CheckBookRequest extends Request{
     public void setNumberOfCheck(int numberOfCheck) {
         this.numberOfCheck = numberOfCheck;
     }
+
+    @Override
+    public String getType(){
+        return "CHECKBOOK";
+    }
 }

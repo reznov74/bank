@@ -51,4 +51,9 @@ public class FacilityRequest extends Request {
     public void setTypeOfGranty(WarantyTypeFacility typeOfGranty) {
         this.typeOfWaranty = typeOfGranty;
     }
+
+    @Override
+    public String getType(){
+        return "FACILITY";
+    }
 }

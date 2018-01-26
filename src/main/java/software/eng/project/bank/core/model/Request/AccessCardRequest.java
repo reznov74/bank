@@ -21,4 +21,8 @@ public class AccessCardRequest extends Request {
         this.fristOrNot = fristOrNot;
     }
 
+    @Override
+    public String getType(){
+        return "CARD";
+    }
 }
