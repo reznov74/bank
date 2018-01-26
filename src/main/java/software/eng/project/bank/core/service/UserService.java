@@ -315,8 +315,7 @@ public class UserService {
 
         }else{throw new BadArgumentException();}
     }
-    public Response requestFacility(CreateFacilityRequest createFacilityRequest , long customerID) throws BadArgumentException {
-        Response response = new Response();
+    public void requestFacility(CreateFacilityRequest createFacilityRequest , long customerID) throws BadArgumentException {
         Branch branch=this.branchRepository.findOne(createFacilityRequest.getBranchID());
         if(branch!=null){
             List<Stuff> stuffs= this.stuffRepository.findAll();
@@ -337,12 +336,11 @@ public class UserService {
                     facilityRequest.setStatus(RequestStatus.NOT_OPEN);
                     facilityRequest.setRequestDate(new Date());
                     facilityRequest.setAccount(this.accountRepository.findOne(createFacilityRequest.getAccountID()));
-                    response=new Response(ResponseStatus.OK,2000);
                     this.facilityRequestRepository.save(facilityRequest);
+                    return ;
                 }
             }
         }else{throw new BadArgumentException();}
-        return response;
     }
     public List<Facility> reportFacility(long userID){
         return this.facilityRepository.findByAccount_Customer_Id(userID);

@@ -506,15 +506,19 @@ public class CustomerController {
     {
         String token =request.getHeader(this.tokenHeader);
         Preconditions.checkNotNull(token);
-        Response res = null ;
+        Response res = new Response() ;
         try{
-            res=this.userService.requestFacility(createFacilityRequest , this.getCustomerID(token));
+            this.userService.requestFacility(createFacilityRequest , this.getCustomerID(token));
+            res.setResponseStatus(software.eng.project.bank.core.boundry.response.ResponseStatus.OK);
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();
+            res.setResponseStatus(software.eng.project.bank.core.boundry.response.ResponseStatus.ERROR);
             response.setStatus(500);
         }
-        return res;
+        finally {
+            return res;
+        }
     }
 
     //OK
