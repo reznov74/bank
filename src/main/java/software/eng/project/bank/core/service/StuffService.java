@@ -164,7 +164,7 @@ public class StuffService {
                     accountStatus = this.accountStatusRepository.save(accountStatus);
                     account1.setAccountStatus(accountStatus);
                     account1.setStartDate(new Date());
-                    account1.setCreateBranch(this.branchRepository.findByBarnchCode(createAccountRequest.getBranchCode()));
+                    account1.setCreateBranch(this.stuffRepository.findByUser_Id(stuffID).getBranch());
                     account1.setAccountNumber(Util.accountNumberGenerator(16));
                     account1=this.accountRepository.save(account1);
                     userService.createDraft(new CreateDraftRequest(createAccountRequest.getInitCash(),account.getAccountNumber(),account1.getAccountNumber(),null, null ),

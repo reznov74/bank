@@ -424,8 +424,8 @@ public class CustomerController {
             res=this.userService.reportProfitAccount(accountID , this.getCustomerID(token));
             response.setStatus(200);
         }catch (Exception e){
-            e.printStackTrace();
             response.setStatus(500);
+            e.printStackTrace();
         }
         return res;
     }
