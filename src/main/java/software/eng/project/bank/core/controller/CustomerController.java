@@ -488,7 +488,7 @@ public class CustomerController {
             this.userService.requestCard(createCardRequest,this.getCustomerID(token));
             response.setStatus(200);
             res.setResponseStatus(software.eng.project.bank.core.boundry.response.ResponseStatus.OK);
-        }catch (BadArgumentException e){
+        }catch (Exception e){
             res.setResponseStatus(software.eng.project.bank.core.boundry.response.ResponseStatus.ERROR);
             response.setStatus(500);
             e.printStackTrace();
