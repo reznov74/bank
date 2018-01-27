@@ -9,6 +9,10 @@ import javax.persistence.*;
 @DiscriminatorValue("2")
 public class Admin extends UserModel {
 
+    @Override
+    public String getTypeRole(){
+        return "ADMIN";
+    }
     public Admin(CreateUserRequest user) {
         super(user);
     }

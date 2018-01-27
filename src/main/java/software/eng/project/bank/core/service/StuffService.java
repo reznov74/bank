@@ -188,6 +188,7 @@ public class StuffService {
         check.setToName(checkPassRequest.getToName());
         check.setCash(checkPassRequest.getCash());
         if(check.getStatus()== CheckStatusType.PASS){
+            response.setResponseStatus(ResponseStatus.ERROR);
             throw new BadArgumentException();
         }
         else {

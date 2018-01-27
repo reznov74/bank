@@ -59,6 +59,8 @@ public class UserModel implements Serializable {
     @JoinColumn(name = "user")
     User user;
 
+    protected String typeRole;
+
     public UserModel(){
 
     }
@@ -70,6 +72,9 @@ public class UserModel implements Serializable {
         this.lastName=user.getLastName();
         this.nationalCode=user.getNationalCode();
         this.phoneNumber=user.getPhone();
+    }
+    public String getTypeRole(){
+        return "USER";
     }
     public Long getId() {
         return id;

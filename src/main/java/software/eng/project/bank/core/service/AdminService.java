@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import software.eng.project.bank.core.Exception.BadArgumentException;
 import software.eng.project.bank.core.boundry.request.CreateUserRequest;
+import software.eng.project.bank.core.model.Request.Request;
 import software.eng.project.bank.core.model.Role.Admin;
 import software.eng.project.bank.core.model.Role.Customer;
 import software.eng.project.bank.core.model.Role.Stuff;
@@ -97,6 +98,9 @@ public class AdminService {
         List<UserModel> c =this.userModelRepository.findAll();
         List<software.eng.project.bank.security.model.User> d =this.userRepository.findAll();
         return null;
+    }
+    public List<UserModel> getAllUser(){
+        return this.userModelRepository.findAll();
     }
     public UserModel changeUser(UserModel user){
         return null;

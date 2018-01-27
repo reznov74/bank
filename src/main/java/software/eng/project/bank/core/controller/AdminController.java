@@ -18,6 +18,7 @@ import software.eng.project.bank.security.JwtUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/admin")
@@ -70,6 +71,27 @@ public class AdminController {
         UserModel res = null ;
         try{
             res=this.adminService.removeUser(userID);
+            response.setStatus(200);
+        }catch (Exception e){
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return res;
+
+    }
+
+    @RequestMapping(value = "/user/list",
+            method = RequestMethod.GET,
+            produces = {"application/json", "application/xml"})
+    @ResponseStatus(HttpStatus.OK)
+    public @ResponseBody
+    List<UserModel> getUserList(HttpServletResponse response, HttpServletRequest request)//OK
+    {
+        String token =request.getHeader(this.tokenHeader);
+        Preconditions.checkNotNull(token);
+        List<UserModel> res = null ;
+        try{
+            res=this.adminService.getAllUser();
             response.setStatus(200);
         }catch (Exception e){
             e.printStackTrace();

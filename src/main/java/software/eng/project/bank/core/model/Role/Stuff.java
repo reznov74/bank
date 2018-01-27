@@ -53,4 +53,9 @@ public class Stuff extends UserModel {
       this.personalNumber = personalNumber;
    }
 
+   @Override
+   public String getTypeRole(){
+      return "STUFF";
+   }
+
 }

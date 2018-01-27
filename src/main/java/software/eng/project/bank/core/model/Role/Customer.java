@@ -26,4 +26,9 @@ public class Customer extends UserModel {
     public void setAccount(List<Account> account) {
         this.account = account;
     }
+
+    @Override
+    public String getTypeRole(){
+        return "CUSTOMER";
+    }
 }
